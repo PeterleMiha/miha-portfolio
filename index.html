@@ -15,8 +15,26 @@
     .image-hover:hover { transform: scale(1.05); box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
     .btn { background: #EBC57E; padding: 12px 28px; border-radius: 9999px; font-weight: 600; color: #0B0D0E; transition: all 0.3s; }
     .btn:hover { background: #c9a95f; transform: scale(1.05); }
-    #backToTop { display: none; position: fixed; bottom: 20px; right: 20px; background: #EBC57E; color: #0B0D0E; padding: 10px 14px; border-radius: 50%; cursor: pointer; font-weight: bold; transition: 0.3s; }
+    #backToTop { display: none; position: fixed; bottom: 20px; right: 20px; background: #EBC57E; color: #0B0D0E; padding: 10px 14px; border-radius: 50%; cursor: pointer; font-weight: bold; transition: 0.3s; z-index: 50; }
     #backToTop:hover { background: #c9a95f; }
+
+    /* Language dropdown */
+    #langSelect {
+      background-color: #111315;
+      color: #fff;
+      border: 1px solid #374151;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23EBC57E' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 10px center;
+      padding-right: 30px;
+    }
+
+    /* Interested floating CTA */
+    #interestedBtn { transition: transform 0.3s, opacity 0.3s, background 0.3s; }
+    #interestedBtn:hover { background: #c9a95f; transform: translateX(-50%) scale(1.06); }
+    #interestedBtn.hide { opacity: 0; pointer-events: none; transform: translateX(-50%) translateY(20px); }
 
     /* Glowing / breathing QR */
     .qr-glow {
@@ -40,9 +58,25 @@
         transform: scale(1);
       }
     }
+
+    @media (prefers-reduced-motion: reduce) {
+      .qr-glow { animation: none; }
+      * { scroll-behavior: auto !important; }
+    }
   </style>
 </head>
 <body class="antialiased">
+
+<!-- LANGUAGE SELECTOR (top-right) -->
+<div class="fixed top-4 right-4 z-50">
+  <select id="langSelect" aria-label="Language" class="text-sm rounded-lg px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#EBC57E]">
+    <option value="sl">🇸🇮 Slovenščina</option>
+    <option value="en">🇬🇧 English</option>
+    <option value="hr">🇭🇷 Hrvatski</option>
+    <option value="it">🇮🇹 Italiano</option>
+    <option value="de">🇩🇪 Deutsch</option>
+  </select>
+</div>
 
 <!-- HERO SECTION -->
 <section class="relative h-screen flex items-center justify-center text-center px-4 md:px-8 overflow-hidden">
@@ -53,30 +87,30 @@
   <div class="relative z-10 max-w-4xl mx-auto" data-aos="zoom-in">
     <h1 class="text-4xl md:text-5xl font-bold mb-6 leading-tight">
       <span class="text-[#EBC57E]">HuntersFeeder</span><br />
-      pametna rešitev za sodobne lovce
+      <span data-i18n="hero_title_line2">pametna rešitev za sodobne lovce</span>
     </h1>
-    <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto">
+    <p class="text-xl md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto" data-i18n="hero_subtitle">
       Preprosto in pametno upravljanje hranjenja divjadi – kjerkoli in kadarkoli.<br>
       Zanesljivo delovanje v vseh razmerah, z avtomatskim krmljenjem in enostavno uporabo.
     </p>
-    <a href="#prednosti" class="btn">Izvedi več</a>
+    <a href="#prednosti" class="btn" data-i18n="hero_btn">Izvedi več</a>
   </div>
 </section>
 
 <!-- SECTION 1 -->
 <section class="py-20 bg-[#111315] px-6 md:px-16" id="zakaj">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-4xl font-bold mb-8 text-center" data-aos="fade-up">Zakaj izbrati nas?</h2>
+    <h2 class="text-4xl font-bold mb-8 text-center" data-aos="fade-up" data-i18n="s1_heading">Zakaj izbrati nas?</h2>
     <div class="flex flex-col md:flex-row gap-10 items-center">
       <div class="w-full md:w-1/2" data-aos="fade-right">
         <img src="Slike/Slika1.jpeg" alt="HuntersFeeder v naravi"
              class="rounded-lg shadow-2xl w-full h-auto object-cover image-hover">
       </div>
       <div class="w-full md:w-1/2 text-gray-300" data-aos="fade-left">
-        <p class="mb-4 text-2xl leading-relaxed">
-          Združujemo tradicijo lova z moderno tehnologijo.  
-          HuntersFeeder je preprost za uporabo, cenovno dostopen in razvit posebej za potrebe lovcev.  
-          Naš cilj je jasen: Avtomatiziranje procesa in s tem prihranjen čas.
+        <p class="mb-4 text-2xl leading-relaxed" data-i18n="s1_body">
+          Združujemo tradicijo lova z moderno tehnologijo.
+          HuntersFeeder je preprost za uporabo, cenovno dostopen in razvit posebej za potrebe lovcev.
+          Naš cilj je jasen: več užitka v naravi in manj skrbi.
         </p>
       </div>
     </div>
@@ -86,7 +120,7 @@
 <!-- SECTION 2 -->
 <section class="py-20 bg-[#0B0D0E] px-6 md:px-16" id="prednosti">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-4xl font-bold mb-8 text-center" data-aos="fade-up">Prednosti in koristi uporabe</h2>
+    <h2 class="text-4xl font-bold mb-8 text-center" data-aos="fade-up" data-i18n="s2_heading">Prednosti in koristi uporabe</h2>
     <div class="flex flex-col md:flex-row-reverse gap-10 items-center">
       <div class="w-full md:w-1/2" data-aos="fade-left">
         <img src="Slike/Slika2.jpeg" alt="Prednosti HuntersFeeder"
@@ -94,12 +128,12 @@
       </div>
       <div class="w-full md:w-1/2 text-gray-300" data-aos="fade-right">
         <ul class="text-2xl space-y-4">
-          <li>✔ Pametno SMS upravljanje</li>
-          <li>✔ Avtomatsko krmljenje po urniku</li>
-          <li>✔ Opozorila o praznem zalogovniku in bateriji</li>
-          <li>✔ Robustna zasnova za vse razmere</li>
-          <li>✔ Dolga življenjska doba in nizki stroški</li>
-          <li>✔ Enostavna uporaba brez zapletenih nastavitev</li>
+          <li data-i18n="s2_li1">✔ Pametno SMS upravljanje</li>
+          <li data-i18n="s2_li2">✔ Avtomatsko krmljenje po urniku</li>
+          <li data-i18n="s2_li3">✔ Opozorila o praznem zalogovniku in bateriji</li>
+          <li data-i18n="s2_li4">✔ Robustna zasnova za vse razmere</li>
+          <li data-i18n="s2_li5">✔ Dolga življenjska doba in nizki stroški</li>
+          <li data-i18n="s2_li6">✔ Enostavna uporaba brez zapletenih nastavitev</li>
         </ul>
       </div>
     </div>
@@ -109,16 +143,16 @@
 <!-- SECTION 3 -->
 <section class="py-20 bg-[#111315] px-6 md:px-16" id="delovanje">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-4xl font-bold mb-8 text-center" data-aos="fade-up">Kako deluje – enostavno in zanesljivo</h2>
+    <h2 class="text-4xl font-bold mb-8 text-center" data-aos="fade-up" data-i18n="s3_heading">Kako deluje – enostavno in zanesljivo</h2>
     <div class="flex flex-col md:flex-row gap-10 items-center">
       <div class="w-full md:w-1/2" data-aos="fade-right">
         <img src="Slike/Slika3.jpeg" alt="Delovanje HuntersFeeder"
              class="rounded-lg shadow-2xl w-full h-auto object-cover image-hover">
       </div>
       <div class="w-full md:w-1/2 text-gray-300" data-aos="fade-left">
-        <p class="mb-4 text-2xl leading-relaxed">
-          V napravo naložite hrano, nato pa jo upravljate preko SMS sporočil ali nastavljenega urnika.  
-          Sistem deluje samodejno in vas pravočasno opozori, ko je potrebno polnjenje ali vzdrževanje.  
+        <p class="mb-4 text-2xl leading-relaxed" data-i18n="s3_body">
+          V napravo naložite hrano, nato pa jo upravljate preko SMS sporočil ali nastavljenega urnika.
+          Sistem deluje samodejno in vas pravočasno opozori, ko je potrebno polnjenje ali vzdrževanje.
           HuntersFeeder skrbi za hranjenje, vi pa imate popoln nadzor.
         </p>
       </div>
@@ -129,15 +163,15 @@
 <!-- SECTION 4 -->
 <section class="py-20 bg-[#0B0D0E] px-6 md:px-16" id="onas">
   <div class="max-w-6xl mx-auto">
-    <h2 class="text-4xl font-bold mb-8 text-center" data-aos="fade-up">Ustanovitelj</h2>
+    <h2 class="text-4xl font-bold mb-8 text-center" data-aos="fade-up" data-i18n="s4_heading">Ustanovitelj</h2>
     <div class="flex flex-col md:flex-row-reverse gap-10 items-center">
       <div class="w-full md:w-1/2 flex justify-center" data-aos="fade-left">
         <img src="Slike/Slika4.jpeg" alt="Razvijalec"
              class="rounded-lg shadow-2xl w-[60%] h-auto object-cover image-hover">
       </div>
       <div class="w-full md:w-1/2 text-gray-300" data-aos="fade-right">
-        <p class="mb-4 text-2xl leading-relaxed">
-          Sem Miha Peterle, 23-letni magistrski študent elektrotehnike.  
+        <p class="mb-4 text-2xl leading-relaxed" data-i18n="s4_body">
+          Sem Miha Peterle, 24-letni magistrski študent elektrotehnike.
           HuntersFeeder sem ustvaril iz strasti do elektronike in programiranja,
           ter kot korak k razvoju preprostih in zanesljivih rešitev.
         </p>
@@ -149,19 +183,19 @@
 <!-- FAQ -->
 <section class="py-20 bg-[#111315] px-6 md:px-16">
   <div class="max-w-4xl mx-auto" data-aos="fade-up">
-    <h2 class="text-4xl font-bold mb-8 text-center">Pogosta vprašanja</h2>
+    <h2 class="text-4xl font-bold mb-8 text-center" data-i18n="faq_heading">Pogosta vprašanja</h2>
     <div class="space-y-4">
       <details class="bg-[#0B0D0E] p-4 rounded-lg">
-        <summary class="cursor-pointer text-xl font-semibold">Ali HuntersFeeder deluje tudi brez signala?</summary>
-        <p class="mt-2 text-gray-300">Da, naprava lahko izvaja avtomatsko krmljenje po urniku tudi brez GSM signala.</p>
+        <summary class="cursor-pointer text-xl font-semibold" data-i18n="faq_q1">Ali HuntersFeeder deluje tudi brez signala?</summary>
+        <p class="mt-2 text-gray-300" data-i18n="faq_a1">Da, naprava lahko izvaja avtomatsko krmljenje po urniku tudi brez GSM signala.</p>
       </details>
       <details class="bg-[#0B0D0E] p-4 rounded-lg">
-        <summary class="cursor-pointer text-xl font-semibold">Koliko časa zdrži baterija?</summary>
-        <p class="mt-2 text-gray-300">Odvisno od nastavitev, običajno več mesecev na eno polnjenje.</p>
+        <summary class="cursor-pointer text-xl font-semibold" data-i18n="faq_q2">Koliko časa zdrži baterija?</summary>
+        <p class="mt-2 text-gray-300" data-i18n="faq_a2">Odvisno od nastavitev, običajno več mesecev na eno polnjenje.</p>
       </details>
       <details class="bg-[#0B0D0E] p-4 rounded-lg">
-        <summary class="cursor-pointer text-xl font-semibold">Kako vem, da je zalogovnik prazen?</summary>
-        <p class="mt-2 text-gray-300">Sistem vas avtomatsko obvesti preko SMS sporočila.</p>
+        <summary class="cursor-pointer text-xl font-semibold" data-i18n="faq_q3">Kako vem, da je zalogovnik prazen?</summary>
+        <p class="mt-2 text-gray-300" data-i18n="faq_a3">Sistem vas avtomatsko obvesti preko SMS sporočila.</p>
       </details>
     </div>
   </div>
@@ -170,8 +204,8 @@
 <!-- FORM SECTION -->
 <section class="py-20 bg-[#0B0D0E] px-6 md:px-16" id="naroci">
   <div class="max-w-3xl mx-auto text-center" data-aos="fade-up">
-    <h2 class="text-4xl font-bold mb-6">Naroči / Povprašaj</h2>
-    <p class="text-xl text-gray-300 mb-8">
+    <h2 class="text-4xl font-bold mb-6" data-i18n="form_heading">Naroči / Povprašaj</h2>
+    <p class="text-xl text-gray-300 mb-8" data-i18n="form_body">
       Vnesi svoje podatke in sporočilo, odgovorili ti bomo v najkrajšem času.<br><br>
       (Trenutno je izdelek v zaključni fazi razvoja, na voljo so le testni vzorci. Predvidoma bo projekt končan do konca leta.)
     </p>
@@ -181,6 +215,7 @@
         type="text"
         name="name"
         placeholder="Ime"
+        data-i18n-ph="form_name"
         required
         class="w-full p-3 rounded-lg bg-[#1A1D1E] border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#ebc57e]"
       />
@@ -188,6 +223,7 @@
         type="email"
         name="email"
         placeholder="Email"
+        data-i18n-ph="form_email"
         required
         class="w-full p-3 rounded-lg bg-[#1A1D1E] border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#ebc57e]"
       />
@@ -195,17 +231,20 @@
         type="tel"
         name="phone"
         placeholder="Telefonska številka"
+        data-i18n-ph="form_phone"
         class="w-full p-3 rounded-lg bg-[#1A1D1E] border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#ebc57e]"
       />
       <textarea
         name="message"
         placeholder="Sporočilo"
+        data-i18n-ph="form_message"
         required
         rows="5"
         class="w-full p-3 rounded-lg bg-[#1A1D1E] border border-gray-700 text-white focus:outline-none focus:ring-2 focus:ring-[#ebc57e]"
       ></textarea>
       <button
         type="submit"
+        data-i18n="form_submit"
         class="w-full bg-[#ebc57e] text-black font-bold py-3 px-8 rounded-lg hover:bg-[#d6ad5c] transition"
       >
         Pošlji
@@ -218,7 +257,7 @@
 <!-- FOOTER -->
 <footer class="text-center py-12 bg-[#111315] border-t border-[#2A2E00]">
   <div class="max-w-4xl mx-auto px-4">
-    <h3 class="text-2xl font-bold mb-8">Kontakt</h3>
+    <h3 class="text-2xl font-bold mb-8" data-i18n="footer_contact">Kontakt</h3>
     <div class="flex flex-col sm:flex-row justify-center items-center gap-8 mb-8 text-xl">
       <div class="flex items-center gap-3">
         <span>mihapeterlea@gmail.com</span>
@@ -228,7 +267,7 @@
       </div>
     </div>
     <p class="text-gray-500 text-sm">
-      © <span id="year"></span> HuntersFeeder. Vse pravice pridržane.
+      © <span id="year"></span> HuntersFeeder. <span data-i18n="footer_rights">Vse pravice pridržane.</span>
     </p>
   </div>
 </footer>
@@ -236,11 +275,32 @@
 <!-- BACK TO TOP -->
 <button id="backToTop">↑</button>
 
+<!-- INTERESTED FLOATING CTA (bottom-center) -->
+<button id="interestedBtn"
+  class="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 bg-[#EBC57E] text-[#0B0D0E] font-bold py-3 px-6 rounded-full shadow-lg flex items-center gap-2">
+  <span>❤</span><span data-i18n="interested_btn">Zanima me</span>
+</button>
+
+<!-- INTERESTED POPUP -->
+<div id="interestOverlay" class="fixed inset-0 bg-black/85 flex items-center justify-center z-[110] px-4 hidden">
+  <div class="bg-[#111315] border border-[#EBC57E]/40 rounded-2xl max-w-md w-full p-8 text-center shadow-2xl">
+    <h3 class="text-2xl font-bold text-[#EBC57E] mb-4" data-i18n="popup_title">Vas zanima?</h3>
+    <p class="text-gray-300 mb-6" data-i18n="popup_body">
+      Če vas izdelek zanima, nam pošljite email in se lahko dogovorimo o ceni ter podrobnostih.
+    </p>
+    <a href="mailto:mihapeterlea@gmail.com"
+       class="inline-block bg-[#EBC57E] text-[#0B0D0E] font-bold py-3 px-6 rounded-full hover:bg-[#c9a95f] transition mb-4 break-all">
+      ✉ mihapeterlea@gmail.com
+    </a>
+    <br>
+    <button id="interestClose" class="text-gray-400 hover:text-white transition text-sm mt-2" data-i18n="popup_close">Zapri</button>
+  </div>
+</div>
+
 <!-- QR CODE BUTTON (top-left corner) -->
 <div id="qrButton" class="fixed top-4 left-4 z-50 cursor-pointer">
   <img src="Slike/QR.png" alt="QR Code" class="qr-glow w-12 h-12 rounded-lg shadow-lg hover:scale-110 transition">
 </div>
-
 
 <!-- FULLSCREEN QR OVERLAY -->
 <div id="qrOverlay" class="fixed inset-0 bg-black/90 flex items-center justify-center z-[100] hidden">
@@ -248,23 +308,265 @@
 </div>
 
 
-
-
 <!-- SCRIPTS -->
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
 <script>
+  /* =========================================================
+     TRANSLATIONS
+     ---------------------------------------------------------
+     To edit any text, change the string for that key + language.
+     To change the default fallback language, edit FALLBACK below.
+  ========================================================= */
+  const FALLBACK = 'en'; // used when browser language is not one of the 5
+
+  const pageTitles = {
+    sl: "HuntersFeeder – Pametna rešitev za sodobne lovce",
+    en: "HuntersFeeder – The smart solution for modern hunters",
+    hr: "HuntersFeeder – Pametno rješenje za moderne lovce",
+    it: "HuntersFeeder – La soluzione intelligente per i cacciatori moderni",
+    de: "HuntersFeeder – Die smarte Lösung für moderne Jäger"
+  };
+
+  const translations = {
+    sl: {
+      hero_title_line2: "pametna rešitev za sodobne lovce",
+      hero_subtitle: "Preprosto in pametno upravljanje hranjenja divjadi – kjerkoli in kadarkoli.<br>Zanesljivo delovanje v vseh razmerah, z avtomatskim krmljenjem in enostavno uporabo.",
+      hero_btn: "Izvedi več",
+      s1_heading: "Zakaj izbrati nas?",
+      s1_body: "Združujemo tradicijo lova z moderno tehnologijo. HuntersFeeder je preprost za uporabo, cenovno dostopen in razvit posebej za potrebe lovcev. Naš cilj je jasen: več užitka v naravi in manj skrbi.",
+      s2_heading: "Prednosti in koristi uporabe",
+      s2_li1: "✔ Pametno SMS upravljanje",
+      s2_li2: "✔ Avtomatsko krmljenje po urniku",
+      s2_li3: "✔ Opozorila o praznem zalogovniku in bateriji",
+      s2_li4: "✔ Robustna zasnova za vse razmere",
+      s2_li5: "✔ Dolga življenjska doba in nizki stroški",
+      s2_li6: "✔ Enostavna uporaba brez zapletenih nastavitev",
+      s3_heading: "Kako deluje – enostavno in zanesljivo",
+      s3_body: "V napravo naložite hrano, nato pa jo upravljate preko SMS sporočil ali nastavljenega urnika. Sistem deluje samodejno in vas pravočasno opozori, ko je potrebno polnjenje ali vzdrževanje. HuntersFeeder skrbi za hranjenje, vi pa imate popoln nadzor.",
+      s4_heading: "Ustanovitelj",
+      s4_body: "Sem Miha Peterle, 24-letni magistrski študent elektrotehnike. HuntersFeeder sem ustvaril iz strasti do elektronike in programiranja, ter kot korak k razvoju preprostih in zanesljivih rešitev.",
+      faq_heading: "Pogosta vprašanja",
+      faq_q1: "Ali HuntersFeeder deluje tudi brez signala?",
+      faq_a1: "Da, naprava lahko izvaja avtomatsko krmljenje po urniku tudi brez GSM signala.",
+      faq_q2: "Koliko časa zdrži baterija?",
+      faq_a2: "Odvisno od nastavitev, običajno več mesecev na eno polnjenje.",
+      faq_q3: "Kako vem, da je zalogovnik prazen?",
+      faq_a3: "Sistem vas avtomatsko obvesti preko SMS sporočila.",
+      form_heading: "Naroči / Povprašaj",
+      form_body: "Vnesi svoje podatke in sporočilo, odgovorili ti bomo v najkrajšem času.<br><br>(Trenutno je izdelek v zaključni fazi razvoja, na voljo so le testni vzorci. Predvidoma bo projekt končan do konca leta.)",
+      form_name: "Ime",
+      form_email: "Email",
+      form_phone: "Telefonska številka",
+      form_message: "Sporočilo",
+      form_submit: "Pošlji",
+      footer_contact: "Kontakt",
+      footer_rights: "Vse pravice pridržane.",
+      interested_btn: "Zanima me",
+      popup_title: "Vas zanima?",
+      popup_body: "Če vas izdelek zanima, nam pošljite email in se lahko dogovorimo o ceni ter podrobnostih.",
+      popup_close: "Zapri"
+    },
+    en: {
+      hero_title_line2: "the smart solution for modern hunters",
+      hero_subtitle: "Simple and smart management of game feeding – anywhere, anytime.<br>Reliable operation in all conditions, with automatic feeding and easy use.",
+      hero_btn: "Learn more",
+      s1_heading: "Why choose us?",
+      s1_body: "We combine the tradition of hunting with modern technology. HuntersFeeder is easy to use, affordable and developed specifically for the needs of hunters. Our goal is clear: more enjoyment in nature and fewer worries.",
+      s2_heading: "Advantages and benefits",
+      s2_li1: "✔ Smart SMS control",
+      s2_li2: "✔ Automatic feeding on schedule",
+      s2_li3: "✔ Alerts for empty hopper and low battery",
+      s2_li4: "✔ Rugged design for all conditions",
+      s2_li5: "✔ Long lifespan and low running costs",
+      s2_li6: "✔ Easy to use, no complicated setup",
+      s3_heading: "How it works – simple and reliable",
+      s3_body: "Load the feed into the device, then control it via SMS messages or a set schedule. The system runs automatically and alerts you in time when refilling or maintenance is needed. HuntersFeeder takes care of the feeding, while you keep full control.",
+      s4_heading: "Founder",
+      s4_body: "I'm Miha Peterle, a 24-year-old master's student of electrical engineering. I created HuntersFeeder out of a passion for electronics and programming, and as a step toward developing simple and reliable solutions.",
+      faq_heading: "Frequently asked questions",
+      faq_q1: "Does HuntersFeeder work even without signal?",
+      faq_a1: "Yes, the device can run automatic scheduled feeding even without a GSM signal.",
+      faq_q2: "How long does the battery last?",
+      faq_a2: "Depending on the settings, usually several months on a single charge.",
+      faq_q3: "How do I know when the hopper is empty?",
+      faq_a3: "The system notifies you automatically via SMS.",
+      form_heading: "Order / Inquire",
+      form_body: "Enter your details and message, and we'll get back to you as soon as possible.<br><br>(The product is currently in the final stage of development; only test samples are available. The project is expected to be completed by the end of the year.)",
+      form_name: "Name",
+      form_email: "Email",
+      form_phone: "Phone number",
+      form_message: "Message",
+      form_submit: "Send",
+      footer_contact: "Contact",
+      footer_rights: "All rights reserved.",
+      interested_btn: "I'm interested",
+      popup_title: "Interested?",
+      popup_body: "If you're interested in the product, send us an email and we can arrange the price and details.",
+      popup_close: "Close"
+    },
+    hr: {
+      hero_title_line2: "pametno rješenje za moderne lovce",
+      hero_subtitle: "Jednostavno i pametno upravljanje hranjenjem divljači – bilo gdje i bilo kada.<br>Pouzdan rad u svim uvjetima, s automatskim hranjenjem i jednostavnom uporabom.",
+      hero_btn: "Saznaj više",
+      s1_heading: "Zašto odabrati nas?",
+      s1_body: "Spajamo tradiciju lova s modernom tehnologijom. HuntersFeeder je jednostavan za uporabu, cjenovno pristupačan i razvijen posebno za potrebe lovaca. Naš cilj je jasan: više užitka u prirodi i manje briga.",
+      s2_heading: "Prednosti i koristi",
+      s2_li1: "✔ Pametno SMS upravljanje",
+      s2_li2: "✔ Automatsko hranjenje po rasporedu",
+      s2_li3: "✔ Upozorenja o praznom spremniku i bateriji",
+      s2_li4: "✔ Robusna izvedba za sve uvjete",
+      s2_li5: "✔ Dug vijek trajanja i niski troškovi",
+      s2_li6: "✔ Jednostavna uporaba bez složenih postavki",
+      s3_heading: "Kako radi – jednostavno i pouzdano",
+      s3_body: "U uređaj napunite hranu, a zatim njime upravljate putem SMS poruka ili postavljenog rasporeda. Sustav radi automatski i pravovremeno vas upozori kada je potrebno punjenje ili održavanje. HuntersFeeder brine o hranjenju, a vi imate potpun nadzor.",
+      s4_heading: "Osnivač",
+      s4_body: "Ja sam Miha Peterle, 24-godišnji student diplomskog studija elektrotehnike. HuntersFeeder sam stvorio iz strasti prema elektronici i programiranju te kao korak prema razvoju jednostavnih i pouzdanih rješenja.",
+      faq_heading: "Često postavljana pitanja",
+      faq_q1: "Radi li HuntersFeeder i bez signala?",
+      faq_a1: "Da, uređaj može provoditi automatsko hranjenje po rasporedu i bez GSM signala.",
+      faq_q2: "Koliko dugo traje baterija?",
+      faq_a2: "Ovisno o postavkama, obično nekoliko mjeseci po jednom punjenju.",
+      faq_q3: "Kako znam da je spremnik prazan?",
+      faq_a3: "Sustav vas automatski obavještava putem SMS poruke.",
+      form_heading: "Naruči / Upit",
+      form_body: "Unesite svoje podatke i poruku, odgovorit ćemo vam u najkraćem mogućem roku.<br><br>(Proizvod je trenutno u završnoj fazi razvoja, dostupni su samo testni primjerci. Projekt će predvidivo biti dovršen do kraja godine.)",
+      form_name: "Ime",
+      form_email: "Email",
+      form_phone: "Broj telefona",
+      form_message: "Poruka",
+      form_submit: "Pošalji",
+      footer_contact: "Kontakt",
+      footer_rights: "Sva prava pridržana.",
+      interested_btn: "Zanima me",
+      popup_title: "Zanima vas?",
+      popup_body: "Ako vas proizvod zanima, pošaljite nam email i možemo dogovoriti cijenu i detalje.",
+      popup_close: "Zatvori"
+    },
+    it: {
+      hero_title_line2: "la soluzione intelligente per i cacciatori moderni",
+      hero_subtitle: "Gestione semplice e intelligente dell'alimentazione della selvaggina – ovunque e in qualsiasi momento.<br>Funzionamento affidabile in ogni condizione, con alimentazione automatica e uso semplice.",
+      hero_btn: "Scopri di più",
+      s1_heading: "Perché scegliere noi?",
+      s1_body: "Uniamo la tradizione della caccia con la tecnologia moderna. HuntersFeeder è facile da usare, conveniente e sviluppato appositamente per le esigenze dei cacciatori. Il nostro obiettivo è chiaro: più piacere nella natura e meno preoccupazioni.",
+      s2_heading: "Vantaggi e benefici",
+      s2_li1: "✔ Controllo intelligente via SMS",
+      s2_li2: "✔ Alimentazione automatica programmata",
+      s2_li3: "✔ Avvisi per serbatoio vuoto e batteria scarica",
+      s2_li4: "✔ Struttura robusta per ogni condizione",
+      s2_li5: "✔ Lunga durata e costi ridotti",
+      s2_li6: "✔ Uso semplice senza impostazioni complicate",
+      s3_heading: "Come funziona – semplice e affidabile",
+      s3_body: "Caricate il mangime nel dispositivo, quindi gestitelo tramite messaggi SMS o un programma impostato. Il sistema funziona automaticamente e vi avvisa in tempo quando è necessario il rifornimento o la manutenzione. HuntersFeeder si occupa dell'alimentazione, mentre voi mantenete il pieno controllo.",
+      s4_heading: "Fondatore",
+      s4_body: "Sono Miha Peterle, uno studente magistrale di ingegneria elettrica di 24 anni. Ho creato HuntersFeeder per passione verso l'elettronica e la programmazione, e come passo verso lo sviluppo di soluzioni semplici e affidabili.",
+      faq_heading: "Domande frequenti",
+      faq_q1: "HuntersFeeder funziona anche senza segnale?",
+      faq_a1: "Sì, il dispositivo può eseguire l'alimentazione automatica programmata anche senza segnale GSM.",
+      faq_q2: "Quanto dura la batteria?",
+      faq_a2: "A seconda delle impostazioni, di solito diversi mesi con una singola carica.",
+      faq_q3: "Come faccio a sapere quando il serbatoio è vuoto?",
+      faq_a3: "Il sistema vi avvisa automaticamente tramite SMS.",
+      form_heading: "Ordina / Richiedi info",
+      form_body: "Inserisci i tuoi dati e il messaggio, ti risponderemo al più presto.<br><br>(Il prodotto è attualmente nella fase finale di sviluppo, sono disponibili solo campioni di prova. Si prevede che il progetto sarà completato entro la fine dell'anno.)",
+      form_name: "Nome",
+      form_email: "Email",
+      form_phone: "Numero di telefono",
+      form_message: "Messaggio",
+      form_submit: "Invia",
+      footer_contact: "Contatto",
+      footer_rights: "Tutti i diritti riservati.",
+      interested_btn: "Mi interessa",
+      popup_title: "Ti interessa?",
+      popup_body: "Se il prodotto ti interessa, inviaci un'email e potremo concordare il prezzo e i dettagli.",
+      popup_close: "Chiudi"
+    },
+    de: {
+      hero_title_line2: "die smarte Lösung für moderne Jäger",
+      hero_subtitle: "Einfache und intelligente Verwaltung der Wildfütterung – überall und jederzeit.<br>Zuverlässiger Betrieb unter allen Bedingungen, mit automatischer Fütterung und einfacher Bedienung.",
+      hero_btn: "Mehr erfahren",
+      s1_heading: "Warum uns wählen?",
+      s1_body: "Wir verbinden die Tradition der Jagd mit moderner Technologie. HuntersFeeder ist einfach zu bedienen, erschwinglich und speziell für die Bedürfnisse von Jägern entwickelt. Unser Ziel ist klar: mehr Freude in der Natur und weniger Sorgen.",
+      s2_heading: "Vorteile und Nutzen",
+      s2_li1: "✔ Intelligente SMS-Steuerung",
+      s2_li2: "✔ Automatische Fütterung nach Zeitplan",
+      s2_li3: "✔ Warnungen bei leerem Behälter und schwacher Batterie",
+      s2_li4: "✔ Robuste Bauweise für alle Bedingungen",
+      s2_li5: "✔ Lange Lebensdauer und niedrige Kosten",
+      s2_li6: "✔ Einfache Bedienung ohne komplizierte Einstellungen",
+      s3_heading: "So funktioniert es – einfach und zuverlässig",
+      s3_body: "Füllen Sie das Futter in das Gerät und steuern Sie es dann per SMS oder über einen festgelegten Zeitplan. Das System arbeitet automatisch und warnt Sie rechtzeitig, wenn Nachfüllen oder Wartung nötig ist. HuntersFeeder kümmert sich um die Fütterung, während Sie die volle Kontrolle behalten.",
+      s4_heading: "Gründer",
+      s4_body: "Ich bin Miha Peterle, ein 24-jähriger Masterstudent der Elektrotechnik. HuntersFeeder habe ich aus Leidenschaft für Elektronik und Programmierung geschaffen – als Schritt hin zur Entwicklung einfacher und zuverlässiger Lösungen.",
+      faq_heading: "Häufig gestellte Fragen",
+      faq_q1: "Funktioniert HuntersFeeder auch ohne Signal?",
+      faq_a1: "Ja, das Gerät kann die automatische Fütterung nach Zeitplan auch ohne GSM-Signal ausführen.",
+      faq_q2: "Wie lange hält die Batterie?",
+      faq_a2: "Je nach Einstellungen in der Regel mehrere Monate mit einer Ladung.",
+      faq_q3: "Woher weiß ich, dass der Behälter leer ist?",
+      faq_a3: "Das System benachrichtigt Sie automatisch per SMS.",
+      form_heading: "Bestellen / Anfragen",
+      form_body: "Geben Sie Ihre Daten und Ihre Nachricht ein, wir melden uns schnellstmöglich bei Ihnen.<br><br>(Das Produkt befindet sich derzeit in der letzten Entwicklungsphase, es sind nur Testmuster verfügbar. Das Projekt wird voraussichtlich bis Ende des Jahres abgeschlossen.)",
+      form_name: "Name",
+      form_email: "E-Mail",
+      form_phone: "Telefonnummer",
+      form_message: "Nachricht",
+      form_submit: "Senden",
+      footer_contact: "Kontakt",
+      footer_rights: "Alle Rechte vorbehalten.",
+      interested_btn: "Ich habe Interesse",
+      popup_title: "Interessiert?",
+      popup_body: "Wenn Sie am Produkt interessiert sind, senden Sie uns eine E-Mail und wir können Preis und Details vereinbaren.",
+      popup_close: "Schließen"
+    }
+  };
+
+  /* ---------- localStorage (safe wrapper) ---------- */
+  function safeGet(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }
+  function safeSet(k,v){ try { localStorage.setItem(k,v); } catch(e){} }
+
+  /* ---------- Apply a language ---------- */
+  function applyLanguage(lang){
+    if(!translations[lang]) lang = FALLBACK;
+    const dict = translations[lang];
+    document.querySelectorAll('[data-i18n]').forEach(el=>{
+      const key = el.getAttribute('data-i18n');
+      if(dict[key] !== undefined) el.innerHTML = dict[key];
+    });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el=>{
+      const key = el.getAttribute('data-i18n-ph');
+      if(dict[key] !== undefined) el.setAttribute('placeholder', dict[key]);
+    });
+    document.documentElement.lang = lang;
+    if(pageTitles[lang]) document.title = pageTitles[lang];
+    const sel = document.getElementById('langSelect');
+    if(sel) sel.value = lang;
+    safeSet('hf_lang', lang);
+  }
+
+  /* ---------- Decide language on load ---------- */
+  function detectLanguage(){
+    const stored = safeGet('hf_lang');
+    if(stored && translations[stored]) return stored;                 // remembered choice
+    const nav = (navigator.language || navigator.userLanguage || '').slice(0,2).toLowerCase();
+    if(translations[nav]) return nav;                                 // browser language
+    return FALLBACK;                                                  // fallback
+  }
+
+  /* ---------- Init page ---------- */
   AOS.init({ once: true, duration: 1000 });
   document.getElementById('year').textContent = new Date().getFullYear();
+  applyLanguage(detectLanguage());
 
-  // Back to top
+  document.getElementById('langSelect').addEventListener('change', e => applyLanguage(e.target.value));
+
+  /* ---------- Back to top ---------- */
   const backToTop = document.getElementById("backToTop");
   window.addEventListener("scroll", () => {
-    if (window.scrollY > 300) backToTop.style.display = "block";
-    else backToTop.style.display = "none";
+    backToTop.style.display = window.scrollY > 300 ? "block" : "none";
   });
   backToTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-  // Blur hero background on scroll
+  /* ---------- Blur hero background on scroll ---------- */
   const heroBg = document.querySelector('.hero-bg');
   const initialBlur = 15;
   window.addEventListener('scroll', () => {
@@ -274,16 +576,35 @@
     heroBg.style.filter = `blur(${blurAmount}px)`;
   });
 
-  // QR overlay toggle
+  /* ---------- QR overlay toggle ---------- */
   const qrButton = document.getElementById("qrButton");
   const qrOverlay = document.getElementById("qrOverlay");
+  qrButton.addEventListener("click", () => qrOverlay.classList.remove("hidden"));
+  qrOverlay.addEventListener("click", () => qrOverlay.classList.add("hidden"));
 
-  qrButton.addEventListener("click", () => {
-    qrOverlay.classList.remove("hidden");
-  });
-  qrOverlay.addEventListener("click", () => {
-    qrOverlay.classList.add("hidden");
-  });
+  /* ---------- Interested CTA + popup ---------- */
+  const interestedBtn  = document.getElementById("interestedBtn");
+  const interestOverlay = document.getElementById("interestOverlay");
+  const interestClose  = document.getElementById("interestClose");
+  const naroci = document.getElementById("naroci");
+
+  function openInterest(){
+    naroci.scrollIntoView({ behavior: "smooth" });
+    setTimeout(() => interestOverlay.classList.remove("hidden"), 650); // let the scroll play first
+  }
+  function closeInterest(){ interestOverlay.classList.add("hidden"); }
+
+  interestedBtn.addEventListener("click", openInterest);
+  interestClose.addEventListener("click", closeInterest);
+  interestOverlay.addEventListener("click", e => { if(e.target === interestOverlay) closeInterest(); });
+  document.addEventListener("keydown", e => { if(e.key === "Escape") closeInterest(); });
+
+  /* Hide the floating CTA once the form is on screen (avoids overlapping "Send") */
+  if ("IntersectionObserver" in window) {
+    new IntersectionObserver(entries => {
+      entries.forEach(en => interestedBtn.classList.toggle("hide", en.isIntersecting));
+    }, { threshold: 0.35 }).observe(naroci);
+  }
 </script>
 
 

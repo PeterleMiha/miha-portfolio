@@ -8,6 +8,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <!-- AOS Animations -->
   <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <!-- Chatbot widget styles -->
+  <link rel="stylesheet" href="css/chat.css" />
   <style>
     body { font-family: 'Inter', sans-serif; background-color: #0B0D0E; color: white; scroll-behavior: smooth; }
     .hero-bg { transition: filter 0.7s ease-out; background-attachment: fixed; }
@@ -300,6 +302,9 @@
         <span>+386 41 435 803</span>
       </div>
     </div>
+    <div class="mb-8">
+      <a href="manual.html" class="text-[#EBC57E] hover:underline text-lg" data-i18n="nav_manual">Priročnik</a>
+    </div>
     <p class="text-gray-500 text-sm">
       © <span id="year"></span> HuntersFeeder. <span data-i18n="footer_rights">Vse pravice pridržane.</span>
     </p>
@@ -381,7 +386,8 @@
       form_submit: "Pošlji",
       footer_contact: "Kontakt",
       footer_rights: "Vse pravice pridržane.",
-      interested_btn: "Zanima me"
+      interested_btn: "Zanima me",
+      nav_manual: "Priročnik"
     },
     en: {
       hero_title_line2: "the smart solution for modern hunters",
@@ -416,7 +422,8 @@
       form_submit: "Send",
       footer_contact: "Contact",
       footer_rights: "All rights reserved.",
-      interested_btn: "I'm interested"
+      interested_btn: "I'm interested",
+      nav_manual: "Manual"
     },
     hr: {
       hero_title_line2: "pametno rješenje za moderne lovce",
@@ -451,7 +458,8 @@
       form_submit: "Pošalji",
       footer_contact: "Kontakt",
       footer_rights: "Sva prava pridržana.",
-      interested_btn: "Zanima me"
+      interested_btn: "Zanima me",
+      nav_manual: "Priručnik"
     },
     it: {
       hero_title_line2: "la soluzione intelligente per i cacciatori moderni",
@@ -486,7 +494,8 @@
       form_submit: "Invia",
       footer_contact: "Contatto",
       footer_rights: "Tutti i diritti riservati.",
-      interested_btn: "Mi interessa"
+      interested_btn: "Mi interessa",
+      nav_manual: "Manuale"
     },
     de: {
       hero_title_line2: "die smarte Lösung für moderne Jäger",
@@ -521,7 +530,8 @@
       form_submit: "Senden",
       footer_contact: "Kontakt",
       footer_rights: "Alle Rechte vorbehalten.",
-      interested_btn: "Ich habe Interesse"
+      interested_btn: "Ich habe Interesse",
+      nav_manual: "Handbuch"
     }
   };
 
@@ -631,6 +641,8 @@
   }
 </script>
 
+<!-- CHATBOT WIDGET -->
+<script src="js/chat.js"></script>
 
 </body>
 </html>

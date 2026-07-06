@@ -12,8 +12,8 @@
       (Settings -> Variables and Secrets). Never put the key in this file.
 ========================================================= */
 
-const KNOWLEDGE_URL  = "https://YOURNAME.github.io/huntersfeeder/data/knowledge.md";
-const ALLOWED_ORIGIN = "https://YOURNAME.github.io"; // or "*" while testing
+const KNOWLEDGE_URL  = "https://peterlemiha.github.io/huntersfeeder/data/knowledge.md";
+const ALLOWED_ORIGIN = "https://peterlemiha.github.io"; // or "*" while testing
 const MODEL          = "gemini-2.5-flash";           // free-tier eligible
 
 /* small in-memory cache so we don't re-fetch knowledge on every message */

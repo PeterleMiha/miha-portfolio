@@ -10,10 +10,7 @@
    "not connected yet" message instead of erroring.
 ========================================================= */
 
-const CONFIG = {
-  // e.g. "https://huntersfeeder-bot.yourname.workers.dev"
-  WORKER_URL: ""
-};
+const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" };
 
 (function () {
 

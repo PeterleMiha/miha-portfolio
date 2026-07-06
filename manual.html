@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="sl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HuntersFeeder – Priročnik</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+  <link rel="stylesheet" href="css/chat.css" />
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #0B0D0E; color: white; scroll-behavior: smooth; }
+
+    #langSelect {
+      background-color: #111315; color: #fff; border: 1px solid #374151;
+      appearance: none; -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23EBC57E' stroke-width='3'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 10px center; padding-right: 30px;
+    }
+
+    /* LEGO-style step card */
+    .step-card {
+      background: #111315; border: 1px solid #23262A; border-radius: 20px;
+      overflow: hidden; transition: transform .4s ease, box-shadow .4s ease;
+    }
+    .step-card:hover { transform: translateY(-4px); box-shadow: 0 12px 30px rgba(0,0,0,.5); }
+
+    .step-number {
+      width: 54px; height: 54px; border-radius: 50%;
+      background: #EBC57E; color: #0B0D0E; font-weight: 700; font-size: 24px;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+    }
+
+    /* Light panel behind the illustration, like a LEGO instruction page */
+    .step-illustration {
+      background: #F4F1EA; border-radius: 14px;
+      aspect-ratio: 4 / 3; display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .step-illustration img { width: 100%; height: 100%; object-fit: contain; }
+
+    .img-placeholder {
+      color: #8a8577; font-size: 15px; text-align: center; padding: 20px;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+  </style>
+</head>
+<body class="antialiased">
+
+<!-- LANGUAGE SELECTOR -->
+<div class="fixed top-4 right-4 z-50">
+  <select id="langSelect" aria-label="Language" class="text-sm rounded-lg px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#EBC57E]">
+    <option value="sl">🇸🇮 Slovenščina</option>
+    <option value="en">🇬🇧 English</option>
+    <option value="hr">🇭🇷 Hrvatski</option>
+    <option value="it">🇮🇹 Italiano</option>
+    <option value="de">🇩🇪 Deutsch</option>
+  </select>
+</div>
+
+<!-- BACK TO HOME -->
+<div class="fixed top-4 left-4 z-50">
+  <a href="index.html" class="text-sm bg-[#111315] border border-gray-700 rounded-lg px-3 py-2 hover:border-[#EBC57E] transition">
+    ← <span data-i18n="back_home">Domov</span>
+  </a>
+</div>
+
+<!-- HEADER -->
+<header class="pt-24 pb-12 px-6 text-center">
+  <h1 class="text-4xl md:text-5xl font-bold mb-4">
+    <span class="text-[#EBC57E]">HuntersFeeder</span> <span data-i18n="manual_title">Priročnik</span>
+  </h1>
+  <p class="text-lg text-gray-400 max-w-2xl mx-auto" data-i18n="manual_intro">
+    Sledite korakom po vrsti. Vsak korak ima sliko in kratek opis.
+  </p>
+</header>
+
+<!-- STEPS (built by JavaScript from the `steps` array below) -->
+<main id="stepsContainer" class="max-w-4xl mx-auto px-6 pb-24 space-y-8"></main>
+
+<!-- FOOTER -->
+<footer class="text-center py-10 bg-[#111315] border-t border-[#23262A]">
+  <p class="text-gray-500 text-sm">
+    © <span id="year"></span> HuntersFeeder.
+    <a href="index.html" class="text-[#EBC57E] hover:underline" data-i18n="back_home">Domov</a>
+  </p>
+</footer>
+
+<!-- SCRIPTS -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script>
+  /* =========================================================
+     EDIT YOUR MANUAL HERE
+     ---------------------------------------------------------
+     Add one entry per step. `img` is the file inside Slike/manual/.
+     Captions mirror Section 6 of data/knowledge.md so the chatbot
+     and this page stay in sync. Leave img as-is before you have
+     the picture — a "coming soon" placeholder shows automatically.
+  ========================================================= */
+  const steps = [
+    { img: "step-01.webp", caption: {
+        sl: "Napolnite baterijo.",
+        en: "Charge the battery.",
+        hr: "Napunite bateriju.",
+        it: "Carica la batteria.",
+        de: "Lade den Akku."
+    }},
+    { img: "step-02.webp", caption: {
+        sl: "Povežite baterijo z napravo.",
+        en: "Connect the battery to the device.",
+        hr: "Spojite bateriju s uređajem.",
+        it: "Collega la batteria al dispositivo.",
+        de: "Verbinde den Akku mit dem Gerät."
+    }},
+    { img: "step-03.webp", caption: {
+        sl: "V nastavitvah telefona se povežite na WiFi omrežje 'HuntersFeeder'.",
+        en: "In your phone's WiFi settings, connect to the 'HuntersFeeder' network.",
+        hr: "U WiFi postavkama telefona spojite se na mrežu 'HuntersFeeder'.",
+        it: "Nelle impostazioni WiFi del telefono, collegati alla rete 'HuntersFeeder'.",
+        de: "Verbinde dich in den WLAN-Einstellungen mit dem Netzwerk 'HuntersFeeder'."
+    }},
+    { img: "step-04.webp", caption: {
+        sl: "Odprite brskalnik. Če se stran ne odpre sama, vpišite 192.168.4.1.",
+        en: "Open a browser. If the page doesn't open by itself, type 192.168.4.1.",
+        hr: "Otvorite preglednik. Ako se stranica ne otvori sama, upišite 192.168.4.1.",
+        it: "Apri un browser. Se la pagina non si apre da sola, digita 192.168.4.1.",
+        de: "Öffne einen Browser. Öffnet sich die Seite nicht von selbst, gib 192.168.4.1 ein."
+    }},
+    { img: "step-05.webp", caption: {
+        sl: "Sledite navodilom na strani za nastavitev urnika in SIM številke.",
+        en: "Follow the on-screen instructions to set the schedule and SIM number.",
+        hr: "Slijedite upute na stranici za postavljanje rasporeda i SIM broja.",
+        it: "Segui le istruzioni sullo schermo per impostare la pianificazione e il numero SIM.",
+        de: "Folge den Anweisungen, um Zeitplan und SIM-Nummer einzustellen."
+    }}
+  ];
+
+  const t = {
+    sl: { back_home:"Domov", manual_title:"Priročnik", manual_intro:"Sledite korakom po vrsti. Vsak korak ima sliko in kratek opis.", step:"Korak", soon:"Slika kmalu" },
+    en: { back_home:"Home", manual_title:"Manual", manual_intro:"Follow the steps in order. Each step has a picture and a short description.", step:"Step", soon:"Image coming soon" },
+    hr: { back_home:"Početna", manual_title:"Priručnik", manual_intro:"Slijedite korake redom. Svaki korak ima sliku i kratak opis.", step:"Korak", soon:"Slika uskoro" },
+    it: { back_home:"Home", manual_title:"Manuale", manual_intro:"Segui i passaggi in ordine. Ogni passaggio ha un'immagine e una breve descrizione.", step:"Passaggio", soon:"Immagine in arrivo" },
+    de: { back_home:"Start", manual_title:"Handbuch", manual_intro:"Folge den Schritten der Reihe nach. Jeder Schritt hat ein Bild und eine kurze Beschreibung.", step:"Schritt", soon:"Bild folgt" }
+  };
+
+  function currentLang() {
+    try { const s = localStorage.getItem('hf_lang'); if (s && t[s]) return s; } catch(e){}
+    const nav = (navigator.language || '').slice(0,2).toLowerCase();
+    return t[nav] ? nav : 'sl';
+  }
+
+  function render(lang) {
+    const dict = t[lang];
+    document.documentElement.lang = lang;
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+      const k = el.getAttribute('data-i18n');
+      if (dict[k] !== undefined) el.textContent = dict[k];
+    });
+    document.getElementById('langSelect').value = lang;
+
+    const box = document.getElementById('stepsContainer');
+    box.innerHTML = '';
+    steps.forEach((s, i) => {
+      const n = i + 1;
+      const card = document.createElement('div');
+      card.className = 'step-card p-5 md:p-7';
+      card.setAttribute('data-aos', 'fade-up');
+      card.innerHTML = `
+        <div class="flex items-center gap-4 mb-5">
+          <div class="step-number">${n}</div>
+          <div class="text-sm uppercase tracking-wide text-gray-500">${dict.step} ${n}</div>
+        </div>
+        <div class="step-illustration mb-5">
+          <img src="Slike/manual/${s.img}" alt="${dict.step} ${n}"
+               onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" />
+          <div class="img-placeholder" style="display:none;">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#b0a98f" stroke-width="1.5">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>${dict.soon}</span>
+          </div>
+        </div>
+        <p class="text-lg text-gray-300">${s.caption[lang] || s.caption.en}</p>
+      `;
+      box.appendChild(card);
+    });
+    AOS.refreshHard && AOS.refreshHard();
+  }
+
+  AOS.init({ once: true, duration: 800 });
+  document.getElementById('year').textContent = new Date().getFullYear();
+  render(currentLang());
+  document.getElementById('langSelect').addEventListener('change', e => {
+    try { localStorage.setItem('hf_lang', e.target.value); } catch(err){}
+    render(e.target.value);
+  });
+</script>
+
+<!-- CHATBOT (same widget as the home page) -->
+<script src="js/chat.js"></script>
+
+</body>
+</html>

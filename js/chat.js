@@ -201,7 +201,7 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
       saveHistory(history);
     });
 
-    const langSelect = document.getElementById('langSelect');
+    const langSelect = document.getElementById('langSel');
     if (langSelect) langSelect.addEventListener('change', applyWidgetLanguage);
   }
 

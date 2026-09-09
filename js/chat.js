@@ -115,17 +115,11 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
     return bubble;
   }
 
-  /* ---------- Memory: save/load history in localStorage ---------- */
-  function saveHistory(h) {
-    try { localStorage.setItem('hf_chat_history', JSON.stringify(h)); } catch (e) {}
-  }
-  function loadHistory() {
-    try {
-      const raw = localStorage.getItem('hf_chat_history');
-      return raw ? JSON.parse(raw) : [];
-    } catch (e) { return []; }
-  }
-
+  /* ---------- Memory: this tab's RAM only, on purpose ----------
+     No localStorage/sessionStorage: `history` is just a variable in this
+     closure, so it lives exactly as long as the page does and is gone on
+     the next reload. Nothing about a chat with a device assistant needs to
+     outlive the visit. */
   let history = [];
 
   /* ---------- Talk to the Cloudflare Worker (which calls Gemini) ---------- */
@@ -163,24 +157,26 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
     const form = document.getElementById('hfChatForm');
     const input = document.getElementById('hfChatInput');
 
-    history = loadHistory();
-    if (history.length === 0) {
-      const greeting = chatText[currentLang()].greeting;
-      addMessage(greeting, 'bot');
-      history.push({ role: 'bot', text: greeting });
-    } else {
-      history.forEach(m => addMessage(m.text, m.role));
+    const greeting = chatText[currentLang()].greeting;
+    addMessage(greeting, 'bot');
+    history.push({ role: 'bot', text: greeting });
+
+    // Tells index.html's floating "Zanima me" CTA to get out of the way
+    // while the chat is open, instead of the two overlapping.
+    function setOpen(isOpen) {
+      win.classList.toggle('hidden', !isOpen);
+      toggle.classList.toggle('hfActive', isOpen);
+      document.body.classList.toggle('hf-chat-open', isOpen);
+      document.dispatchEvent(new CustomEvent('hf-chat-toggle', { detail: isOpen }));
+      // Focus on open, but not on touch devices: there, focusing an input
+      // pops the keyboard immediately, which is an unrequested extra
+      // motion on top of the window appearing. Desktop keeps the
+      // convenience since there's no keyboard animation to fight.
+      if (isOpen && !('ontouchstart' in window)) input.focus();
     }
 
-    toggle.addEventListener('click', () => {
-      win.classList.toggle('hidden');
-      toggle.classList.toggle('hfActive');
-      if (!win.classList.contains('hidden')) input.focus();
-    });
-    closeBtn.addEventListener('click', () => {
-      win.classList.add('hidden');
-      toggle.classList.remove('hfActive');
-    });
+    toggle.addEventListener('click', () => setOpen(win.classList.contains('hidden')));
+    closeBtn.addEventListener('click', () => setOpen(false));
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -190,7 +186,6 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
 
       addMessage(text, 'user');
       history.push({ role: 'user', text });
-      saveHistory(history);
 
       const typingBubble = addMessage(chatText[currentLang()].typing, 'bot', 'hfTyping');
       const reply = await sendToBot();
@@ -198,7 +193,6 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
 
       addMessage(reply, 'bot');
       history.push({ role: 'bot', text: reply });
-      saveHistory(history);
     });
 
     const langSelect = document.getElementById('langSel');

@@ -56,7 +56,11 @@
 #hfChatForm { display: flex; border-top: 1px solid #2A2E2A; }
 #hfChatInput {
   flex: 1; background: #1A1D1E; border: none; color: #fff;
-  padding: 10px 12px; font-size: 14px; outline: none;
+  padding: 10px 12px; font-size: 16px; outline: none;
+  /* 16px, not 14px: iOS Safari auto-zooms the page to focus any input
+     whose font-size is under 16px. The chat opens with input.focus()
+     called right away, so at 14px every open of the widget forced a
+     zoom-in on iPhone — this is what fixes that, not a viewport hack. */
 }
 #hfChatSend {
   background: #EBC57E; color: #0B0D0E; border: none;
@@ -66,4 +70,13 @@
 
 @media (prefers-reduced-motion: reduce) {
   #hfChatToggle { animation: none; }
+}
+
+/* On a short phone viewport, height:440px + max-height:70vh together used
+   to reach nearly to the top of the screen, covering the whole page behind
+   it. Capping height at 60vh keeps the window's top edge lower, in the
+   bottom portion of the screen, whatever the device's height — bottom stays
+   at 160px (unchanged) so it still clears the toggle button underneath it. */
+@media (max-width: 480px) {
+  #hfChatWindow { height: 60vh; max-height: 60vh; }
 }

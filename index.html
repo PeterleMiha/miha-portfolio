@@ -26,6 +26,42 @@ summary::marker{color:#E9C37B}
 #topnav a[href="#prednosti"]:hover,#topnav a[href="#delovanje"]:hover,
 #topnav a[href="#cena"]:hover,#topnav a[href="#faq"]:hover,
 #topnav a[href="#kontakt"]:hover{color:#E9C37B}
+
+/* ---- Floating "app screens" button ---------------------------------------
+   Bottom-LEFT on purpose: bottom-right belongs to the chat widget and
+   bottom-centre to #floatCta, so this is the only free corner.
+   The buzz is one long keyframe that is still for three quarters of its
+   cycle — a phone vibrating in bursts, not a permanently shaking icon.
+   The global prefers-reduced-motion rule above switches both off.        */
+#appDemo{position:fixed;left:22px;bottom:24px;z-index:70;width:56px;height:56px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:#131A15;border:1px solid rgba(233,195,123,0.55);color:#E9C37B;
+  box-shadow:0 10px 26px -8px rgba(0,0,0,0.7);
+  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease}
+#appDemo:hover{background:#1B2419;border-color:#E9C37B;color:#F5D89E;
+  box-shadow:0 12px 32px -8px rgba(0,0,0,0.85)}
+#appDemo:focus-visible{outline:2px solid #E9C37B;outline-offset:3px}
+#appDemo .ph{width:25px;height:25px;display:block;animation:hfBuzz 3.4s ease-in-out infinite}
+#appDemo:hover .ph{animation-play-state:paused}
+#appDemo::before{content:"";position:absolute;inset:-1px;border-radius:50%;
+  border:2px solid #E9C37B;pointer-events:none;animation:hfRing 3.4s ease-out infinite}
+#appDemo .lbl{position:absolute;left:68px;white-space:nowrap;opacity:0;pointer-events:none;
+  background:rgba(10,14,11,0.95);border:1px solid rgba(255,255,255,0.12);color:#EFEDE4;
+  font-size:13.5px;font-weight:600;padding:8px 12px;border-radius:10px;transition:opacity .2s ease}
+#appDemo:hover .lbl,#appDemo:focus-visible .lbl{opacity:1}
+@keyframes hfBuzz{
+  0%,70%,100%{transform:translateX(0) rotate(0)}
+  72%{transform:translateX(-1.5px) rotate(-8deg)}
+  75%{transform:translateX(1.5px) rotate(8deg)}
+  78%{transform:translateX(-1.5px) rotate(-7deg)}
+  81%{transform:translateX(1.5px) rotate(7deg)}
+  84%{transform:translateX(-1px) rotate(-4deg)}
+  87%{transform:translateX(1px) rotate(4deg)}
+  90%{transform:translateX(0) rotate(0)}
+}
+@keyframes hfRing{0%{transform:scale(1);opacity:.5}70%,100%{transform:scale(1.5);opacity:0}}
+@media (max-width:640px){#appDemo{left:16px;bottom:18px;width:50px;height:50px}
+  #appDemo .ph{width:22px;height:22px}}
 </style>
 </head>
 <body>
@@ -370,6 +406,18 @@ summary::marker{color:#E9C37B}
     <span>❤</span><span data-i18n="fl_cta">Zanima me</span>
   </a>
 
+  <!-- Buzzing phone → the app-screens canvas in app/. The .lbl span is the
+       link's accessible name as well as its hover tooltip, so it carries the
+       data-i18n key; the Slovene string is harvested from this markup. -->
+  <a id="appDemo" href="app/index.html">
+    <svg class="ph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="6" y="2.5" width="12" height="19" rx="2.6"/>
+      <path d="M10.4 5.4h3.2"/><path d="M10.9 18.5h2.2"/>
+    </svg>
+    <span class="lbl" data-i18n="fl_app">Poglej zaslone aplikacije</span>
+  </a>
+
 <!-- ==========================================================
      Vanilla engine — replaces the builder runtime (support.js).
      Does three jobs: (1) translations, (2) style-hover/style-focus,
@@ -430,7 +478,8 @@ summary::marker{color:#E9C37B}
       q6:"How do I order?", a6:"Fill in the form below. Test units are limited; regular sales start around the end of the year.",
       fm_h:"Reserve your HuntersFeeder", fm_s:"Leave your details and I'll get back to you within 24 hours. Test units are limited — first come, first served.",
       fm_nm:"Name", fm_em:"Email", fm_ph:"Phone (optional)", fm_ms:"Message — how many units, when, questions …", fm_bt:"Send inquiry", fm_nt:"I reply personally, usually the same day.",
-      ftr_m:"User manual", ftr_r:"All rights reserved.", fl_cta:"I'm interested"
+      ftr_m:"User manual", ftr_r:"All rights reserved.", fl_cta:"I'm interested",
+      fl_app:"See the app screens"
     },
     de: {
       nav_f:"Vorteile", nav_h:"Funktionsweise", nav_p:"Preis", nav_q:"Fragen", nav_c:"Kontakt", nav_cta:"Reservieren",
@@ -475,7 +524,8 @@ summary::marker{color:#E9C37B}
       q6:"Wie bestelle ich?", a6:"Füllen Sie das Formular unten aus. Testgeräte sind begrenzt; der reguläre Verkauf startet voraussichtlich Ende des Jahres.",
       fm_h:"Reservieren Sie Ihren HuntersFeeder", fm_s:"Hinterlassen Sie Ihre Daten — ich melde mich innerhalb von 24 Stunden. Testgeräte sind begrenzt.",
       fm_nm:"Name", fm_em:"E-Mail", fm_ph:"Telefon (optional)", fm_ms:"Nachricht — Stückzahl, Zeitraum, Fragen …", fm_bt:"Anfrage senden", fm_nt:"Ich antworte persönlich, meist noch am selben Tag.",
-      ftr_m:"Handbuch", ftr_r:"Alle Rechte vorbehalten.", fl_cta:"Ich habe Interesse"
+      ftr_m:"Handbuch", ftr_r:"Alle Rechte vorbehalten.", fl_cta:"Ich habe Interesse",
+      fl_app:"App-Ansichten ansehen"
     },
     it: {
       nav_f:"Vantaggi", nav_h:"Come funziona", nav_p:"Prezzo", nav_q:"Domande", nav_c:"Contatto", nav_cta:"Prenota",
@@ -520,7 +570,8 @@ summary::marker{color:#E9C37B}
       q6:"Come ordino?", a6:"Compila il modulo qui sotto. Le unità di prova sono limitate; la vendita regolare inizia verso fine anno.",
       fm_h:"Prenota il tuo HuntersFeeder", fm_s:"Lascia i tuoi dati e ti risponderò entro 24 ore. Le unità di prova sono limitate.",
       fm_nm:"Nome", fm_em:"Email", fm_ph:"Telefono (facoltativo)", fm_ms:"Messaggio — quante unità, quando, domande …", fm_bt:"Invia richiesta", fm_nt:"Rispondo personalmente, di solito in giornata.",
-      ftr_m:"Manuale d'uso", ftr_r:"Tutti i diritti riservati.", fl_cta:"Mi interessa"
+      ftr_m:"Manuale d'uso", ftr_r:"Tutti i diritti riservati.", fl_cta:"Mi interessa",
+      fl_app:"Guarda le schermate dell'app"
     },
     hr: {
       nav_f:"Prednosti", nav_h:"Kako radi", nav_p:"Cijena", nav_q:"Pitanja", nav_c:"Kontakt", nav_cta:"Rezerviraj",
@@ -565,7 +616,8 @@ summary::marker{color:#E9C37B}
       q6:"Kako naručiti?", a6:"Ispuni obrazac u nastavku. Testni primjerci su ograničeni; redovna prodaja kreće predvidivo krajem godine.",
       fm_h:"Rezerviraj svoj HuntersFeeder", fm_s:"Ostavi podatke i javit ću se u roku 24 sata. Testnih primjeraka je ograničen broj.",
       fm_nm:"Ime", fm_em:"Email", fm_ph:"Telefon (neobavezno)", fm_ms:"Poruka — koliko primjeraka, kada, pitanja …", fm_bt:"Pošalji upit", fm_nt:"Odgovaram osobno, obično isti dan.",
-      ftr_m:"Priručnik", ftr_r:"Sva prava pridržana.", fl_cta:"Zanima me"
+      ftr_m:"Priručnik", ftr_r:"Sva prava pridržana.", fl_cta:"Zanima me",
+      fl_app:"Pogledaj zaslone aplikacije"
     }
   };
   TR.sl = {};

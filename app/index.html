@@ -1,0 +1,1059 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>HuntersFeeder — zasloni aplikacije</title>
+<meta name="description" content="Vsi zasloni aplikacije HuntersFeeder na enem platnu — pregled stanja, urnik krmljenja, lokacija, umerjanje in razvijalska orodja.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ===================== ICON SPRITE (stroke, 24px, currentColor) ========= -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+<symbol id="ic-home" viewBox="0 0 24 24"><path d="M3 11l9-8 9 8"/><path d="M5.5 9.6V20h13V9.6"/></symbol>
+<symbol id="ic-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5.3l3.4 2"/></symbol>
+<symbol id="ic-pin" viewBox="0 0 24 24"><path d="M12 21.5s7-6.4 7-11.2A7 7 0 0 0 5 10.3c0 4.8 7 11.2 7 11.2z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+<symbol id="ic-menu" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+<symbol id="ic-users" viewBox="0 0 24 24"><circle cx="9.5" cy="8" r="3.4"/><path d="M3 20c0-3.7 3-5.6 6.5-5.6S16 16.3 16 20"/><path d="M17 5.4a3.3 3.3 0 0 1 0 6.4"/><path d="M18.5 14.8c1.7.7 2.8 2.1 2.8 4.4"/></symbol>
+<symbol id="ic-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="3.6"/><path d="M5 20c0-4 3.1-6.2 7-6.2s7 2.2 7 6.2"/></symbol>
+<symbol id="ic-tune" viewBox="0 0 24 24"><path d="M4 8h8M17.5 8H20M4 16h3.5M13 16h7"/><circle cx="14.5" cy="8" r="2.4"/><circle cx="10" cy="16" r="2.4"/></symbol>
+<symbol id="ic-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 11.2V16"/><path d="M12 7.8h.01"/></symbol>
+<symbol id="ic-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/></symbol>
+<symbol id="ic-code" viewBox="0 0 24 24"><path d="M9 7l-5 5 5 5M15 7l5 5-5 5"/></symbol>
+<symbol id="ic-chev" viewBox="0 0 24 24"><path d="M9.5 6l6 6-6 6"/></symbol>
+<symbol id="ic-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+<symbol id="ic-plus" viewBox="0 0 24 24"><path d="M12 5.5v13M5.5 12h13"/></symbol>
+<symbol id="ic-dl" viewBox="0 0 24 24"><path d="M12 4v11"/><path d="M8 11.5l4 4 4-4"/><path d="M5 19.5h14"/></symbol>
+<symbol id="ic-refresh" viewBox="0 0 24 24"><path d="M20.5 12a8.5 8.5 0 1 1-2.5-6"/><path d="M20.5 3.5v5h-5"/></symbol>
+<symbol id="ic-term" viewBox="0 0 24 24"><rect x="3.5" y="4.5" width="17" height="15" rx="2.5"/><path d="M7.5 9.5l2.6 2.6-2.6 2.6M13 15h4"/></symbol>
+<symbol id="ic-chip" viewBox="0 0 24 24"><rect x="7.5" y="7.5" width="9" height="9" rx="1.6"/><path d="M10 3.5v4M14 3.5v4M10 16.5v4M14 16.5v4M3.5 10h4M3.5 14h4M16.5 10h4M16.5 14h4"/></symbol>
+<symbol id="ic-bolt" viewBox="0 0 24 24"><path d="M13.2 3L5.5 14h5.6l-1 7 7.9-11h-5.6z"/></symbol>
+<symbol id="ic-alert" viewBox="0 0 24 24"><path d="M12 4.2l8.6 15.3H3.4z"/><path d="M12 10.2v4"/><path d="M12 17h.01"/></symbol>
+<symbol id="ic-lock" viewBox="0 0 24 24"><rect x="4.5" y="10.5" width="15" height="9.5" rx="2.2"/><path d="M8 10.5V7.4a4 4 0 0 1 8 0v3.1"/></symbol>
+<symbol id="ic-trash" viewBox="0 0 24 24"><path d="M4 7h16M9.5 7V4.8h5V7"/><path d="M6.2 7l1 13h9.6l1-13"/></symbol>
+<symbol id="ic-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M16.2 16.2L21 21"/></symbol>
+<symbol id="ic-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5"/></symbol>
+<symbol id="ic-phone" viewBox="0 0 24 24"><path d="M6 3.5h4.2l1.8 4.4-2.5 1.7a11.6 11.6 0 0 0 4.9 4.9l1.7-2.5 4.4 1.8V18a2.5 2.5 0 0 1-2.6 2.5A16.6 16.6 0 0 1 3.5 6.1 2.5 2.5 0 0 1 6 3.5z"/></symbol>
+<symbol id="ic-sat" viewBox="0 0 24 24"><path d="M5.5 12.5L11.5 6.5"/><rect x="2.6" y="10.4" width="5.8" height="4.2" rx="1" transform="rotate(-45 5.5 12.5)"/><rect x="9.6" y="3.4" width="5.8" height="4.2" rx="1" transform="rotate(-45 12.5 5.5)"/><path d="M13 13a5 5 0 0 1 0 7"/><path d="M16 16a9 9 0 0 1 0 4"/></symbol>
+<symbol id="ic-drop" viewBox="0 0 24 24"><path d="M12 3.5s6 6.6 6 10.5a6 6 0 0 1-12 0c0-3.9 6-10.5 6-10.5z"/></symbol>
+</defs></svg>
+
+<!-- ===================== THEMING DOCK (canvas chrome, not the app) ========
+     Public build. The four raw <input type="color"> swatches and the
+     "Copy CSS" export are gone — those are authoring tools, not something a
+     visitor has any use for. What stays is what someone can actually play
+     with: the ready-made palettes, the two level sliders and light/dark.
+     app.js guards every one of these ids, so removing more breaks nothing.
+========================================================================= -->
+<div class="dock">
+  <strong>HuntersFeeder — zasloni aplikacije</strong>
+
+  <div class="grp"><span class="lb">Barvna shema</span><span class="presets" id="presets"></span></div>
+
+  <div class="grp"><span class="lb">Krma</span>
+    <input type="range" id="rFeed" min="0" max="100" value="72"><span class="val" id="vFeed">72%</span></div>
+  <div class="grp"><span class="lb">Baterija</span>
+    <input type="range" id="rBatt" min="0" max="100" value="82"><span class="val" id="vBatt">82%</span></div>
+
+  <div class="grp">
+    <button id="tLight" class="on">Svetlo</button>
+    <button id="tDark">Temno</button>
+  </div>
+</div>
+
+<!-- The artboards themselves are an English-language UI mock-up; the dock
+     above and the back button below are the Slovene page chrome. -->
+<div class="canvas" lang="en">
+
+<div class="group">Everyday — reachable from the tab bar</div>
+
+<!-- ========================================================= 1. OVERVIEW -->
+<figure class="board">
+  <figcaption>01 · System overview <em>the only screen most owners open</em></figcaption>
+  <div class="phone" id="pOverview" data-feed="ok" data-batt="ok">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:06</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <h1>HuntersFeeder</h1>
+      <div class="ic">
+        <button class="iconbtn"><svg class="i sm"><use href="#ic-refresh"/></svg></button>
+        <button class="iconbtn"><svg class="i sm"><use href="#ic-menu"/></svg></button>
+      </div>
+    </div>
+    <div class="content">
+
+      <!-- FEED LEVEL — the headline. A barrel, read at a glance. -->
+      <div class="card">
+        <div class="lbl"><svg class="i sm"><use href="#ic-drop"/></svg>Feed level</div>
+        <div class="gauge" style="margin-top:var(--s3)">
+          <svg class="barrel" viewBox="0 0 104 132">
+            <defs><clipPath id="bc1">
+              <path d="M18 14C6 40 6 92 18 118c28 8 40 8 68 0 12-26 12-78 0-104z"/>
+            </clipPath></defs>
+            <path class="glass" d="M18 14C6 40 6 92 18 118c28 8 40 8 68 0 12-26 12-78 0-104z"/>
+            <g clip-path="url(#bc1)">
+              <g class="fillg">
+                <ellipse class="fill-2" cx="52" cy="14" rx="36" ry="8"/>
+                <rect class="fill" x="0" y="14" width="104" height="120"/>
+              </g>
+            </g>
+            <g clip-path="url(#bc1)">
+              <path class="band" d="M2 48h100M2 88h100" fill="none"/>
+            </g>
+            <path class="body" d="M18 14C6 40 6 92 18 118c28 8 40 8 68 0 12-26 12-78 0-104z"/>
+            <ellipse class="cap" cx="52" cy="14" rx="34" ry="8.5"/>
+          </svg>
+          <div class="gaugebody">
+            <div class="pct" id="feedPct">72<span class="u">%</span></div>
+            <div class="muted" id="feedSub">approx. 18 more feeds</div>
+            <div class="st"><span class="tag on" id="feedTag">Hopper OK</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- POWER + LINK -->
+      <div class="grid2">
+        <div class="card">
+          <div class="lbl"><span class="dot" id="battDot"></span>Battery</div>
+          <div style="display:flex;align-items:center;gap:10px;margin:var(--s3) 0 var(--s2)">
+            <svg class="battery" viewBox="0 0 54 26">
+              <rect class="fill" x="4" y="5.5" width="39" height="15" rx="2"/>
+              <rect class="shell" x="1.6" y="3.2" width="43.8" height="19.6" rx="4.5"/>
+              <rect class="cap" x="47.2" y="9" width="4.2" height="8" rx="1.6"/>
+            </svg>
+            <div style="font-size:var(--t-xl);font-weight:700;letter-spacing:-.03em" id="battPct">82<span class="u" style="font-size:13px;color:var(--ink-3)">%</span></div>
+          </div>
+          <div class="muted">12.42 V · charging</div>
+        </div>
+        <div class="card">
+          <div class="lbl"><span class="dot"></span>Signal</div>
+          <div class="big">61<span class="u">%</span></div>
+          <div class="bars">
+            <span class="lit" style="height:8px"></span><span class="lit" style="height:11px"></span>
+            <span class="lit" style="height:14px"></span><span style="height:17px"></span><span style="height:20px"></span>
+          </div>
+          <div class="muted" style="margin-top:6px">LTE-M · Telekom</div>
+        </div>
+      </div>
+
+      <!-- NEXT FEED -->
+      <div class="hero">
+        <div class="ring">
+          <svg viewBox="0 0 100 100">
+            <circle class="track" cx="50" cy="50" r="43" fill="none" stroke-width="8"/>
+            <circle class="prog" cx="50" cy="50" r="43" fill="none" stroke-width="8"
+                    stroke-dasharray="270.2" stroke-dashoffset="94"/>
+          </svg>
+          <div class="rc"><b>2h14</b></div>
+        </div>
+        <div class="herobody">
+          <div class="k">Next feed</div>
+          <div class="clock">23:20</div>
+          <div><span class="tag on">auto · dusk +30 m</span></div>
+        </div>
+      </div>
+
+      <button class="btn feed"><svg class="i"><use href="#ic-drop"/></svg>Feed now</button>
+    </div>
+    <div class="navbar">
+      <button class="active"><span class="navicon"><svg class="i"><use href="#ic-home"/></svg></span>Overview</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-clock"/></svg></span>Feeding</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-pin"/></svg></span>Location</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-menu"/></svg></span>Menu</button>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 2. LOW / EMPTY -->
+<figure class="board">
+  <figcaption>02 · Overview — empty <em>same screen, alarm state</em></figcaption>
+  <div class="phone" data-feed="empty" data-batt="crit" style="--level-feed:.04;--level-batt:.11">
+    <div class="notch"></div>
+    <div class="statusbar"><span>06:41</span><span class="si">▮ 11%</span></div>
+    <div class="topbar">
+      <h1>HuntersFeeder</h1>
+      <div class="ic">
+        <button class="iconbtn"><svg class="i sm"><use href="#ic-refresh"/></svg></button>
+        <button class="iconbtn"><svg class="i sm"><use href="#ic-menu"/></svg></button>
+      </div>
+    </div>
+    <div class="content">
+      <div class="banner crit"><svg class="i sm" style="margin-top:1px"><use href="#ic-alert"/></svg>
+        <span>Hopper empty and battery critical. Feeding suspended.</span></div>
+
+      <div class="card">
+        <div class="lbl"><svg class="i sm"><use href="#ic-drop"/></svg>Feed level</div>
+        <div class="gauge" style="margin-top:var(--s3)">
+          <svg class="barrel" viewBox="0 0 104 132">
+            <defs><clipPath id="bc2">
+              <path d="M18 14C6 40 6 92 18 118c28 8 40 8 68 0 12-26 12-78 0-104z"/>
+            </clipPath></defs>
+            <path class="glass" d="M18 14C6 40 6 92 18 118c28 8 40 8 68 0 12-26 12-78 0-104z"/>
+            <g clip-path="url(#bc2)">
+              <g class="fillg">
+                <ellipse class="fill-2" cx="52" cy="14" rx="36" ry="8"/>
+                <rect class="fill" x="0" y="14" width="104" height="120"/>
+              </g>
+            </g>
+            <g clip-path="url(#bc2)"><path class="band" d="M2 48h100M2 88h100" fill="none"/></g>
+            <path class="body" d="M18 14C6 40 6 92 18 118c28 8 40 8 68 0 12-26 12-78 0-104z"/>
+            <ellipse class="cap" cx="52" cy="14" rx="34" ry="8.5"/>
+          </svg>
+          <div class="gaugebody">
+            <div class="pct" style="color:var(--crit)">4<span class="u">%</span></div>
+            <div class="muted">refill required</div>
+            <div class="st"><span class="tag crit">Empty</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="lbl"><span class="dot crit"></span>Battery</div>
+          <div style="display:flex;align-items:center;gap:10px;margin:var(--s3) 0 var(--s2)">
+            <svg class="battery" viewBox="0 0 54 26">
+              <rect class="fill" x="4" y="5.5" width="39" height="15" rx="2"/>
+              <rect class="shell" x="1.6" y="3.2" width="43.8" height="19.6" rx="4.5"/>
+              <rect class="cap" x="47.2" y="9" width="4.2" height="8" rx="1.6"/>
+            </svg>
+            <div style="font-size:var(--t-xl);font-weight:700;color:var(--crit)">11<span style="font-size:13px">%</span></div>
+          </div>
+          <div class="muted">10.98 V · below cutoff</div>
+        </div>
+        <div class="card">
+          <div class="lbl"><span class="dot warn"></span>Signal</div>
+          <div class="big">22<span class="u">%</span></div>
+          <div class="bars">
+            <span class="lit" style="height:8px"></span><span style="height:11px"></span>
+            <span style="height:14px"></span><span style="height:17px"></span><span style="height:20px"></span>
+          </div>
+          <div class="muted" style="margin-top:6px">LTE-M · weak</div>
+        </div>
+      </div>
+
+      <button class="btn secondary"><svg class="i"><use href="#ic-drop"/></svg>Feed now (disabled)</button>
+      <div class="note">Two failures are shown together because they share one cause: the panel has not charged since the hopper ran out, so nothing has drawn current. Fix the refill and the battery recovers.</div>
+    </div>
+    <div class="navbar">
+      <button class="active"><span class="navicon"><svg class="i"><use href="#ic-home"/></svg></span>Overview</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-clock"/></svg></span>Feeding</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-pin"/></svg></span>Location</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-menu"/></svg></span>Menu</button>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 3. FEEDING -->
+<figure class="board">
+  <figcaption>03 · Automatic feeding <em>schedule only — no calibration here</em></figcaption>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:07</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar"><h1>Feeding</h1>
+      <div class="ic"><button class="iconbtn"><svg class="i sm"><use href="#ic-menu"/></svg></button></div></div>
+    <div class="content">
+      <div class="card">
+        <div class="row" style="border:0;padding:0">
+          <div><div class="name">Automatic feeding</div><div class="hint">Run the schedule unattended</div></div>
+          <div class="sw on"><i></i></div>
+        </div>
+      </div>
+
+      <div class="sec">Schedule</div>
+      <div class="card flush">
+        <div class="row">
+          <div><div class="name">Mode</div><div class="hint">Fixed interval or relative to dusk</div></div>
+        </div>
+        <div class="row" style="padding-top:0">
+          <div class="seg" style="width:100%"><button>Interval</button><button class="active">Dusk</button></div>
+        </div>
+        <div class="row">
+          <div><div class="name">Offset from dusk</div><div class="hint">−6 h to +6 h</div></div>
+          <div class="stepper"><button>−</button><span class="num">+30 m</span><button>+</button></div>
+        </div>
+        <div class="row">
+          <div><div class="name">Dusk today</div><div class="hint">Computed from GNSS position</div></div>
+          <span class="chip">22:50</span>
+        </div>
+      </div>
+
+      <div class="sec">Portion</div>
+      <div class="card flush">
+        <div class="row">
+          <div><div class="name">Run duration</div><div class="hint">1–20 s</div></div>
+          <div class="stepper"><button>−</button><span class="num">4 s</span><button>+</button></div>
+        </div>
+        <div class="row">
+          <div><div class="name">Motor speed</div><div class="hint">Higher throws grain further</div></div>
+          <div class="stepper"><button>−</button><span class="num">85 %</span><button>+</button></div>
+        </div>
+        <div class="row">
+          <div><div class="name">Estimated portion</div><div class="hint">From the last calibration</div></div>
+          <span class="chip ok">≈ 340 g</span>
+        </div>
+      </div>
+
+      <div class="sec">Limits</div>
+      <div class="card flush">
+        <div class="row">
+          <div><div class="name">Max feeds per day</div></div>
+          <div class="stepper"><button>−</button><span class="num">2</span><button>+</button></div>
+        </div>
+        <div class="row">
+          <div><div class="name">Pause below battery</div><div class="hint">Protects the pack overnight</div></div>
+          <div class="stepper"><button>−</button><span class="num">20 %</span><button>+</button></div>
+        </div>
+      </div>
+
+      <button class="btn"><svg class="i"><use href="#ic-check"/></svg>Save schedule</button>
+    </div>
+    <div class="navbar">
+      <button><span class="navicon"><svg class="i"><use href="#ic-home"/></svg></span>Overview</button>
+      <button class="active"><span class="navicon"><svg class="i"><use href="#ic-clock"/></svg></span>Feeding</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-pin"/></svg></span>Location</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-menu"/></svg></span>Menu</button>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 4. LOCATION -->
+<figure class="board">
+  <figcaption>04 · Location / GNSS search <em>acquiring state shown</em></figcaption>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:08</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar"><h1>Location</h1>
+      <div class="ic"><button class="iconbtn"><svg class="i sm"><use href="#ic-menu"/></svg></button></div></div>
+    <div class="content">
+      <div class="card" style="text-align:center;padding:var(--s5) var(--s4)">
+        <svg class="i lg" style="color:var(--c1);width:38px;height:38px"><use href="#ic-sat"/></svg>
+        <div style="font-size:var(--t-lg);font-weight:660;margin-top:var(--s3)">Searching for satellites</div>
+        <div class="muted" style="margin-top:4px">7 in view · 3 locked · needs 4</div>
+        <div class="progbar" style="margin-top:var(--s4)"><i style="width:58%"></i></div>
+        <div class="muted" style="margin-top:var(--s2)">cold start, typically 40–90 s</div>
+      </div>
+
+      <div class="sec">Last known fix</div>
+      <div class="card">
+        <div class="kv"><span class="k">latitude</span><span class="v">46.056946</span></div>
+        <div class="kv"><span class="k">longitude</span><span class="v">14.505751</span></div>
+        <div class="kv"><span class="k">age</span><span class="v">2 h 14 m</span></div>
+        <div class="kv"><span class="k">accuracy</span><span class="v">±6 m (3D)</span></div>
+        <div class="kv"><span class="k">from home</span><span class="v">18 m</span></div>
+      </div>
+      <button class="btn"><svg class="i"><use href="#ic-pin"/></svg>Open in Maps</button>
+      <button class="btn secondary">Set this position as home</button>
+
+      <div class="sec">Geofence</div>
+      <div class="card flush">
+        <div class="row">
+          <div><div class="name">Theft alert</div><div class="hint">SMS if the feeder leaves the radius</div></div>
+          <div class="sw on"><i></i></div>
+        </div>
+        <div class="row">
+          <div><div class="name">Radius</div></div>
+          <div class="stepper"><button>−</button><span class="num">100 m</span><button>+</button></div>
+        </div>
+      </div>
+
+      <div class="sec">History</div>
+      <div class="card flush">
+        <div class="row"><div><div class="name" style="font-family:var(--mono);font-size:var(--t-sm)">09.09. 19:02</div>
+          <div class="hint">46.05694, 14.50575 · 3D</div></div>
+          <button class="iconbtn plain"><svg class="i sm"><use href="#ic-chev"/></svg></button></div>
+        <div class="row"><div><div class="name" style="font-family:var(--mono);font-size:var(--t-sm)">09.09. 07:14</div>
+          <div class="hint">46.05691, 14.50580 · 3D</div></div>
+          <button class="iconbtn plain"><svg class="i sm"><use href="#ic-chev"/></svg></button></div>
+      </div>
+    </div>
+    <div class="navbar">
+      <button><span class="navicon"><svg class="i"><use href="#ic-home"/></svg></span>Overview</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-clock"/></svg></span>Feeding</button>
+      <button class="active"><span class="navicon"><svg class="i"><use href="#ic-pin"/></svg></span>Location</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-menu"/></svg></span>Menu</button>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 5. MENU -->
+<figure class="board">
+  <figcaption>05 · Menu <em>the burger — everything that isn't daily</em></figcaption>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:09</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar"><h1>Menu</h1>
+      <div class="ic"><button class="iconbtn"><svg class="i sm"><use href="#ic-close"/></svg></button></div></div>
+    <div class="content">
+
+      <div class="sec">Device</div>
+      <div class="card pad0"><div class="navlist">
+        <a><span class="ico"><svg class="i sm"><use href="#ic-tune"/></svg></span>
+          <span class="tx"><b>Calibration</b><span>Motor reference, IR hopper sensor</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-info"/></svg></span>
+          <span class="tx"><b>System data</b><span>Version, uptime, factory reset</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+      </div></div>
+
+      <div class="sec">People</div>
+      <div class="card pad0"><div class="navlist">
+        <a><span class="ico"><svg class="i sm"><use href="#ic-users"/></svg></span>
+          <span class="tx"><b>Persons</b><span>3 numbers may control the feeder</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-user"/></svg></span>
+          <span class="tx"><b>Personal data</b><span>Your name, phone, SIM number and PIN</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+      </div></div>
+
+      <div class="sec">App</div>
+      <div class="card pad0"><div class="navlist">
+        <a><span class="ico"><svg class="i sm"><use href="#ic-globe"/></svg></span>
+          <span class="tx"><b>Language</b><span>English</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-drop"/></svg></span>
+          <span class="tx"><b>Appearance</b><span>Theme and colors</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-phone"/></svg></span>
+          <span class="tx"><b>SMS commands</b><span>What you can text the feeder</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+      </div></div>
+
+      <div class="sec">Advanced</div>
+      <div class="card pad0"><div class="navlist">
+        <a class="dev"><span class="ico"><svg class="i sm"><use href="#ic-code"/></svg></span>
+          <span class="tx"><b>Developer mode</b><span>Password required</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+      </div></div>
+
+      <div class="muted" style="text-align:center;margin-top:var(--s4)">HuntersFeeder V3 · fw 3.4.1</div>
+    </div>
+    <div class="navbar">
+      <button><span class="navicon"><svg class="i"><use href="#ic-home"/></svg></span>Overview</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-clock"/></svg></span>Feeding</button>
+      <button><span class="navicon"><svg class="i"><use href="#ic-pin"/></svg></span>Location</button>
+      <button class="active"><span class="navicon"><svg class="i"><use href="#ic-menu"/></svg></span>Menu</button>
+    </div>
+  </div>
+</figure>
+
+<div class="group">Device &amp; people — one level down from the menu</div>
+
+<!-- ========================================================= 6. CALIBRATION -->
+<figure class="board">
+  <figcaption>06 · Calibration <em>own category — destructive, rarely touched</em></figcaption>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:10</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-chev"/></svg></button>
+      <h1 class="sm">Calibration</h1></div>
+    <div class="content">
+      <div class="note">Calibration teaches the feeder what "normal" is. Run it after changing the motor, the auger, or the hopper — not otherwise.</div>
+
+      <div class="sec">Motor reference</div>
+      <div class="card">
+        <div class="kv"><span class="k">reference speed</span><span class="v">410 rpm</span></div>
+        <div class="kv"><span class="k">stall threshold</span><span class="v">287 rpm</span></div>
+        <div class="kv"><span class="k">last run</span><span class="v">02.09. 14:20</span></div>
+        <div class="kv"><span class="k">current health</span><span class="v" style="color:var(--c3)">78 %</span></div>
+        <div class="bar" style="margin:var(--s2) 0 var(--s3)"><i class="warn" style="width:78%"></i></div>
+        <button class="btn secondary"><svg class="i"><use href="#ic-refresh"/></svg>Re-run motor calibration</button>
+      </div>
+
+      <div class="sec">IR hopper sensor</div>
+      <div class="card">
+        <div class="kv"><span class="k">clear reading</span><span class="v">3120</span></div>
+        <div class="kv"><span class="k">blocked reading</span><span class="v">410</span></div>
+        <div class="kv"><span class="k">threshold</span><span class="v">1765</span></div>
+        <div class="kv"><span class="k">live</span><span class="v" style="color:var(--c2)">2980 · clear</span></div>
+        <button class="btn secondary" style="margin-top:var(--s3)"><svg class="i"><use href="#ic-refresh"/></svg>Re-run IR calibration</button>
+      </div>
+
+      <div class="sec">Portion</div>
+      <div class="card">
+        <div class="kv"><span class="k">grams per second</span><span class="v">85 g/s</span></div>
+        <div class="hint" style="margin-bottom:var(--s3)">Measured by running the auger over a scale.</div>
+        <button class="btn secondary">Calibrate portion weight</button>
+      </div>
+
+      <div class="banner"><svg class="i sm" style="margin-top:1px"><use href="#ic-alert"/></svg>
+        <span>The feeder cannot dispense while a calibration is running.</span></div>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 7. PERSONS -->
+<figure class="board">
+  <figcaption>07 · Persons <em>who may command the feeder by SMS</em></figcaption>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:11</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-chev"/></svg></button>
+      <h1 class="sm">Persons</h1>
+      <div class="ic"><button class="iconbtn"><svg class="i sm"><use href="#ic-plus"/></svg></button></div></div>
+    <div class="content">
+      <div class="card pad0"><div class="navlist">
+        <a><span class="avatar">MP</span>
+          <span class="tx"><b>Miha Peterle</b><span>+386 41 234 567 · owner</span></span>
+          <span class="chip ok">ALL</span></a>
+        <a><span class="avatar">JN</span>
+          <span class="tx"><b>Janez Novak</b><span>+386 40 111 222</span></span>
+          <span class="chip">FEED</span></a>
+        <a><span class="avatar">AK</span>
+          <span class="tx"><b>Ana Kos</b><span>+386 31 998 776</span></span>
+          <span class="chip no">BLOCKED</span></a>
+      </div></div>
+
+      <div class="sec">Rights — Janez Novak</div>
+      <div class="card flush">
+        <div class="row"><div><div class="name">Feed now</div><div class="hint">Trigger a manual portion</div></div>
+          <div class="sw on"><i></i></div></div>
+        <div class="row"><div><div class="name">Read status</div><div class="hint">Battery, hopper, position</div></div>
+          <div class="sw on"><i></i></div></div>
+        <div class="row"><div><div class="name">Change schedule</div></div>
+          <div class="sw"><i></i></div></div>
+        <div class="row"><div><div class="name">Receive alerts</div><div class="hint">Empty hopper, low battery, theft</div></div>
+          <div class="sw on"><i></i></div></div>
+        <div class="row"><div><div class="name">Manage persons</div><div class="hint">Owner only</div></div>
+          <div class="sw"><i></i></div></div>
+      </div>
+
+      <button class="btn"><svg class="i"><use href="#ic-plus"/></svg>Add person</button>
+      <button class="btn secondary" style="color:var(--crit)">
+        <svg class="i"><use href="#ic-trash"/></svg>Remove Janez Novak</button>
+
+      <div class="note">Anyone not on this list is ignored. An SMS from an unknown number is logged and dropped — it never reaches the motor.</div>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 8. PERSONAL -->
+<figure class="board">
+  <figcaption>08 · Personal data <em>identity + SIM, kept apart from Persons</em></figcaption>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:12</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-chev"/></svg></button>
+      <h1 class="sm">Personal data</h1></div>
+    <div class="content">
+      <div class="sec">Owner</div>
+      <div class="card">
+        <div class="field"><label>Name</label><input type="text" value="Miha"></div>
+        <div class="field"><label>Surname</label><input type="text" value="Peterle"></div>
+        <div class="field"><label>Phone number</label><input type="tel" value="+386 41 234 567"></div>
+        <div class="hint">Alerts are sent here. This number always has full rights.</div>
+      </div>
+
+      <div class="sec">SIM in the feeder</div>
+      <div class="card">
+        <div class="field"><label>SIM number (MSISDN)</label><input type="tel" value="+386 51 777 004"></div>
+        <div class="field"><label>SIM PIN</label><input type="password" value="0000"></div>
+        <div class="row" style="border:0">
+          <div><div class="name">Remember PIN</div><div class="hint">Needed for unattended restarts</div></div>
+          <div class="sw on"><i></i></div>
+        </div>
+        <div class="kv"><span class="k">ICCID</span><span class="v">8938600100123456789</span></div>
+        <div class="kv"><span class="k">operator</span><span class="v">Telekom SI</span></div>
+        <div class="kv"><span class="k">state</span><span class="v" style="color:var(--c2)">READY</span></div>
+      </div>
+
+      <div class="banner"><svg class="i sm" style="margin-top:1px"><use href="#ic-lock"/></svg>
+        <span>Stored on the device only. Never transmitted except as SMS from your own SIM.</span></div>
+
+      <button class="btn"><svg class="i"><use href="#ic-check"/></svg>Save</button>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 9. SYSTEM -->
+<figure class="board">
+  <figcaption>09 · System data <em>identity, health, and the reset</em></figcaption>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:13</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-chev"/></svg></button>
+      <h1 class="sm">System data</h1></div>
+    <div class="content">
+      <div class="sec">Firmware</div>
+      <div class="card">
+        <div class="kv"><span class="k">version</span><span class="v">3.4.1</span></div>
+        <div class="kv"><span class="k">built</span><span class="v">2026-07-15 17:56</span></div>
+        <div class="kv"><span class="k">commit</span><span class="v">177f455</span></div>
+        <div class="kv"><span class="k">board</span><span class="v">esp32dev</span></div>
+      </div>
+
+      <div class="sec">Identity</div>
+      <div class="card">
+        <div class="kv"><span class="k">serial</span><span class="v">HF3-0042</span></div>
+        <div class="kv"><span class="k">MAC</span><span class="v">A0:B7:65:2C:19:E4</span></div>
+        <div class="kv"><span class="k">modem IMEI</span><span class="v">867584031234567</span></div>
+      </div>
+
+      <div class="sec">Health</div>
+      <div class="card">
+        <div class="kv"><span class="k">uptime</span><span class="v">14 d 06 h</span></div>
+        <div class="kv"><span class="k">restarts</span><span class="v">3</span></div>
+        <div class="kv"><span class="k">last reset cause</span><span class="v">DEEPSLEEP_WAKE</span></div>
+        <div class="kv"><span class="k">free heap</span><span class="v">142 KB</span></div>
+        <div class="kv"><span class="k">flash used</span><span class="v">1.28 / 1.90 MB</span></div>
+        <div class="bar" style="margin-top:var(--s2)"><i class="c1" style="width:67%"></i></div>
+      </div>
+
+      <div class="sec">Maintenance</div>
+      <div class="card pad0"><div class="navlist">
+        <a><span class="ico"><svg class="i sm"><use href="#ic-dl"/></svg></span>
+          <span class="tx"><b>Export configuration</b><span>JSON backup to your phone</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-refresh"/></svg></span>
+          <span class="tx"><b>Restart device</b><span>Keeps all settings</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+        <a class="danger"><span class="ico"><svg class="i sm"><use href="#ic-trash"/></svg></span>
+          <span class="tx"><b>Factory reset</b><span>Erases settings, persons and calibration</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+      </div></div>
+
+      <div class="note">A factory reset also clears the SIM PIN. The feeder will not come back online unattended until you re-enter it.</div>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 10. LANGUAGE -->
+<figure class="board">
+  <figcaption>10 · Language &amp; appearance <em>the 3 colors, exposed to the owner</em></figcaption>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:14</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-chev"/></svg></button>
+      <h1 class="sm">Language &amp; appearance</h1></div>
+    <div class="content">
+      <div class="sec">Language</div>
+      <div class="card pad0"><div class="navlist">
+        <a><span class="ico">EN</span><span class="tx"><b>English</b></span>
+          <svg class="i sm" style="color:var(--c1)"><use href="#ic-check"/></svg></a>
+        <a><span class="ico">SI</span><span class="tx"><b>Slovenščina</b></span></a>
+        <a><span class="ico">DE</span><span class="tx"><b>Deutsch</b></span></a>
+        <a><span class="ico">HR</span><span class="tx"><b>Hrvatski</b></span></a>
+      </div></div>
+
+      <div class="sec">Theme</div>
+      <div class="card">
+        <div class="seg"><button>Light</button><button>Dark</button><button class="active">Follow phone</button></div>
+      </div>
+
+      <div class="sec">Colors</div>
+      <div class="card flush">
+        <div class="row">
+          <div class="lead"><span style="width:30px;height:30px;border-radius:8px;background:var(--c1);display:block"></span>
+            <div><div class="name">Primary</div><div class="hint">Buttons and the active tab</div></div></div>
+          <svg class="i sm" style="color:var(--ink-3)"><use href="#ic-chev"/></svg>
+        </div>
+        <div class="row">
+          <div class="lead"><span style="width:30px;height:30px;border-radius:8px;background:var(--c2);display:block"></span>
+            <div><div class="name">Secondary</div><div class="hint">Healthy readings</div></div></div>
+          <svg class="i sm" style="color:var(--ink-3)"><use href="#ic-chev"/></svg>
+        </div>
+        <div class="row">
+          <div class="lead"><span style="width:30px;height:30px;border-radius:8px;background:var(--c3);display:block"></span>
+            <div><div class="name">Accent</div><div class="hint">Warnings and highlights</div></div></div>
+          <svg class="i sm" style="color:var(--ink-3)"><use href="#ic-chev"/></svg>
+        </div>
+        <div class="row">
+          <div class="lead"><span style="width:30px;height:30px;border-radius:8px;background:var(--feed);display:block"></span>
+            <div><div class="name">Feed</div><div class="hint">The grain in the barrel</div></div></div>
+          <svg class="i sm" style="color:var(--ink-3)"><use href="#ic-chev"/></svg>
+        </div>
+      </div>
+
+      <div class="sec">Preview</div>
+      <div class="card">
+        <div style="display:flex;gap:var(--s2);flex-wrap:wrap;margin-bottom:var(--s3)">
+          <span class="tag on">healthy</span><span class="tag warn">warning</span><span class="tag crit">critical</span>
+        </div>
+        <button class="btn">Primary action</button>
+      </div>
+
+      <div class="note">Red is not on this list. It always means danger, so it stays fixed no matter which colors you pick.</div>
+    </div>
+  </div>
+</figure>
+
+<div class="group">Developer — password gated, hidden until unlocked</div>
+
+<!-- ========================================================= 11. DEV LOGIN -->
+<figure class="board">
+  <figcaption>11 · Developer login <em>the gate</em></figcaption>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:15</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-close"/></svg></button>
+      <h1 class="sm">Developer mode</h1></div>
+    <div class="content">
+      <div class="card" style="text-align:center;padding:var(--s5) var(--s4)">
+        <svg class="i lg" style="color:var(--c1);width:36px;height:36px"><use href="#ic-lock"/></svg>
+        <div style="font-size:var(--t-lg);font-weight:660;margin-top:var(--s3)">Enter developer password</div>
+        <div class="muted" style="margin-top:6px;line-height:1.5">
+          Everything past this point can put the feeder in a state it cannot recover from on its own.</div>
+        <input type="password" value="••••••••" style="margin-top:var(--s4);text-align:center">
+        <button class="btn" style="margin-top:var(--s3)">Unlock</button>
+        <div class="muted" style="margin-top:var(--s3)">Re-locks automatically after 10 minutes</div>
+      </div>
+
+      <div class="sec">What unlocks</div>
+      <div class="card pad0"><div class="navlist">
+        <a><span class="ico"><svg class="i sm"><use href="#ic-bolt"/></svg></span>
+          <span class="tx"><b>Power</b><span>Voltage graph, supply, undervoltage limits</span></span></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-term"/></svg></span>
+          <span class="tx"><b>Terminal</b><span>Full AT command access</span></span></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-chip"/></svg></span>
+          <span class="tx"><b>Memory</b><span>Raw EEPROM / NVS dump</span></span></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-code"/></svg></span>
+          <span class="tx"><b>Logs</b><span>UART and debug streams</span></span></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-alert"/></svg></span>
+          <span class="tx"><b>Faults</b><span>Handlers, snapshots, export</span></span></a>
+      </div></div>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 12. DEV POWER -->
+<figure class="board">
+  <figcaption>12 · Dev · Power <em>24 h voltages, one axis, dashed 2nd series</em></figcaption>
+  <div class="phone" data-theme="dark">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:16</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-chev"/></svg></button>
+      <h1 class="sm">Power</h1>
+      <div class="ic"><button class="iconbtn"><svg class="i sm"><use href="#ic-dl"/></svg></button></div></div>
+    <div class="content">
+      <div class="seg"><button class="active">Power</button><button>Terminal</button><button>Memory</button><button>Logs</button><button>Faults</button></div>
+
+      <div class="sec">Voltages · last 24 h</div>
+      <div class="card">
+        <svg class="chart" viewBox="0 0 326 148">
+          <!-- gridlines + y axis (volts) -->
+          <g class="grid">
+            <line x1="30" y1="31.6" x2="268" y2="31.6"/><line x1="30" y1="53.2" x2="268" y2="53.2"/>
+            <line x1="30" y1="74.8" x2="268" y2="74.8"/><line x1="30" y1="96.4" x2="268" y2="96.4"/>
+          </g>
+          <g class="axis" text-anchor="end">
+            <text x="24" y="35">14</text><text x="24" y="56.6">13</text>
+            <text x="24" y="78.2">12</text><text x="24" y="99.8">11</text>
+          </g>
+          <!-- undervoltage cutoff -->
+          <line class="thr" x1="30" y1="87.76" x2="268" y2="87.76"/>
+          <text class="thrlab" x="32" y="84">11.4 V cutoff</text>
+          <!-- supply (dashed) -->
+          <polyline class="s2" points="30,113.7 49.8,113.7 69.7,113.7 89.5,113.7 109.3,85.6 129.2,40.2 149,29.4 168.8,27.3 188.7,31.6 208.5,44.6 228.3,96.4 248.2,113.7 268,113.7"/>
+          <!-- battery (solid) -->
+          <polyline class="s1" points="30,64 49.8,66.2 69.7,68.3 89.5,70.5 109.3,72.6 129.2,74.8 149,68.3 168.8,57.5 188.7,51 208.5,53.2 228.3,55.4 248.2,59.7 268,61.8"/>
+          <!-- direct labels -->
+          <text class="lab" x="273" y="65" fill="var(--c1)">Batt</text>
+          <text class="lab" x="273" y="117" fill="var(--c2)">Sup</text>
+          <!-- hover layer (static example of the interaction) -->
+          <line x1="89.5" y1="10" x2="89.5" y2="118" stroke="var(--line-2)" stroke-width="1"/>
+          <circle class="mk" cx="89.5" cy="70.5" r="4" fill="var(--c1)"/>
+          <circle class="mk" cx="89.5" cy="113.7" r="4" fill="var(--c2)"/>
+          <rect class="tip" x="96" y="14" width="96" height="44" rx="6"/>
+          <g class="tiptx"><text x="105" y="28">06:00</text>
+            <text x="105" y="40">batt 12.2 V</text><text x="105" y="52">sup  10.2 V</text></g>
+          <!-- x axis -->
+          <g class="axis" text-anchor="middle">
+            <text x="30" y="132">00</text><text x="89.5" y="132">06</text><text x="149" y="132">12</text>
+            <text x="208.5" y="132">18</text><text x="268" y="132">24</text>
+          </g>
+        </svg>
+        <div class="legend">
+          <span class="l1"><i></i>Battery</span><span class="l2"><i></i>Supply / panel</span>
+        </div>
+      </div>
+
+      <div class="sec">Live measurement</div>
+      <div class="card">
+        <div class="kv"><span class="k">battery</span><span class="v">12.42 V</span></div>
+        <div class="kv"><span class="k">supply / panel</span><span class="v">14.06 V</span></div>
+        <div class="kv"><span class="k">3V3 rail</span><span class="v">3.298 V</span></div>
+        <div class="kv"><span class="k">modem rail</span><span class="v">3.812 V</span></div>
+        <div class="kv"><span class="k">charge current</span><span class="v">+218 mA</span></div>
+        <div class="kv"><span class="k">ADC raw / cal</span><span class="v">2841 · ×1.0064</span></div>
+        <button class="btn secondary" style="margin-top:var(--s3)">
+          <svg class="i"><use href="#ic-refresh"/></svg>Sample now</button>
+      </div>
+
+      <div class="sec">Undervoltage protection</div>
+      <div class="card flush">
+        <div class="row"><div><div class="name">Protection enabled</div>
+          <div class="hint">Blocks the motor below the cutoff</div></div><div class="sw on"><i></i></div></div>
+        <div class="row"><div><div class="name">Motor cutoff</div></div>
+          <div class="stepper"><button>−</button><span class="num">11.4 V</span><button>+</button></div></div>
+        <div class="row"><div><div class="name">Modem cutoff</div></div>
+          <div class="stepper"><button>−</button><span class="num">10.8 V</span><button>+</button></div></div>
+        <div class="row"><div><div class="name">Recovery hysteresis</div><div class="hint">Prevents relay chatter</div></div>
+          <div class="stepper"><button>−</button><span class="num">0.4 V</span><button>+</button></div></div>
+        <div class="row"><div><div class="name">Trips today</div></div><span class="chip warn">2</span></div>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 13. DEV TERM -->
+<figure class="board">
+  <figcaption>13 · Dev · Terminal <em>full AT access + saved commands</em></figcaption>
+  <div class="phone" data-theme="dark">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:17</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-chev"/></svg></button>
+      <h1 class="sm">Terminal</h1>
+      <div class="ic"><button class="iconbtn"><svg class="i sm"><use href="#ic-dl"/></svg></button></div></div>
+    <div class="content">
+      <div class="seg"><button>Power</button><button class="active">Terminal</button><button>Memory</button><button>Logs</button><button>Faults</button></div>
+
+      <div class="sec">Modem · SIM7070G</div>
+      <div class="console" style="max-height:240px"><span class="d">21:16:41</span> <span class="p">&gt; AT+CSQ</span>
+<b>+CSQ: 18,99</b>
+<span class="d">21:16:42</span> <span class="p">&gt; AT+CGREG?</span>
+<b>+CGREG: 0,1</b>
+<span class="d">21:16:44</span> <span class="p">&gt; AT+CCLK?</span>
+<b>+CCLK: "26/09/09,21:16:44+08"</b>
+<span class="d">21:16:47</span> <span class="p">&gt; AT+CPIN?</span>
+<b>+CPIN: READY</b>
+<span class="d">21:16:51</span> <span class="p">&gt; AT+CMGF=1</span>
+<span class="e">ERROR</span>
+<span class="d">21:16:53</span> <span class="d">retry 1/3…</span>
+<b>OK</b></div>
+
+      <div class="sec">Send command</div>
+      <div class="card">
+        <div style="display:flex;gap:var(--s2)">
+          <input type="text" value="AT+CPSI?" style="font-family:var(--mono)">
+          <button class="btn auto" style="flex:0 0 auto">Send</button>
+        </div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:var(--s3)">
+          <span class="chip">AT+CSQ</span><span class="chip">AT+CPIN?</span><span class="chip">AT+CGREG?</span>
+          <span class="chip">AT+CCLK?</span><span class="chip">AT+CPSI?</span><span class="chip">AT+CGNSINF</span>
+          <span class="chip">AT+CFUN=1,1</span>
+        </div>
+        <div class="row" style="border:0;margin-top:var(--s2)">
+          <div><div class="name">Raw mode</div><div class="hint">Bypass the response parser</div></div>
+          <div class="sw"><i></i></div>
+        </div>
+        <div class="row" style="border:0;padding-top:0">
+          <div><div class="name">Echo to UART log</div></div>
+          <div class="sw on"><i></i></div>
+        </div>
+      </div>
+
+      <div class="sec">Saved custom commands</div>
+      <div class="card pad0"><div class="navlist">
+        <a><span class="ico"><svg class="i sm"><use href="#ic-term"/></svg></span>
+          <span class="tx"><b>Force LTE-M only</b><span style="font-family:var(--mono)">AT+CMNB=1</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-term"/></svg></span>
+          <span class="tx"><b>Cold-start GNSS</b><span style="font-family:var(--mono)">AT+CGNSCOLD</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-plus"/></svg></span>
+          <span class="tx"><b>Add command</b><span>Name it and store the AT string</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+      </div></div>
+
+      <div class="banner crit"><svg class="i sm" style="margin-top:1px"><use href="#ic-alert"/></svg>
+        <span>Raw AT can deregister the modem. Recovery needs physical access.</span></div>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 14. DEV MEM -->
+<figure class="board">
+  <figcaption>14 · Dev · Memory <em>full EEPROM / NVS, decoded below</em></figcaption>
+  <div class="phone" data-theme="dark">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:18</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-chev"/></svg></button>
+      <h1 class="sm">Memory</h1>
+      <div class="ic"><button class="iconbtn"><svg class="i sm"><use href="#ic-dl"/></svg></button></div></div>
+    <div class="content">
+      <div class="seg"><button>Power</button><button>Terminal</button><button class="active">Memory</button><button>Logs</button><button>Faults</button></div>
+
+      <div class="card">
+        <div class="kv"><span class="k">namespace</span><span class="v">hf-cfg</span></div>
+        <div class="kv"><span class="k">used</span><span class="v">1 412 / 4 096 B</span></div>
+        <div class="kv"><span class="k">entries</span><span class="v">37</span></div>
+        <div class="kv"><span class="k">writes (wear)</span><span class="v">2 184</span></div>
+        <div class="bar" style="margin-top:var(--s2)"><i class="c1" style="width:34%"></i></div>
+      </div>
+
+      <div class="sec">Raw dump</div>
+      <div class="card">
+        <div style="display:flex;gap:var(--s2);margin-bottom:var(--s3)">
+          <input type="text" value="0x0000" style="font-family:var(--mono)">
+          <button class="btn auto secondary" style="flex:0 0 auto">
+            <svg class="i sm"><use href="#ic-search"/></svg></button>
+        </div>
+        <div class="hex"><span class="ad">0000</span>  48 46 33 00 03 04 01 00  <span class="as">HF3.....</span>
+<span class="ad">0008</span>  <mark>06 00</mark> 04 00 55 00 01 00  <span class="as">....U...</span>
+<span class="ad">0010</span>  2B 33 38 36 34 31 32 33  <span class="as">+3864123</span>
+<span class="ad">0018</span>  34 35 36 37 00 00 00 00  <span class="as">4567....</span>
+<span class="ad">0020</span>  9A 01 00 00 1F 0C 00 00  <span class="as">........</span>
+<span class="ad">0028</span>  30 30 30 30 00 00 00 00  <span class="as">0000....</span>
+<span class="ad">0030</span>  46 46 33 2D 30 30 34 32  <span class="as">HF3-0042</span>
+<span class="ad">0038</span>  00 00 00 00 D9 5F 27 00  <span class="as">....._'.</span></div>
+        <div class="hint" style="margin-top:var(--s2)">Highlighted: <span class="chip">feedPeriodH = 6</span></div>
+      </div>
+
+      <div class="sec">Decoded entries</div>
+      <div class="card flush">
+        <div class="row"><div><div class="name" style="font-family:var(--mono);font-size:var(--t-sm)">feedPeriodH</div>
+          <div class="hint">u8 @ 0x0008</div></div><span class="chip">6</span></div>
+        <div class="row"><div><div class="name" style="font-family:var(--mono);font-size:var(--t-sm)">feedDurationS</div>
+          <div class="hint">u8 @ 0x000A</div></div><span class="chip">4</span></div>
+        <div class="row"><div><div class="name" style="font-family:var(--mono);font-size:var(--t-sm)">motorSpeedPct</div>
+          <div class="hint">u8 @ 0x000C</div></div><span class="chip">85</span></div>
+        <div class="row"><div><div class="name" style="font-family:var(--mono);font-size:var(--t-sm)">ownerPhone</div>
+          <div class="hint">char[16] @ 0x0010</div></div><span class="chip">+386…</span></div>
+        <div class="row"><div><div class="name" style="font-family:var(--mono);font-size:var(--t-sm)">motorRefRpm</div>
+          <div class="hint">u16 @ 0x0020</div></div><span class="chip">410</span></div>
+      </div>
+
+      <div style="display:flex;gap:var(--s2)">
+        <button class="btn secondary"><svg class="i"><use href="#ic-dl"/></svg>Export .bin</button>
+        <button class="btn secondary" style="color:var(--crit)">Erase NVS</button>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 15. DEV LOGS -->
+<figure class="board">
+  <figcaption>15 · Dev · Logs <em>UART + debug, one filtered stream</em></figcaption>
+  <div class="phone" data-theme="dark">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:19</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-chev"/></svg></button>
+      <h1 class="sm">Logs</h1>
+      <div class="ic"><button class="iconbtn"><svg class="i sm"><use href="#ic-dl"/></svg></button></div></div>
+    <div class="content">
+      <div class="seg"><button>Power</button><button>Terminal</button><button>Memory</button><button class="active">Logs</button><button>Faults</button></div>
+
+      <div class="card">
+        <div class="seg" style="margin-bottom:var(--s3)">
+          <button class="active">All</button><button>UART</button><button>Debug</button><button>SMS</button></div>
+        <div class="seg">
+          <button>V</button><button>D</button><button class="active">I</button><button>W</button><button>E</button></div>
+        <div class="row" style="border:0;padding-bottom:0">
+          <div><div class="name">Follow tail</div><div class="hint">Auto-scroll as lines arrive</div></div>
+          <div class="sw on"><i></i></div>
+        </div>
+      </div>
+
+      <div class="console" style="max-height:300px"><span class="d">21:19:02.114</span> <b>I</b> boot   reset=DEEPSLEEP_WAKE
+<span class="d">21:19:02.140</span> <b>I</b> power  batt=12.42V sup=14.06V
+<span class="d">21:19:02.402</span> <b>I</b> modem  power-on seq start
+<span class="d">21:19:04.881</span> <b>I</b> modem  +CPIN: READY
+<span class="d">21:19:05.220</span> <span class="e">W</span> modem  CSQ=8 (weak)
+<span class="d">21:19:06.010</span> <b>I</b> gnss   cold start, 7 sats visible
+<span class="d">21:19:31.774</span> <b>I</b> gnss   fix 3D 46.056946,14.505751
+<span class="d">21:19:31.902</span> <b>I</b> dusk   computed 22:50 (+30m offset)
+<span class="d">21:19:32.008</span> <b>I</b> sched  next feed 23:20
+<span class="d">21:19:32.100</span> <span class="e">E</span> ir     read 410 &lt; thr 1765 — hopper blocked
+<span class="d">21:19:32.240</span> <b>I</b> sleep  entering light sleep 240 s</div>
+
+      <div class="sec">Buffer</div>
+      <div class="card">
+        <div class="kv"><span class="k">lines held</span><span class="v">512 / 512</span></div>
+        <div class="kv"><span class="k">dropped</span><span class="v">1 284</span></div>
+        <div class="kv"><span class="k">sink</span><span class="v">RAM ring</span></div>
+        <div style="display:flex;gap:var(--s2);margin-top:var(--s3)">
+          <button class="btn secondary"><svg class="i"><use href="#ic-dl"/></svg>Export .txt</button>
+          <button class="btn secondary">Clear</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</figure>
+
+<!-- ========================================================= 16. DEV FAULTS -->
+<figure class="board">
+  <figcaption>16 · Dev · Faults <em>handlers, and the snapshot you email out</em></figcaption>
+  <div class="phone" data-theme="dark">
+    <div class="notch"></div>
+    <div class="statusbar"><span>21:20</span><span class="si">▮▮▮ 82%</span></div>
+    <div class="topbar">
+      <button class="iconbtn plain"><svg class="i"><use href="#ic-chev"/></svg></button>
+      <h1 class="sm">Faults</h1>
+      <div class="ic"><button class="iconbtn"><svg class="i sm"><use href="#ic-dl"/></svg></button></div></div>
+    <div class="content">
+      <div class="seg"><button>Power</button><button>Terminal</button><button>Memory</button><button>Logs</button><button class="active">Faults</button></div>
+
+      <div class="sec">Active</div>
+      <div class="card pad0"><div class="navlist">
+        <a class="danger"><span class="ico"><svg class="i sm"><use href="#ic-alert"/></svg></span>
+          <span class="tx"><b>E_MOTOR_SLOW</b><span>78 % of reference · since 18:20</span></span>
+          <span class="chip warn">×3</span></a>
+      </div></div>
+
+      <div class="sec">History</div>
+      <div class="card flush">
+        <div class="row"><div><div class="name" style="font-family:var(--mono);font-size:var(--t-sm)">E_MODEM_TIMEOUT</div>
+          <div class="hint">21:16 · smsInit retry 2 · recovered</div></div><span class="chip">×3</span></div>
+        <div class="row"><div><div class="name" style="font-family:var(--mono);font-size:var(--t-sm)">E_UNDERVOLT</div>
+          <div class="hint">04:12 · 11.31 V · motor blocked</div></div><span class="chip">×2</span></div>
+        <div class="row"><div><div class="name" style="font-family:var(--mono);font-size:var(--t-sm)">E_GNSS_NOFIX</div>
+          <div class="hint">02.09. 19:40 · timeout 180 s</div></div><span class="chip">×1</span></div>
+      </div>
+
+      <div class="sec">Handlers</div>
+      <div class="card flush">
+        <div class="row"><div><div class="name">Panic → reboot</div>
+          <div class="hint">Restart on unhandled exception</div></div><div class="sw on"><i></i></div></div>
+        <div class="row"><div><div class="name">Watchdog</div><div class="hint">8 s task watchdog</div></div>
+          <div class="sw on"><i></i></div></div>
+        <div class="row"><div><div class="name">Capture core dump</div><div class="hint">Writes to the coredump partition</div></div>
+          <div class="sw on"><i></i></div></div>
+        <div class="row"><div><div class="name">Snapshot on every error</div>
+          <div class="hint">Costs ~2 KB of flash per event</div></div><div class="sw"><i></i></div></div>
+      </div>
+
+      <div class="sec">Snapshots</div>
+      <div class="card pad0"><div class="navlist">
+        <a><span class="ico"><svg class="i sm"><use href="#ic-dl"/></svg></span>
+          <span class="tx"><b>snap_260909_2116.json</b><span>E_MODEM_TIMEOUT · 6.1 KB</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+        <a><span class="ico"><svg class="i sm"><use href="#ic-dl"/></svg></span>
+          <span class="tx"><b>snap_260909_0412.json</b><span>E_UNDERVOLT · 5.8 KB</span></span>
+          <svg class="i sm chev"><use href="#ic-chev"/></svg></a>
+      </div></div>
+
+      <div class="card">
+        <div class="hint" style="margin-bottom:var(--s3)">A snapshot bundles config, the last 512 log lines, live voltages, modem state and the fault trace into one file.</div>
+        <button class="btn"><svg class="i"><use href="#ic-dl"/></svg>Save snapshot now</button>
+        <button class="btn secondary" style="margin-top:var(--s2)">Export all &amp; share</button>
+      </div>
+    </div>
+  </div>
+</figure>
+
+</div>
+
+<!-- ===================== BACK TO THE MAIN SITE ============================
+     Fixed to the viewport, not to the end of the document: the canvas is
+     sixteen 844px artboards tall, so a button at the true bottom of the page
+     would take a minute of scrolling to reach. .canvas carries extra
+     padding-bottom so this never sits on top of the last artboard.
+========================================================================= -->
+<a class="backhome" href="../index.html" title="Nazaj na glavno stran"
+   aria-label="Nazaj na glavno stran" data-tip="Nazaj na glavno stran">
+  <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+</a>
+
+<script src="app.js"></script>
+</body>
+</html>

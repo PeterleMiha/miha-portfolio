@@ -85,6 +85,7 @@ button{font:inherit}
 .ph:hover img{transform:scale(1.04)}
 .ph.contain{background:#E9EAE2}
 .ph.contain img{object-fit:contain}
+.ph.tall{aspect-ratio:9/16;background:#131A15}
 .ph:focus-visible{outline:2px solid var(--gold)}
 .ph .cap{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 9px;text-align:left;font-size:13px;color:#fff;
   background:linear-gradient(transparent,rgba(0,0,0,.72));opacity:0;transition:opacity .25s}
@@ -255,9 +256,11 @@ button{font:inherit}
       var ph = filter === "video" ? [] : (r.photos || []);
       var vi = filter === "photo" ? [] : (r.videos || []);
       if (!ph.length && !vi.length && filter !== "all") return;
+      /* Date and tag are both optional; with neither, no meta row at all. */
+      var meta = (r.date ? '<span>' + fmtDate(r.date) + '</span>' : '') +
+                 (r.tag ? '<span class="tag">' + esc(tx(r.tag)) + '</span>' : '');
       var h = '<article class="rev">' +
-        '<div class="meta"><span>' + fmtDate(r.date) + '</span>' +
-        (r.tag ? '<span class="tag">' + esc(tx(r.tag)) + '</span>' : '') + '</div>' +
+        (meta ? '<div class="meta">' + meta + '</div>' : '') +
         (r.title ? '<h2>' + esc(tx(r.title)) + '</h2>' : '') +
         (r.text ? '<p class="tx">' + esc(tx(r.text)) + '</p>' : '');
       if (ph.length) {
@@ -269,7 +272,7 @@ button{font:inherit}
              (img/thumbs/<name>); the lightbox opens the full one. A missing
              thumbnail falls back to the full image. */
           var th = p.thumb || String(p.src).replace(/\/([^\/]+)$/, "/thumbs/$1");
-          h += '<button class="ph' + (p.fit === "contain" ? ' contain' : '') + '" data-i="' + i + '" aria-label="' + esc(cap || tx(r.title)) + '">' +
+          h += '<button class="ph' + (p.fit === "contain" ? ' contain' : p.fit === "tall" ? ' contain tall' : '') + '" data-i="' + i + '" aria-label="' + esc(cap || tx(r.title)) + '">' +
                '<img src="' + esc(th) + '" data-full="' + esc(p.src) + '" alt="' + esc(cap || tx(r.title)) +
                '" loading="lazy" decoding="async">' +
                (cap ? '<span class="cap">' + esc(cap) + '</span>' : '') + '</button>';

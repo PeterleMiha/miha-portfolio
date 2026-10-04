@@ -35,6 +35,26 @@
 window.HF_GALLERY = [
 
   {
+    title: { sl: "Najnovejši 3D-tiski", en: "The latest 3D prints", hr: "Najnoviji 3D ispisi",
+             it: "Le ultime stampe 3D", de: "Die neuesten 3D-Drucke" },
+    text: {
+      sl: "Sveže z 3D-tiskalnika, pripravljeno za sestavljanje testnih kosov: lijak z ohišjem za elektroniko, pokrov s tesnilnim utorom, ohišje baterije, spodnji del z nosilcem motorja, rotor za doziranje krme in motor z reduktorjem. Vse iz ASA, ki zdrži sonce in dež.",
+      en: "Fresh off the 3D printer and ready for assembling the test units: the funnel with the electronics housing, a lid with a seal groove, the battery housing, the base with the motor mount, the feed-dosing rotor and the geared motor. All in ASA, which stands up to sun and rain.",
+      hr: "Tek izašlo s 3D pisača, spremno za sastavljanje testnih komada: lijevak s kućištem za elektroniku, poklopac s utorom za brtvu, kućište baterije, donji dio s nosačem motora, rotor za doziranje hrane i motor s reduktorom. Sve od ASA, koji podnosi sunce i kišu.",
+      it: "Appena uscito dalla stampante 3D, pronto per assemblare le unità di prova: l'imbuto con il vano elettronica, un coperchio con scanalatura per la guarnizione, il vano batteria, la base con il supporto motore, il rotore di dosaggio del mangime e il motoriduttore. Tutto in ASA, che resiste a sole e pioggia.",
+      de: "Frisch aus dem 3D-Drucker und bereit für den Zusammenbau der Testgeräte: der Trichter mit dem Elektronikgehäuse, ein Deckel mit Dichtungsnut, das Akkugehäuse, das Unterteil mit der Motorhalterung, der Dosierrotor für das Futter und der Getriebemotor. Alles aus ASA, das Sonne und Regen standhält."
+    },
+    photos: [
+      { src: "img/ZgorajNovi3Dprinti1.jpg",
+        cap: { sl: "Vsi deli, pogled z ene strani", en: "All the parts, seen from one side", hr: "Svi dijelovi, pogled s jedne strane",
+               it: "Tutte le parti, vista da un lato", de: "Alle Teile, von der einen Seite" } },
+      { src: "img/ZgorajNovi3Dprinti2.jpg",
+        cap: { sl: "Isti deli z druge strane", en: "The same parts from the other side", hr: "Isti dijelovi s druge strane",
+               it: "Le stesse parti dall'altro lato", de: "Dieselben Teile von der anderen Seite" } }
+    ]
+  },
+
+  {
     title: { sl: "Nova baterijska enota", en: "New battery unit", hr: "Nova baterijska jedinica",
              it: "Nuova unità batteria", de: "Neue Akkueinheit" },
     text: {

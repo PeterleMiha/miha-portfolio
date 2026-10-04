@@ -122,3 +122,20 @@ The Worker holds your Gemini key so it never appears in your website.
 - **Costs:** GitHub Pages free (site under 1 GB, 100 GB/month traffic), Cloudflare
   Workers free (100,000 requests/day), Gemini free tier (~1,500 chats/day). Plenty
   for a product landing page.
+
+---
+
+## App preview (`app/`)
+
+The phone icon (bottom-left of the main page) opens `app/index.html`, which frames
+the **real HuntersFeeder V3 web app** running on built-in demo data:
+
+- `app/demo-sl.html`, `app/demo-en.html` — generated, never edit by hand
+- `app/SOURCE.txt` — which V3 commit they were built from
+- `app/index.html` — the frame around them (bezel on desktop, full screen on phones)
+
+To refresh it after the app changes in V3 (builds from V3's last commit):
+
+```
+sh tools/update-app-demo.sh ~/HuntersFeeder-V3
+```

@@ -48,22 +48,32 @@ export default {
         body: JSON.stringify({
           system_instruction: { parts: [{ text: systemPrompt }] },
           contents,
-          generationConfig: { temperature: 0.4, maxOutputTokens: 800 }
+          /* thinkingBudget 0: on 2.5 Flash the model's hidden "thinking"
+             counts against maxOutputTokens, and a question that made it think
+             longer came back with no text at all ("…"). A product FAQ does
+             not need it. */
+          generationConfig: { temperature: 0.4, maxOutputTokens: 1024,
+                              thinkingConfig: { thinkingBudget: 0 } }
         })
       });
     } catch (e) {
       return cors(json({ error: "could not reach Gemini" }, 502));
     }
 
+    /* No upstream detail to the browser. 429 = the free tier's per-minute
+       limit (5 requests on gemini-2.5-flash); chat.js shows its own
+       translated "try again" text for any error. */
     if (!geminiRes.ok) {
-      const detail = await geminiRes.text();
-      return cors(json({ error: "Gemini error", status: geminiRes.status, detail }, 502));
+      return cors(json({ error: geminiRes.status === 429 ? "busy" : "upstream", status: geminiRes.status }, 502));
     }
 
     const data = await geminiRes.json();
     const reply = (data.candidates?.[0]?.content?.parts || [])
-      .map(p => p.text || "").join("").trim() || "…";
+      .map(p => p.text || "").join("").trim();
 
+    /* An empty answer is an error, not a reply: the client then shows its
+       translated error text instead of a bare "…". */
+    if (!reply) return cors(json({ error: "empty", finish: data.candidates?.[0]?.finishReason || null }, 502));
     return cors(json({ reply }));
   }
 };

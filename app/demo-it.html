@@ -3776,7 +3776,8 @@ HF.i18n.load({"it":{"app.save":"Salva","app.ok":"OK","app.edit":"Modifica","app.
    dusk, and the drawn status bar always says 9:41. On the website the visitor
    should see the app as it would look on their phone right now, so:
 
-     - the status bar shows the real local time,
+     - the status bar shows the real local time, and the device clock in
+       Feeding is the real time too (or what the visitor set it to),
      - dusk is today's real civil dusk at the demo position (Ljubljana),
      - "next feeding" is computed from the schedule the visitor has set
        (fixed time or dusk + offset), exactly as the device would,
@@ -3833,14 +3834,22 @@ HF.i18n.load({"it":{"app.save":"Salva","app.ok":"OK","app.edit":"Modifica","app.
     return best;
   }
 
+  /* Device clock = the visitor's real clock, plus whatever they set by hand in
+     Feeding > Device time, so practising that edit works and then keeps
+     ticking from the new value. The app's own boot-time set-time call sends
+     the phone clock, which leaves the offset at ~0. */
+  var offset = 0;
+
   var orig = HF.mock.handle;
   HF.mock.handle = function (method, path, body) {
+    if (method === "POST" && path === "/api/set-time" && body && body.epoch)
+      offset = body.epoch - Math.floor(Date.now() / 1000);
     var p = orig.apply(this, arguments);
     if (method !== "GET" || path !== "/api/state") return p;
     return p.then(function (s) {
       if (!s) return s;
       var now = Math.floor(Date.now() / 1000);
-      s["time.now"] = now;
+      s["time.now"] = now + offset;
       s["dusk.base_at"] = nextDusk(now, 0);
       var at = null;
       if (s["sched.enabled"]) {
@@ -3869,7 +3878,7 @@ HF.i18n.load({"it":{"app.save":"Salva","app.ok":"OK","app.edit":"Modifica","app.
     el.textContent = d.getHours() + ":" + ("0" + d.getMinutes()).slice(-2);
   }
   clock();
-  setInterval(clock, 5000);
+  setInterval(clock, 1000);
 
   /* ---- the mock's one hard-coded English string ------------------------------ */
   var DEMO = { sl: "Demo način · brez naprave", en: "Demo mode · no device",

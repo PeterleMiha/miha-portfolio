@@ -1,0 +1,385 @@
+<!doctype html>
+<html lang="sl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>HuntersFeeder — galerija</title>
+<meta name="description" content="Razvoj krmilnice HuntersFeeder od prve tiskanine do končnega izdelka — fotografije vseh revizij in videi testov.">
+<meta name="theme-color" content="#0C110D">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================================
+   Development gallery. Content comes from data.js (window.HF_GALLERY) - this
+   file is only the page. Revisions are shown newest first as a timeline; each
+   has a photo grid (lightbox on tap) and YouTube videos that load nothing from
+   YouTube until play is pressed.
+   ========================================================================= */
+:root{
+  --bg:#0C110D; --panel:#131A15; --panel-2:#1B2419; --line:rgba(255,255,255,.10);
+  --ink:#EFEDE4; --ink-2:#B9BCAE; --ink-3:#78826F;
+  --gold:#E9C37B; --gold-hi:#F5D89E;
+}
+*{box-sizing:border-box}
+html,body{margin:0;overflow-x:hidden}
+body{background:var(--bg);color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(110% 60% at 10% 0%,#18211A 0%,var(--bg) 55%)}
+a{color:var(--gold);text-decoration:none}
+a:hover{color:var(--gold-hi)}
+h1,h2,h3{font-family:'Bricolage Grotesque',sans-serif}
+button{font:inherit}
+
+/* ---- top bar ------------------------------------------------------------- */
+.bar{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;
+  padding:12px 20px;padding-top:calc(12px + env(safe-area-inset-top,0px));
+  background:rgba(12,17,13,.86);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--line)}
+.back{display:inline-flex;align-items:center;gap:8px;font-weight:650;font-size:15px;
+  padding:7px 12px 7px 8px;border-radius:999px;border:1px solid rgba(233,195,123,.45)}
+.back:hover{border-color:var(--gold);background:var(--panel-2)}
+.back svg{width:18px;height:18px}
+.bar .sp{flex:1}
+.lang{appearance:none;-webkit-appearance:none;cursor:pointer;font:inherit;font-size:13.5px;font-weight:700;
+  letter-spacing:.04em;color:var(--gold);background:var(--panel);border:1px solid rgba(233,195,123,.45);
+  border-radius:999px;padding:7px 30px 7px 14px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23E9C37B' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center}
+.lang option{background:var(--panel);color:var(--ink)}
+.lang:focus-visible,.back:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+
+/* ---- hero ---------------------------------------------------------------- */
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+.hero{padding:56px 0 28px}
+.kick{color:var(--gold);font-weight:700;font-size:13px;letter-spacing:.2em;text-transform:uppercase}
+.hero h1{font-size:clamp(32px,5.4vw,54px);line-height:1.04;letter-spacing:-.03em;margin:12px 0 16px;max-width:15ch}
+.hero p{color:var(--ink-2);font-size:17px;line-height:1.6;margin:0;max-width:62ch}
+
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin:30px 0 8px}
+.filters[hidden]{display:none}
+.chip{cursor:pointer;border:1px solid var(--line);background:var(--panel);color:var(--ink-2);
+  border-radius:999px;padding:8px 16px;font-size:14px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--gold);border-color:var(--gold);color:#171204}
+.chip:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.chip .n{opacity:.6;margin-left:6px;font-weight:500}
+
+/* ---- timeline ------------------------------------------------------------ */
+.tl{position:relative;padding:20px 0 80px}
+.tl::before{content:"";position:absolute;left:7px;top:28px;bottom:80px;width:2px;
+  background:linear-gradient(var(--gold),rgba(233,195,123,.08))}
+.tl.none::before{display:none}
+.rev{position:relative;padding-left:40px;margin-bottom:56px}
+.rev::before{content:"";position:absolute;left:0;top:8px;width:16px;height:16px;
+  background:var(--gold);transform:rotate(45deg);box-shadow:0 0 0 6px var(--bg)}
+.meta{display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--ink-3);font-size:14px;font-weight:600}
+.tag{color:var(--gold);border:1px solid rgba(233,195,123,.4);border-radius:999px;padding:2px 10px;font-size:12px;
+  letter-spacing:.08em;text-transform:uppercase}
+.rev h2{font-size:clamp(24px,3vw,32px);letter-spacing:-.02em;margin:8px 0 10px}
+.rev p.tx{color:var(--ink-2);font-size:16px;line-height:1.6;margin:0 0 20px;max-width:70ch;white-space:pre-line}
+
+.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.ph{position:relative;display:block;padding:0;border:0;cursor:zoom-in;border-radius:14px;overflow:hidden;
+  aspect-ratio:4/3;background:var(--panel);outline-offset:3px}
+.ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
+.ph:hover img{transform:scale(1.04)}
+.ph:focus-visible{outline:2px solid var(--gold)}
+.ph .cap{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 9px;text-align:left;font-size:13px;color:#fff;
+  background:linear-gradient(transparent,rgba(0,0,0,.72));opacity:0;transition:opacity .25s}
+.ph:hover .cap,.ph:focus-visible .cap{opacity:1}
+
+.vgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin-top:14px}
+.vid{border-radius:14px;overflow:hidden;background:var(--panel);border:1px solid var(--line)}
+.vid .fr{position:relative;aspect-ratio:16/9;background:#000}
+.vid .fr button{all:unset;cursor:pointer;position:absolute;inset:0;display:grid;place-items:center}
+.vid .fr img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.85;transition:opacity .25s}
+.vid .fr button:hover img{opacity:1}
+.vid .fr .play{position:relative;width:68px;height:48px;border-radius:14px;background:rgba(12,17,13,.82);
+  display:grid;place-items:center;border:1px solid rgba(233,195,123,.6)}
+.vid .fr button:hover .play{background:var(--gold)}
+.vid .fr button:hover .play svg{fill:#171204}
+.vid .fr .play svg{width:22px;height:22px;fill:var(--gold)}
+.vid .fr button:focus-visible .play{outline:2px solid var(--gold);outline-offset:3px}
+.vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid .vc{padding:12px 14px;font-size:14.5px;color:var(--ink-2)}
+
+.empty{padding:70px 24px;text-align:center;border:1px dashed rgba(233,195,123,.35);border-radius:20px;
+  color:var(--ink-2);background:rgba(19,26,21,.6);margin-top:24px}
+.empty h2{font-size:26px;margin:0 0 8px;color:var(--ink)}
+.empty p{margin:0 auto;max-width:48ch;line-height:1.6}
+
+/* ---- lightbox ------------------------------------------------------------ */
+.lb{position:fixed;inset:0;z-index:100;background:rgba(6,9,7,.95);display:none;
+  align-items:center;justify-content:center;flex-direction:column;padding:56px 12px 20px;touch-action:pan-y}
+.lb.on{display:flex}
+.lb img{max-width:100%;max-height:calc(100dvh - 140px);object-fit:contain;border-radius:8px;user-select:none}
+.lb .lc{color:var(--ink-2);font-size:15px;margin-top:14px;text-align:center;min-height:1.4em;max-width:70ch}
+.lb .ln{color:var(--ink-3);font-size:13px;margin-top:4px}
+.lb button{position:absolute;cursor:pointer;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);
+  background:rgba(19,26,21,.9);color:var(--ink);display:grid;place-items:center}
+.lb button:hover{border-color:var(--gold);color:var(--gold)}
+.lb button svg{width:22px;height:22px}
+.lb .x{top:calc(12px + env(safe-area-inset-top,0px));right:12px}
+.lb .pv{left:14px;top:50%;transform:translateY(-50%)}
+.lb .nx{right:14px;top:50%;transform:translateY(-50%)}
+@media (max-width:640px){
+  .bar{padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top,0px))}
+  .back span{display:none}.back{padding:7px}
+  .hero{padding:34px 0 14px}
+  .grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .ph{border-radius:10px}
+  .vgrid{grid-template-columns:1fr}
+  .rev{padding-left:30px}
+  .lb .pv,.lb .nx{top:auto;bottom:16px;transform:none}
+  .lb img{max-height:calc(100dvh - 190px)}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <a class="back" href="../index.html" data-i18n-aria="back">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>
+    <span>HuntersFeeder</span>
+  </a>
+  <span class="sp"></span>
+  <select id="lang" class="lang" data-i18n-aria="lang">
+    <option value="sl">SL</option><option value="en">EN</option><option value="hr">HR</option>
+    <option value="it">IT</option><option value="de">DE</option>
+  </select>
+</header>
+
+<main class="wrap">
+  <section class="hero">
+    <div class="kick" data-i18n="kick">Galerija</div>
+    <h1 data-i18n="h">Od prve tiskanine do krmilnice v gozdu.</h1>
+    <p data-i18n="lead">Vsaka revizija, vsak test in vsaka napaka, ki je naredila HuntersFeeder boljši. Tako je nastajal izdelek, ki ga dobite.</p>
+    <div class="filters" id="filters" role="group">
+      <button class="chip" data-f="all" aria-pressed="true"><span data-i18n="f_all">Vse</span><span class="n" id="nAll"></span></button>
+      <button class="chip" data-f="photo" aria-pressed="false"><span data-i18n="f_ph">Fotografije</span><span class="n" id="nPh"></span></button>
+      <button class="chip" data-f="video" aria-pressed="false"><span data-i18n="f_vid">Videi</span><span class="n" id="nVid"></span></button>
+    </div>
+  </section>
+
+  <section class="tl" id="tl" aria-live="polite"></section>
+</main>
+
+<div class="lb" id="lb" role="dialog" aria-modal="true">
+  <button class="x" id="lbX" data-i18n-aria="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="pv" id="lbP" data-i18n-aria="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+  <img id="lbI" alt="">
+  <div class="lc" id="lbC"></div>
+  <div class="ln" id="lbN"></div>
+  <button class="nx" id="lbN2" data-i18n-aria="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+</div>
+
+<script src="data.js"></script>
+<script>
+(function () {
+  var T = {
+    sl: { back:"Nazaj na glavno stran", lang:"Jezik", kick:"Galerija", title:"galerija",
+      h:"Od prve tiskanine do krmilnice v gozdu.",
+      lead:"Vsaka revizija, vsak test in vsaka napaka, ki je naredila HuntersFeeder boljši. Tako je nastajal izdelek, ki ga dobite.",
+      f_all:"Vse", f_ph:"Fotografije", f_vid:"Videi", close:"Zapri", prev:"Prejšnja", next:"Naslednja", play:"Predvajaj video",
+      e_h:"Galerija se polni", e_p:"Fotografije revizij in videi testov prihajajo kmalu. Medtem si lahko ogledate aplikacijo.",
+      e_a:"Preizkusi aplikacijo →", months:["jan","feb","mar","apr","maj","jun","jul","avg","sep","okt","nov","dec"] },
+    en: { back:"Back to the main page", lang:"Language", kick:"Gallery", title:"gallery",
+      h:"From the first circuit board to a feeder in the forest.",
+      lead:"Every revision, every test and every mistake that made HuntersFeeder better. This is how the product you get came to be.",
+      f_all:"All", f_ph:"Photos", f_vid:"Videos", close:"Close", prev:"Previous", next:"Next", play:"Play video",
+      e_h:"The gallery is filling up", e_p:"Photos of every revision and videos of the tests are coming soon. In the meantime, try the app.",
+      e_a:"Try the app →", months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"] },
+    hr: { back:"Natrag na glavnu stranicu", lang:"Jezik", kick:"Galerija", title:"galerija",
+      h:"Od prve tiskane pločice do hranilice u šumi.",
+      lead:"Svaka revizija, svaki test i svaka greška koja je HuntersFeeder učinila boljim. Tako je nastajao proizvod koji dobivate.",
+      f_all:"Sve", f_ph:"Fotografije", f_vid:"Videozapisi", close:"Zatvori", prev:"Prethodna", next:"Sljedeća", play:"Pokreni video",
+      e_h:"Galerija se puni", e_p:"Fotografije revizija i videozapisi testova stižu uskoro. U međuvremenu isprobajte aplikaciju.",
+      e_a:"Isprobaj aplikaciju →", months:["sij","velj","ožu","tra","svi","lip","srp","kol","ruj","lis","stu","pro"] },
+    it: { back:"Torna alla pagina principale", lang:"Lingua", kick:"Galleria", title:"galleria",
+      h:"Dal primo circuito stampato al distributore nel bosco.",
+      lead:"Ogni revisione, ogni test e ogni errore che ha reso HuntersFeeder migliore. Così è nato il prodotto che ricevi.",
+      f_all:"Tutto", f_ph:"Foto", f_vid:"Video", close:"Chiudi", prev:"Precedente", next:"Successiva", play:"Riproduci video",
+      e_h:"La galleria si sta riempiendo", e_p:"Le foto di ogni revisione e i video dei test arriveranno presto. Nel frattempo prova l'app.",
+      e_a:"Prova l'app →", months:["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"] },
+    de: { back:"Zurück zur Hauptseite", lang:"Sprache", kick:"Galerie", title:"Galerie",
+      h:"Von der ersten Leiterplatte zum Futterautomaten im Wald.",
+      lead:"Jede Revision, jeder Test und jeder Fehler, der HuntersFeeder besser gemacht hat. So ist das Produkt entstanden, das Sie bekommen.",
+      f_all:"Alle", f_ph:"Fotos", f_vid:"Videos", close:"Schließen", prev:"Zurück", next:"Weiter", play:"Video abspielen",
+      e_h:"Die Galerie füllt sich", e_p:"Fotos jeder Revision und Videos der Tests folgen in Kürze. Probieren Sie inzwischen die App aus.",
+      e_a:"App ausprobieren →", months:["Jan.","Feb.","März","Apr.","Mai","Juni","Juli","Aug.","Sep.","Okt.","Nov.","Dez."] }
+  };
+
+  var DATA = (window.HF_GALLERY || []).slice().sort(function (a, b) {
+    return String(b.date || "").localeCompare(String(a.date || ""));
+  });
+
+  var lang = "sl", filter = "all";
+  var tl = document.getElementById("tl");
+  var pick = document.getElementById("lang");
+
+  function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+  function put(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  /* A text field is a string or {sl:..,en:..}. */
+  function tx(v) {
+    if (v == null) return "";
+    if (typeof v === "string") return v;
+    return v[lang] || v.en || v.sl || v[Object.keys(v)[0]] || "";
+  }
+  function fmtDate(d) {
+    var m = /^(\d{4})-(\d{2})(?:-(\d{2}))?/.exec(String(d || ""));
+    if (!m) return esc(d || "");
+    var mon = T[lang].months[+m[2] - 1] || m[2];
+    return (m[3] ? (+m[3]) + ". " : "") + mon + " " + m[1];
+  }
+
+  // ---- render ---------------------------------------------------------------
+  var flat = [];                     /* every photo currently shown, for the lightbox */
+
+  function render() {
+    var t = T[lang], html = [], nPh = 0, nVid = 0;
+    flat = [];
+    DATA.forEach(function (r) { nPh += (r.photos || []).length; nVid += (r.videos || []).length; });
+    document.getElementById("nAll").textContent = nPh + nVid ? (nPh + nVid) : "";
+    document.getElementById("nPh").textContent = nPh || "";
+    document.getElementById("nVid").textContent = nVid || "";
+
+    DATA.forEach(function (r, ri) {
+      var ph = filter === "video" ? [] : (r.photos || []);
+      var vi = filter === "photo" ? [] : (r.videos || []);
+      if (!ph.length && !vi.length && filter !== "all") return;
+      var h = '<article class="rev">' +
+        '<div class="meta"><span>' + fmtDate(r.date) + '</span>' +
+        (r.tag ? '<span class="tag">' + esc(tx(r.tag)) + '</span>' : '') + '</div>' +
+        (r.title ? '<h2>' + esc(tx(r.title)) + '</h2>' : '') +
+        (r.text ? '<p class="tx">' + esc(tx(r.text)) + '</p>' : '');
+      if (ph.length) {
+        h += '<div class="grid">';
+        ph.forEach(function (p) {
+          var cap = tx(p.cap), i = flat.length;
+          flat.push({ src: p.src, cap: cap, rev: tx(r.title) });
+          h += '<button class="ph" data-i="' + i + '" aria-label="' + esc(cap || tx(r.title)) + '">' +
+               '<img src="' + esc(p.src) + '" alt="' + esc(cap || tx(r.title)) + '" loading="lazy" decoding="async">' +
+               (cap ? '<span class="cap">' + esc(cap) + '</span>' : '') + '</button>';
+        });
+        h += '</div>';
+      }
+      if (vi.length) {
+        h += '<div class="vgrid">';
+        vi.forEach(function (v) {
+          var id = String(v.yt || "").replace(/[^\w-]/g, ""), cap = tx(v.cap);
+          h += '<div class="vid"><div class="fr" data-yt="' + id + '">' +
+               '<button aria-label="' + esc(t.play + (cap ? ": " + cap : "")) + '">' +
+               '<img src="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg" alt="" loading="lazy">' +
+               '<span class="play"><svg viewBox="0 0 24 24"><path d="M8 5.5v13l11-6.5z"/></svg></span>' +
+               '</button></div>' + (cap ? '<div class="vc">' + esc(cap) + '</div>' : '') + '</div>';
+        });
+        h += '</div>';
+      }
+      html.push(h + '</article>');
+    });
+
+    if (!html.length) {
+      tl.innerHTML = '<div class="empty"><h2>' + esc(t.e_h) + '</h2><p>' + esc(t.e_p) +
+        '</p><p style="margin-top:18px"><a href="../app/index.html">' + esc(t.e_a) + '</a></p></div>';
+      document.getElementById("filters").hidden = true;
+      tl.classList.add("none");
+      return;
+    }
+    document.getElementById("filters").hidden = false;
+    tl.classList.remove("none");
+    tl.innerHTML = html.join("");
+  }
+
+  /* Videos: nothing from YouTube until play is pressed (no cookies, no
+     player JS for visitors who only look at photos). */
+  tl.addEventListener("click", function (e) {
+    var b = e.target.closest(".ph");
+    if (b) { open(+b.getAttribute("data-i")); return; }
+    var v = e.target.closest(".fr button");
+    if (v) {
+      var fr = v.parentNode, id = fr.getAttribute("data-yt");
+      fr.innerHTML = '<iframe src="https://www.youtube-nocookie.com/embed/' + id +
+        '?autoplay=1&rel=0&modestbranding=1" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen title="YouTube"></iframe>';
+    }
+  });
+
+  // ---- lightbox -------------------------------------------------------------
+  var lb = document.getElementById("lb"), lbI = document.getElementById("lbI"),
+      lbC = document.getElementById("lbC"), lbN = document.getElementById("lbN"), cur = 0, last = null;
+  function show(i) {
+    cur = (i + flat.length) % flat.length;
+    var p = flat[cur];
+    lbI.src = p.src; lbI.alt = p.cap || p.rev || "";
+    lbC.textContent = p.cap ? p.cap + (p.rev ? " — " + p.rev : "") : (p.rev || "");
+    lbN.textContent = (cur + 1) + " / " + flat.length;
+  }
+  function open(i) {
+    last = document.activeElement;
+    show(i); lb.classList.add("on"); document.body.style.overflow = "hidden";
+    document.getElementById("lbX").focus();
+  }
+  function close() {
+    lb.classList.remove("on"); document.body.style.overflow = ""; lbI.removeAttribute("src");
+    if (last) last.focus();
+  }
+  document.getElementById("lbX").onclick = close;
+  document.getElementById("lbP").onclick = function () { show(cur - 1); };
+  document.getElementById("lbN2").onclick = function () { show(cur + 1); };
+  lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
+  document.addEventListener("keydown", function (e) {
+    if (!lb.classList.contains("on")) return;
+    if (e.key === "Escape") close();
+    else if (e.key === "ArrowLeft") show(cur - 1);
+    else if (e.key === "ArrowRight") show(cur + 1);
+  });
+  var x0 = null;
+  lb.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
+  lb.addEventListener("touchend", function (e) {
+    if (x0 === null) return;
+    var dx = e.changedTouches[0].clientX - x0; x0 = null;
+    if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+  });
+
+  // ---- filters + language ---------------------------------------------------
+  document.getElementById("filters").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-f]"); if (!b) return;
+    filter = b.getAttribute("data-f");
+    document.querySelectorAll("[data-f]").forEach(function (c) {
+      c.setAttribute("aria-pressed", c === b ? "true" : "false");
+    });
+    render();
+  });
+
+  /* Same hf_lang key as the main page and the app preview, both directions. */
+  function setLang(l, persist) {
+    lang = l;
+    var t = T[l];
+    document.documentElement.lang = l;
+    document.title = "HuntersFeeder — " + t.title;
+    document.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var v = t[el.getAttribute("data-i18n")]; if (v) el.textContent = v;
+    });
+    document.querySelectorAll("[data-i18n-aria]").forEach(function (el) {
+      var v = t[el.getAttribute("data-i18n-aria")]; if (v) el.setAttribute("aria-label", v);
+    });
+    pick.value = l;
+    if (persist) put("hf_lang", l);
+    render();
+  }
+  var site = get("hf_lang");
+  if (!T[site]) {
+    var n = (navigator.language || "").slice(0, 2).toLowerCase();
+    site = T[n] ? n : "sl";
+  }
+  pick.addEventListener("change", function () { setLang(pick.value, true); });
+  setLang(site, false);
+})();
+</script>
+</body>
+</html>

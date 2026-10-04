@@ -68,6 +68,28 @@ summary::marker{color:#E9C37B}
 @media (max-width:640px){#appDemo{left:16px;bottom:18px;width:50px;height:50px}
   #appDemo .ph{width:22px;height:22px}}
 
+/* Six nav links since the gallery: between the 860px cut-off and ~1060px they
+   no longer fit at full spacing, and a two-word link wrapped onto two lines. */
+#topnav [data-hm] a{white-space:nowrap}
+@media (max-width:1060px){#topnav [data-hm]{gap:16px !important;font-size:14px !important}}
+
+/* ---- Floating "gallery" button: same look, one slot higher ---------------- */
+#galDemo{position:fixed;left:22px;bottom:92px;z-index:70;width:56px;height:56px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:#131A15;border:1px solid rgba(233,195,123,0.55);color:#E9C37B;
+  box-shadow:0 10px 26px -8px rgba(0,0,0,0.7);
+  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease}
+#galDemo:hover{background:#1B2419;border-color:#E9C37B;color:#F5D89E;
+  box-shadow:0 12px 32px -8px rgba(0,0,0,0.85)}
+#galDemo:focus-visible{outline:2px solid #E9C37B;outline-offset:3px}
+#galDemo .ph{width:25px;height:25px;display:block}
+#galDemo .lbl{position:absolute;left:68px;white-space:nowrap;opacity:0;pointer-events:none;
+  background:rgba(10,14,11,0.95);border:1px solid rgba(255,255,255,0.12);color:#EFEDE4;
+  font-size:13.5px;font-weight:600;padding:8px 12px;border-radius:10px;transition:opacity .2s ease}
+#galDemo:hover .lbl,#galDemo:focus-visible .lbl{opacity:1}
+@media (max-width:640px){#galDemo{left:16px;bottom:78px;width:50px;height:50px}
+  #galDemo .ph{width:22px;height:22px}}
+
 /* ---- Nav on narrow phones --------------------------------------------------
    The middle links already hide below 860px ([data-hm] rule above); below
    that, only the logo + language select + Reserve button remain. Shrinking
@@ -104,6 +126,7 @@ summary::marker{color:#E9C37B}
       <a href="#delovanje" data-i18n="nav_h" style="color:#C9D0C3">Delovanje</a>
       <a href="#cena" data-i18n="nav_p" style="color:#C9D0C3">Cena</a>
       <a href="#faq" data-i18n="nav_q" style="color:#C9D0C3">Vprašanja</a>
+      <a href="galerija/index.html" data-i18n="nav_g" style="color:#C9D0C3">Galerija</a>
       <a href="#kontakt" data-i18n="nav_c" style="color:#C9D0C3">Kontakt</a>
     </div>
     <select id="langSel" aria-label="Jezik" title="Jezik / Language" style="margin-left:auto;background:#131A15;color:#EFEDE4;border:1px solid rgba(255,255,255,0.15);border-radius:10px;padding:8px 10px;font-size:14px;font-family:inherit;cursor:pointer">
@@ -425,6 +448,7 @@ summary::marker{color:#E9C37B}
       <a href="mailto:mihapeterlea@gmail.com">mihapeterlea@gmail.com</a>
       <a href="tel:+38641435803">+386 41 435 803</a>
       <a href="manual.html" data-i18n="ftr_m">Priročnik za uporabo</a>
+      <a href="galerija/index.html" data-i18n="ftr_g">Galerija razvoja</a>
     </div>
   </div>
 </footer>
@@ -444,6 +468,17 @@ summary::marker{color:#E9C37B}
       <path d="M10.4 5.4h3.2"/><path d="M10.9 18.5h2.2"/>
     </svg>
     <span class="lbl" data-i18n="fl_app">Preizkusi aplikacijo</span>
+  </a>
+
+  <!-- Camera → the development gallery. Stacked above #appDemo in the same
+       corner and the same style, without the buzz: one moving icon is enough. -->
+  <a id="galDemo" href="galerija/index.html">
+    <svg class="ph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a1 1 0 0 1 1-1z"/>
+      <circle cx="12" cy="13.3" r="3.4"/>
+    </svg>
+    <span class="lbl" data-i18n="fl_gal">Galerija razvoja</span>
   </a>
 
 <!-- ==========================================================
@@ -507,7 +542,7 @@ summary::marker{color:#E9C37B}
       fm_h:"Reserve your HuntersFeeder", fm_s:"Leave your details and I'll get back to you within 24 hours. Test units are limited — first come, first served.",
       fm_nm:"Name", fm_em:"Email", fm_ph:"Phone (optional)", fm_ms:"Message — how many units, when, questions …", fm_bt:"Send inquiry", fm_nt:"I reply personally, usually the same day.",
       ftr_m:"User manual", ftr_r:"All rights reserved.", fl_cta:"I'm interested",
-      fl_app:"Try the app"
+      fl_app:"Try the app", fl_gal:"Development gallery", nav_g:"Gallery", ftr_g:"Development gallery"
     },
     de: {
       nav_f:"Vorteile", nav_h:"Funktionsweise", nav_p:"Preis", nav_q:"Fragen", nav_c:"Kontakt", nav_cta:"Reservieren",
@@ -553,7 +588,7 @@ summary::marker{color:#E9C37B}
       fm_h:"Reservieren Sie Ihren HuntersFeeder", fm_s:"Hinterlassen Sie Ihre Daten — ich melde mich innerhalb von 24 Stunden. Testgeräte sind begrenzt.",
       fm_nm:"Name", fm_em:"E-Mail", fm_ph:"Telefon (optional)", fm_ms:"Nachricht — Stückzahl, Zeitraum, Fragen …", fm_bt:"Anfrage senden", fm_nt:"Ich antworte persönlich, meist noch am selben Tag.",
       ftr_m:"Handbuch", ftr_r:"Alle Rechte vorbehalten.", fl_cta:"Ich habe Interesse",
-      fl_app:"App ausprobieren"
+      fl_app:"App ausprobieren", fl_gal:"Entwicklungsgalerie", nav_g:"Galerie", ftr_g:"Entwicklungsgalerie"
     },
     it: {
       nav_f:"Vantaggi", nav_h:"Come funziona", nav_p:"Prezzo", nav_q:"Domande", nav_c:"Contatto", nav_cta:"Prenota",
@@ -599,7 +634,7 @@ summary::marker{color:#E9C37B}
       fm_h:"Prenota il tuo HuntersFeeder", fm_s:"Lascia i tuoi dati e ti risponderò entro 24 ore. Le unità di prova sono limitate.",
       fm_nm:"Nome", fm_em:"Email", fm_ph:"Telefono (facoltativo)", fm_ms:"Messaggio — quante unità, quando, domande …", fm_bt:"Invia richiesta", fm_nt:"Rispondo personalmente, di solito in giornata.",
       ftr_m:"Manuale d'uso", ftr_r:"Tutti i diritti riservati.", fl_cta:"Mi interessa",
-      fl_app:"Prova l'app"
+      fl_app:"Prova l'app", fl_gal:"Galleria dello sviluppo", nav_g:"Galleria", ftr_g:"Galleria dello sviluppo"
     },
     hr: {
       nav_f:"Prednosti", nav_h:"Kako radi", nav_p:"Cijena", nav_q:"Pitanja", nav_c:"Kontakt", nav_cta:"Rezerviraj",
@@ -645,7 +680,7 @@ summary::marker{color:#E9C37B}
       fm_h:"Rezerviraj svoj HuntersFeeder", fm_s:"Ostavi podatke i javit ću se u roku 24 sata. Testnih primjeraka je ograničen broj.",
       fm_nm:"Ime", fm_em:"Email", fm_ph:"Telefon (neobavezno)", fm_ms:"Poruka — koliko primjeraka, kada, pitanja …", fm_bt:"Pošalji upit", fm_nt:"Odgovaram osobno, obično isti dan.",
       ftr_m:"Priručnik", ftr_r:"Sva prava pridržana.", fl_cta:"Zanima me",
-      fl_app:"Isprobaj aplikaciju"
+      fl_app:"Isprobaj aplikaciju", fl_gal:"Galerija razvoja", nav_g:"Galerija", ftr_g:"Galerija razvoja"
     }
   };
   TR.sl = {};

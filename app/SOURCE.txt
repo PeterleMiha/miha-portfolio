@@ -1,1 +1,1 @@
-75355cd 2026-10-04 Daily SMS limit with 80 % notice and PONASTAVI (H7)
+9a05e3f 2026-10-04 Fresh SMS time may pull a fast clock back; NTP over data switched off

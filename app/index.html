@@ -10,8 +10,8 @@
 /* ============================================================================
    App preview wrapper.
 
-   The phone screen is the REAL HuntersFeeder V3 web app (demo-sl.html /
-   demo-en.html), built by tools/update-app-demo.sh from the firmware repo with
+   The phone screen is the REAL HuntersFeeder V3 web app (demo-<lang>.html,
+   sl/en/hr/it/de), built by tools/update-app-demo.sh from the firmware repo with
    its demo backend inlined. Nothing in those two files is hand-edited; this
    page only frames them. Desktop: a bezel scaled to fit the window, with a
    short guide beside it. Phone: the app fills the screen under a slim bar,
@@ -42,11 +42,14 @@ a:hover{color:var(--gold-hi)}
 .back svg{width:18px;height:18px}
 .bar .ttl{flex:1;min-width:0;font-weight:700;letter-spacing:-.01em;white-space:nowrap;
   overflow:hidden;text-overflow:ellipsis;color:var(--ink-2);font-size:14.5px}
-.seg{display:inline-flex;border:1px solid var(--line);border-radius:999px;padding:3px;background:var(--panel)}
-.seg button{all:unset;cursor:pointer;font-size:13px;font-weight:700;letter-spacing:.04em;
-  padding:5px 11px;border-radius:999px;color:var(--ink-2)}
-.seg button[aria-pressed="true"]{background:var(--gold);color:#171204}
-.seg button:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.lang{appearance:none;-webkit-appearance:none;cursor:pointer;font:inherit;font-size:13.5px;font-weight:700;
+  letter-spacing:.04em;color:var(--gold);background:var(--panel);border:1px solid rgba(233,195,123,.45);
+  border-radius:999px;padding:7px 30px 7px 14px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M1 1l4 4 4-4' fill='none' stroke='%23E9C37B' stroke-width='1.6'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center}
+.lang:hover{border-color:var(--gold)}
+.lang:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.lang option{background:#131A15;color:var(--ink)}
 
 /* ---- desktop stage ------------------------------------------------------- */
 .stage{display:flex;gap:56px;align-items:center;justify-content:center;
@@ -103,10 +106,10 @@ a:hover{color:var(--gold-hi)}
   </a>
   <span class="ttl" data-i18n="bar">Aplikacija — interaktivni predogled</span>
   <span class="hint"><a id="fullM" href="demo-sl.html" data-i18n="full_s">Celozaslonsko</a></span>
-  <div class="seg" role="group" data-i18n-aria="lang">
-    <button type="button" data-al="sl" aria-pressed="true">SL</button>
-    <button type="button" data-al="en" aria-pressed="false">EN</button>
-  </div>
+  <select id="lang" class="lang" data-i18n-aria="lang">
+    <option value="sl">SL</option><option value="en">EN</option><option value="hr">HR</option>
+    <option value="it">IT</option><option value="de">DE</option>
+  </select>
 </header>
 
 <main class="stage">
@@ -133,12 +136,11 @@ a:hover{color:var(--gold-hi)}
 
 <script>
 (function () {
-  /* Page text in the site's five languages. The app itself ships in
-     Slovene and English only (that is what the firmware has), so hr/it/de
-     visitors get the English app with their own language around it. */
+  /* Page text in the site's five languages. The app inside the phone is built
+     in the same five (demo-<lang>.html, see tools/update-app-demo.sh). */
   var T = {
     sl: { back:"Nazaj na glavno stran", home:"HuntersFeeder", bar:"Aplikacija — interaktivni predogled",
-      lang:"Jezik aplikacije", kick:"Aplikacija", h:"Vse nastavitve na telefonu, brez namestitve.",
+      lang:"Jezik", kick:"Aplikacija", h:"Vse nastavitve na telefonu, brez namestitve.",
       lead:"To je prava aplikacija, ki teče na krmilnici. Ob servisu se povežete na njen WiFi in odpre se v brskalniku — brez trgovine z aplikacijami, brez računa, brez interneta. Tukaj teče z demo podatki, zato lahko vse preizkusite.",
       t1:"Pregled: zaloga krme, baterija, signal in naslednje krmljenje na enem zaslonu.",
       t2:"Krmljenje: urnik, ob mraku ali ob točnih urah, in čas delovanja motorja.",
@@ -147,7 +149,7 @@ a:hover{color:var(--gold-hi)}
       full:"Odpri čez cel zaslon ↗", full_s:"Celozaslonsko",
       note:"Demo: podatki so izmišljeni, spremembe ostanejo samo v tem brskalniku. Po zavihkih se lahko premikate tudi s potegom." },
     en: { back:"Back to the main page", home:"HuntersFeeder", bar:"The app — interactive preview",
-      lang:"App language", kick:"The app", h:"Every setting on your phone, nothing to install.",
+      lang:"Language", kick:"The app", h:"Every setting on your phone, nothing to install.",
       lead:"This is the real app that runs on the feeder. During a service visit you join its WiFi and it opens in your browser — no app store, no account, no internet. Here it runs on demo data, so go ahead and try everything.",
       t1:"Overview: feed level, battery, signal and the next feeding on one screen.",
       t2:"Feeding: schedule at dusk or at set times, and how long the motor runs.",
@@ -156,7 +158,7 @@ a:hover{color:var(--gold-hi)}
       full:"Open full screen ↗", full_s:"Full screen",
       note:"Demo: the data is made up and changes stay in this browser only. You can also swipe between tabs." },
     hr: { back:"Natrag na glavnu stranicu", home:"HuntersFeeder", bar:"Aplikacija — interaktivni pregled",
-      lang:"Jezik aplikacije", kick:"Aplikacija", h:"Sve postavke na mobitelu, bez instalacije.",
+      lang:"Jezik", kick:"Aplikacija", h:"Sve postavke na mobitelu, bez instalacije.",
       lead:"Ovo je prava aplikacija koja radi na hranilici. Pri servisu se spojite na njezin WiFi i otvori se u pregledniku — bez trgovine aplikacija, bez računa, bez interneta. Ovdje radi s demo podacima pa slobodno isprobajte sve.",
       t1:"Pregled: zaliha hrane, baterija, signal i sljedeće hranjenje na jednom zaslonu.",
       t2:"Hranjenje: raspored u sumrak ili u točno vrijeme te trajanje rada motora.",
@@ -165,7 +167,7 @@ a:hover{color:var(--gold-hi)}
       full:"Otvori preko cijelog zaslona ↗", full_s:"Cijeli zaslon",
       note:"Demo: podaci su izmišljeni, promjene ostaju samo u ovom pregledniku. Između kartica možete i povlačiti prstom." },
     it: { back:"Torna alla pagina principale", home:"HuntersFeeder", bar:"L'app — anteprima interattiva",
-      lang:"Lingua dell'app", kick:"L'app", h:"Tutte le impostazioni sul telefono, senza installare nulla.",
+      lang:"Lingua", kick:"L'app", h:"Tutte le impostazioni sul telefono, senza installare nulla.",
       lead:"Questa è la vera app che gira sul distributore. Durante la manutenzione ti colleghi al suo WiFi e si apre nel browser — niente app store, niente account, niente internet. Qui gira con dati demo, quindi prova pure tutto.",
       t1:"Panoramica: livello del mangime, batteria, segnale e prossima distribuzione in una schermata.",
       t2:"Alimentazione: programma al tramonto o a orari fissi e durata del motore.",
@@ -174,7 +176,7 @@ a:hover{color:var(--gold-hi)}
       full:"Apri a schermo intero ↗", full_s:"Schermo intero",
       note:"Demo: i dati sono inventati e le modifiche restano solo in questo browser. Puoi anche scorrere tra le schede." },
     de: { back:"Zurück zur Hauptseite", home:"HuntersFeeder", bar:"Die App — interaktive Vorschau",
-      lang:"App-Sprache", kick:"Die App", h:"Alle Einstellungen am Handy, ohne Installation.",
+      lang:"Sprache", kick:"Die App", h:"Alle Einstellungen am Handy, ohne Installation.",
       lead:"Das ist die echte App, die auf dem Futterautomaten läuft. Bei der Wartung verbinden Sie sich mit seinem WLAN und sie öffnet sich im Browser — kein App Store, kein Konto, kein Internet. Hier läuft sie mit Demodaten, probieren Sie also alles aus.",
       t1:"Übersicht: Futterstand, Akku, Signal und die nächste Fütterung auf einem Bildschirm.",
       t2:"Fütterung: Zeitplan zur Dämmerung oder zu festen Zeiten und Laufzeit des Motors.",
@@ -187,42 +189,37 @@ a:hover{color:var(--gold-hi)}
   function get(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
   function put(k, v) { try { localStorage.setItem(k, v); } catch (e) {} }
 
-  // Same key the main site writes (index.html), so the language carries over.
+  var frame = document.getElementById('app');
+  var links = [document.getElementById('full'), document.getElementById('fullM')];
+  var pick = document.getElementById('lang');
+
+  /* One language for everything: this page, the guide and the app inside the
+     phone. hf_lang is the key the main site (index.html) reads and writes, so
+     a change here carries back to the home page and the other way round. */
+  function setLang(l, persist) {
+    var t = T[l];
+    document.documentElement.lang = l;
+    document.title = 'HuntersFeeder — ' + t.kick;
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      var v = t[el.getAttribute('data-i18n')]; if (v) el.textContent = v;
+    });
+    document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
+      var v = t[el.getAttribute('data-i18n-aria')]; if (v) el.setAttribute('aria-label', v);
+    });
+    var src = 'demo-' + l + '.html';
+    if (frame.getAttribute('src') !== src) frame.setAttribute('src', src);
+    links.forEach(function (a) { a.href = src; });
+    pick.value = l;
+    if (persist) put('hf_lang', l);
+  }
+
   var site = get('hf_lang');
   if (!T[site]) {
     var n = (navigator.language || '').slice(0, 2).toLowerCase();
     site = T[n] ? n : 'sl';
   }
-  var t = T[site];
-  document.documentElement.lang = site;
-  document.title = 'HuntersFeeder — ' + t.kick;
-  document.querySelectorAll('[data-i18n]').forEach(function (el) {
-    var v = t[el.getAttribute('data-i18n')]; if (v) el.textContent = v;
-  });
-  document.querySelectorAll('[data-i18n-aria]').forEach(function (el) {
-    var v = t[el.getAttribute('data-i18n-aria')]; if (v) el.setAttribute('aria-label', v);
-  });
-
-  // ---- which app build ------------------------------------------------------
-  var frame = document.getElementById('app');
-  var links = [document.getElementById('full'), document.getElementById('fullM')];
-  var appLang = get('hf_app_lang');
-  if (appLang !== 'sl' && appLang !== 'en') appLang = site === 'sl' ? 'sl' : 'en';
-
-  function setApp(l, persist) {
-    appLang = l;
-    var src = 'demo-' + l + '.html';
-    if (frame.getAttribute('src') !== src) frame.setAttribute('src', src);
-    links.forEach(function (a) { a.href = src; });
-    document.querySelectorAll('[data-al]').forEach(function (b) {
-      b.setAttribute('aria-pressed', b.getAttribute('data-al') === l ? 'true' : 'false');
-    });
-    if (persist) put('hf_app_lang', l);
-  }
-  document.querySelectorAll('[data-al]').forEach(function (b) {
-    b.addEventListener('click', function () { setApp(b.getAttribute('data-al'), true); });
-  });
-  setApp(appLang, false);
+  pick.addEventListener('change', function () { setLang(pick.value, true); });
+  setLang(site, false);
 
   // ---- layout ---------------------------------------------------------------
   var mq = window.matchMedia('(max-width:760px),(max-height:560px)');

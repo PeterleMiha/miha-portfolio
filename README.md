@@ -130,7 +130,11 @@ The Worker holds your Gemini key so it never appears in your website.
 The phone icon (bottom-left of the main page) opens `app/index.html`, which frames
 the **real HuntersFeeder V3 web app** running on built-in demo data:
 
-- `app/demo-sl.html`, `app/demo-en.html` — generated, never edit by hand
+- `app/demo-{sl,en,hr,it,de}.html` — generated, never edit by hand. Slovene and
+  English come from V3; Croatian, Italian and German from `tools/lang/*.json`
+  (English shows for any string V3 adds until it is translated there)
+- `tools/demo-extras.js` — added to every build: real clock, today's real dusk,
+  real "next feeding" from the schedule
 - `app/SOURCE.txt` — which V3 commit they were built from
 - `app/index.html` — the frame around them (bezel on desktop, full screen on phones)
 
@@ -139,3 +143,12 @@ To refresh it after the app changes in V3 (builds from V3's last commit):
 ```
 sh tools/update-app-demo.sh ~/HuntersFeeder-V3
 ```
+
+---
+
+## Development gallery (`galerija/`)
+
+Reached from the "Galerija" nav link, the footer, and the camera button above the
+phone icon. All content is in **`galerija/data.js`** — one entry per revision with
+photos (`galerija/img/<folder>/...`) and YouTube video IDs. The format is
+described at the top of that file; the page itself never needs editing.

@@ -5,6 +5,27 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HuntersFeeder – Pametna rešitev za sodobne lovce</title>
 <meta name="description" content="HuntersFeeder – pametni krmilnik za divjad. Samodejno krmljenje po urniku in SMS-nadzor od koderkoli. Brez interneta, brez aplikacij, brez naročnine.">
+<!-- Search engines: one URL per language (?lang=xx), the canonical follows it.
+     Without ?lang the page is Slovenian for crawlers (see initLang). -->
+<script>(function(){var l=new URLSearchParams(location.search).get('lang'),ok=['en','hr','it','de'];
+var c=document.createElement('link');c.rel='canonical';c.href='https://huntersfeeder.com/'+(ok.indexOf(l)>-1?'?lang='+l:'');document.head.appendChild(c);})();</script>
+<link rel="alternate" hreflang="sl" href="https://huntersfeeder.com/">
+<link rel="alternate" hreflang="en" href="https://huntersfeeder.com/?lang=en">
+<link rel="alternate" hreflang="hr" href="https://huntersfeeder.com/?lang=hr">
+<link rel="alternate" hreflang="it" href="https://huntersfeeder.com/?lang=it">
+<link rel="alternate" hreflang="de" href="https://huntersfeeder.com/?lang=de">
+<link rel="alternate" hreflang="x-default" href="https://huntersfeeder.com/">
+<meta property="og:site_name" content="HuntersFeeder">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://huntersfeeder.com/">
+<meta property="og:title" content="HuntersFeeder – Pametna rešitev za sodobne lovce">
+<meta property="og:description" content="Pametni krmilnik za divjad: samodejno krmljenje po urniku in SMS-nadzor od koderkoli. Brez interneta, brez aplikacij, brez naročnine.">
+<meta property="og:image" content="https://huntersfeeder.com/Slike/Ozadje.jpeg">
+<meta property="og:locale" content="sl_SI">
+<meta name="twitter:card" content="summary_large_image">
+<script type="application/ld+json">{"@context":"https://schema.org","@graph":[
+ {"@type":"WebSite","name":"HuntersFeeder","alternateName":"Hunters Feeder","url":"https://huntersfeeder.com/","inLanguage":["sl","en","hr","it","de"]},
+ {"@type":"Organization","name":"HuntersFeeder","url":"https://huntersfeeder.com/","logo":"https://huntersfeeder.com/Slike/logo/apple-touch-icon.png","email":"mihapeterlea@gmail.com"}]}</script>
 <link rel="icon" href="Slike/logo/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="Slike/logo/favicon-32.png" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="Slike/logo/apple-touch-icon.png">
@@ -723,11 +744,19 @@ section[id]{scroll-margin-top:88px !important}
   window.hfSetLang = applyLang;
 
   function initLang() {
-    var l = null;
-    try { l = localStorage.getItem('hf_lang'); } catch (e) {}
+    // 1) ?lang=xx in the address (shared links, search results)  2) the visitor's
+    // earlier choice  3) the browser language -- except for search-engine crawlers,
+    // which always get the Slovenian default so the main address is indexed in
+    // Slovenian (other languages have their own ?lang= addresses, see <head>).
+    var l = new URLSearchParams(location.search).get('lang');
+    if (LANGS.indexOf(l) === -1) {
+      l = null;
+      try { l = localStorage.getItem('hf_lang'); } catch (e) {}
+    }
     if (!l || LANGS.indexOf(l) === -1) {
+      var bot = /bot|crawl|spider|slurp|inspection|lighthouse|preview|facebookexternalhit/i.test(navigator.userAgent);
       var n = (navigator.language || '').slice(0, 2).toLowerCase();
-      l = LANGS.indexOf(n) !== -1 ? n : 'sl';
+      l = (!bot && LANGS.indexOf(n) !== -1) ? n : 'sl';
     }
     applyLang(l);
   }

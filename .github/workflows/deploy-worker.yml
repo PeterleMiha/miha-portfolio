@@ -1,0 +1,59 @@
+# Deploys worker/worker.js to Cloudflare (Worker "huntersfeeder") and then
+# checks that it answers. Runs on every push to main that changes worker/,
+# and by hand: Actions -> "Deploy Bambi worker" -> Run workflow.
+#
+# Needs two repository secrets (Settings -> Secrets and variables -> Actions):
+#   CLOUDFLARE_API_TOKEN   token from the "Edit Cloudflare Workers" template
+#   CLOUDFLARE_ACCOUNT_ID  Cloudflare account ID
+name: Deploy Bambi worker
+
+on:
+  push:
+    branches: [main]
+    paths: ['worker/**', '.github/workflows/deploy-worker.yml']
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-worker
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Check that the Cloudflare secrets exist
+        env:
+          TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ACCOUNT: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: |
+          missing=""
+          [ -n "$TOKEN" ]   || missing="$missing CLOUDFLARE_API_TOKEN"
+          [ -n "$ACCOUNT" ] || missing="$missing CLOUDFLARE_ACCOUNT_ID"
+          if [ -n "$missing" ]; then
+            echo "::error::Missing repository secret(s):$missing — see README, section 'Worker: automatic deploy'."
+            exit 1
+          fi
+
+      - name: Deploy to Cloudflare
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: worker
+          command: deploy
+
+      - name: Smoke test (contact-form fix mode answers with JSON)
+        run: |
+          sleep 5
+          url="https://huntersfeeder.miha-peterlea.workers.dev"
+          code=$(curl -s -o out.json -w '%{http_code}' -X POST "$url" \
+            -H 'Content-Type: application/json' -H 'Origin: https://peterlemiha.github.io' \
+            -d '{"mode":"fix","lang":"sl","name":"janez novak","message":"a je testn kos se na volo"}')
+          echo "HTTP $code"; cat out.json; echo
+          if [ "$code" != "200" ] || ! grep -q '"name"' out.json; then
+            echo "::error::Worker deployed but the fix mode did not answer (HTTP $code). If the body says 'busy' it is the Gemini per-minute limit — re-run in a minute. Otherwise check that GEMINI_API_KEY is still set in Cloudflare."
+            exit 1
+          fi

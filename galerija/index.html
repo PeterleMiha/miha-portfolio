@@ -142,8 +142,13 @@ button{font:inherit}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none !important}}
 </style>
+<link rel="stylesheet" href="../css/topbar.css">
+<style>/* the shared top bar (js/topbar.js) replaces this page's own header; its
+   language <select> stays in the DOM, hidden, and is driven by the flags */
+header.bar{display:none}</style>
 </head>
 <body>
+<script src="../js/topbar.js" data-base="../" data-page="gallery" data-select="#lang"></script>
 
 <header class="bar">
   <a class="back" href="../index.html" data-i18n-aria="back">

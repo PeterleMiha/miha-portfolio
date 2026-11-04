@@ -1,0 +1,10 @@
+# Cloudflare Worker "huntersfeeder" (Bambi chat + contact-form "fix" mode).
+# Deployed automatically by .github/workflows/deploy-worker.yml on every push
+# to main that touches worker/. No secrets in this file (it is public):
+#  - GEMINI_API_KEY stays a Cloudflare secret; `wrangler deploy` never removes it.
+#  - keep_vars keeps any plain variables set in the Cloudflare dashboard.
+name = "huntersfeeder"
+main = "worker.js"
+compatibility_date = "2025-01-01"
+workers_dev = true
+keep_vars = true

@@ -163,10 +163,23 @@ described at the top of that file; the page itself never needs editing.
 - `mode: "fix"` — used by the contact form's **Popravi z AI** button: fixes the
   capitalisation of the name and polishes the message, returns JSON.
 
-After changing `worker/worker.js`, paste it into Cloudflare again:
-Cloudflare dashboard → Workers & Pages → `huntersfeeder` → **Edit code** → select all,
-paste the new file → **Deploy**. Until then the chat keeps working, and the form
-button falls back to checking the fields only (it says AI help is unavailable).
+### Worker: automatic deploy
+
+`.github/workflows/deploy-worker.yml` deploys `worker/` to Cloudflare on every push to
+`main` that changes it (config: `worker/wrangler.toml`), then sends one test request to
+check that it answers. Your `GEMINI_API_KEY` secret in Cloudflare is kept.
+
+One-time setup (two GitHub secrets):
+1. Cloudflare → My Profile → API Tokens → Create Token → template
+   **Edit Cloudflare Workers** → Account Resources: your account; Zone Resources:
+   All zones → Continue → Create Token → copy it (shown once).
+2. Cloudflare → Workers & Pages → right column **Account ID** → copy.
+3. GitHub repo → Settings → Secrets and variables → Actions → New repository secret:
+   `CLOUDFLARE_API_TOKEN` = the token, then `CLOUDFLARE_ACCOUNT_ID` = the ID.
+4. GitHub repo → Actions → **Deploy Bambi worker** → Run workflow (green check = live).
+
+Until then the chat keeps working with the old Worker; the form button falls back to
+checking the fields only (it says AI help is unavailable).
 
 **Conversation log:** `js/chat.js` mails each Bambi conversation to the Formspree form
 in `CONFIG.LOG_URL` (one email per conversation, after 2 minutes of silence or when the

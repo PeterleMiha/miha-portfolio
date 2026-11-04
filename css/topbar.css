@@ -1,0 +1,97 @@
+/* ============================================================================
+   HuntersFeeder — shared top bar (index, galerija, app, manual).
+   Built by js/topbar.js. Everything is prefixed tb- so it cannot collide with
+   a page's own classes (app/ has its own .cta, .bar, .lang ...).
+   ========================================================================= */
+.tb{position:sticky;top:0;left:0;right:0;z-index:80;background:#0D2414;
+  border-bottom:1px solid rgba(233,195,123,0.22);box-shadow:0 8px 26px -14px rgba(0,0,0,0.9);
+  font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;-webkit-font-smoothing:antialiased;
+  padding-top:env(safe-area-inset-top,0px)}
+.tb.tb-fixed{position:fixed}
+.tb *{box-sizing:border-box}
+.tb a{text-decoration:none}
+.tb-in{max-width:1200px;margin:0 auto;height:76px;display:flex;align-items:center;gap:12px;padding:0 24px;overflow:hidden}
+
+/* left: wordmark (home) — the file carries glow padding, so 260px wide ≈
+   41px of visible lettering; it shrinks first when space runs out */
+.tb-brand{flex:1 1 auto;min-width:0;display:flex;align-items:center;margin-right:auto;margin-left:-8px}
+.tb-brand img{display:block;width:260px;max-width:100%;height:auto}
+
+/* left: back button (sub-pages). Never shrinks; when the row would overflow,
+   js/topbar.js adds .tb-compact and only the H logo remains. */
+.tb-back{flex:0 0 auto;display:inline-flex;align-items:center;gap:9px;margin-right:auto;
+  padding:6px 16px 6px 9px;border-radius:999px;border:1px solid rgba(233,195,123,0.5);
+  color:#EFEDE4;font-weight:700;font-size:17px;letter-spacing:-.01em;white-space:nowrap;
+  transition:background .2s,border-color .2s}
+.tb-back:hover{border-color:#E9C37B;background:rgba(233,195,123,0.08);color:#EFEDE4}
+.tb-back .tb-arrow{width:20px;height:20px;color:#E9C37B;flex:0 0 auto}
+.tb-back img{display:block;height:34px;width:auto;margin:-4px -2px}
+.tb-compact .tb-back{padding:4px 8px;gap:0}
+.tb-compact .tb-back .tb-arrow,.tb-compact .tb-back span{display:none}
+
+.tb-cta{flex:0 0 auto;background:#E9C37B;color:#171204 !important;font-weight:700;font-size:14.5px;
+  padding:10px 20px;border-radius:999px;transition:background .25s;white-space:nowrap}
+.tb-cta:hover{background:#F5D89E}
+
+/* language: flag only in the bar, flag + code in the list */
+.tb-flag{display:block;width:26px;height:17px;border-radius:3px;overflow:hidden;flex:0 0 auto;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.22)}
+.tb-flag svg{display:block;width:100%;height:100%}
+.tb-lang{position:relative;flex:0 0 auto}
+.tb-lang>button{display:flex;align-items:center;gap:6px;height:42px;padding:0 9px 0 10px;cursor:pointer;
+  background:rgba(0,0,0,0.22);border:1px solid rgba(255,255,255,0.16);border-radius:10px;color:#C9D0C3;font:inherit}
+.tb-lang>button:hover,.tb-lang.tb-open>button{border-color:rgba(233,195,123,0.6)}
+.tb-chev{width:14px;height:14px;transition:transform .2s}
+.tb-lang.tb-open .tb-chev{transform:rotate(180deg)}
+.tb-list{position:fixed;margin:0;padding:6px;list-style:none;min-width:118px;z-index:82;
+  background:#0D2414;border:1px solid rgba(233,195,123,0.3);border-radius:12px;
+  box-shadow:0 18px 40px -12px rgba(0,0,0,0.85);display:none;
+  font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif}
+.tb-list.tb-open{display:block}
+.tb-list button{display:flex;align-items:center;gap:12px;width:100%;padding:9px 12px;border:0;border-radius:8px;
+  background:none;color:#EFEDE4;font:inherit;font-size:15px;font-weight:700;letter-spacing:.04em;cursor:pointer}
+.tb-list button:hover,.tb-list button:focus-visible{background:rgba(233,195,123,0.12);color:#E9C37B;outline:none}
+.tb-list button[aria-selected="true"]{background:rgba(233,195,123,0.16);color:#E9C37B}
+
+/* burger -> X */
+.tb-burger{flex:0 0 auto;width:44px;height:44px;border-radius:10px;cursor:pointer;position:relative;
+  background:transparent;border:1px solid rgba(233,195,123,0.5);color:#E9C37B;padding:0}
+.tb-burger:hover,.tb-burger[aria-expanded="true"]{background:rgba(233,195,123,0.1);border-color:#E9C37B}
+.tb-burger i,.tb-burger i::before,.tb-burger i::after{position:absolute;width:20px;height:2px;
+  background:currentColor;border-radius:2px;transition:transform .25s ease,background .2s;content:""}
+.tb-burger i{top:50%;left:50%;margin:-1px 0 0 -10px}
+.tb-burger i::before{left:0;top:-6px}
+.tb-burger i::after{left:0;top:6px}
+.tb-burger[aria-expanded="true"] i{background:transparent}
+.tb-burger[aria-expanded="true"] i::before{transform:translateY(6px) rotate(45deg)}
+.tb-burger[aria-expanded="true"] i::after{transform:translateY(-6px) rotate(-45deg)}
+.tb :focus-visible,.tb-menu :focus-visible{outline:2px solid #E9C37B;outline-offset:2px}
+
+/* the menu: a panel under the bar, right-aligned with it */
+.tb-menu{position:fixed;z-index:81;top:calc(84px + env(safe-area-inset-top,0px));
+  right:max(14px,calc((100vw - 1200px) / 2 + 24px));width:290px;
+  max-height:calc(100dvh - 100px);overflow:auto;box-sizing:border-box;padding:8px;
+  background:#0D2414;border:1px solid rgba(233,195,123,0.28);border-radius:16px;
+  box-shadow:0 24px 50px -16px rgba(0,0,0,0.9);
+  font-family:'Instrument Sans',system-ui,-apple-system,'Segoe UI',sans-serif;
+  opacity:0;visibility:hidden;transform:translateY(-8px);transition:opacity .2s ease,transform .2s ease,visibility 0s .2s}
+.tb-menu.tb-open{opacity:1;visibility:visible;transform:none;transition:opacity .2s ease,transform .2s ease}
+.tb-menu a{display:flex;align-items:center;gap:13px;padding:12px 14px;border-radius:10px;text-decoration:none;
+  color:#EFEDE4;font-size:16px;font-weight:600;line-height:1.3}
+.tb-menu a:hover,.tb-menu a:focus-visible{background:rgba(233,195,123,0.1);color:#E9C37B;outline:none}
+.tb-menu a[aria-current="page"]{color:#E9C37B;background:rgba(233,195,123,0.08)}
+.tb-menu a svg{width:20px;height:20px;flex:0 0 auto;color:#E9C37B}
+.tb-menu hr{border:0;border-top:1px solid rgba(255,255,255,0.09);margin:6px 10px}
+
+@media (max-width:640px){
+  .tb-in{height:66px;padding:0 12px;gap:8px}
+  .tb-brand{margin-left:-4px}
+  .tb-cta{padding:9px 13px;font-size:13.5px}
+  .tb-lang>button{height:40px;padding:0 7px}
+  .tb-burger{width:42px;height:42px}
+  .tb-back{font-size:16px;padding:5px 13px 5px 7px}
+  .tb-back img{height:30px}
+  .tb-menu{top:calc(74px + env(safe-area-inset-top,0px));left:10px;right:10px;width:auto}
+}
+@media (max-width:360px){.tb-chev{display:none}}
+@media (prefers-reduced-motion:reduce){.tb *,.tb-menu{transition:none !important}}

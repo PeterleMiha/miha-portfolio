@@ -57,7 +57,7 @@ a:hover{color:var(--gold-hi)}
 
 /* ---- desktop stage ------------------------------------------------------- */
 .stage{display:flex;gap:56px;align-items:center;justify-content:center;
-  padding:28px 24px 40px;min-height:calc(100dvh - 64px)}
+  padding:28px 24px 40px;min-height:calc(100dvh - 76px)}
 .dev{flex:0 0 auto;width:calc(414px * var(--k));height:calc(868px * var(--k))}
 .bezel{width:414px;height:868px;transform:scale(var(--k));transform-origin:0 0;
   padding:12px;border-radius:58px;position:relative;
@@ -92,7 +92,7 @@ a:hover{color:var(--gold-hi)}
   .back{padding:7px}
   .stage{display:block;padding:0;min-height:0}
   .guide{display:none}
-  .dev{width:100%;height:calc(100dvh - 54px - env(safe-area-inset-top,0px))}
+  .dev{width:100%;height:calc(100dvh - 66px - env(safe-area-inset-top,0px))}
   .bezel{width:100%;height:100%;transform:none;padding:0;border-radius:0;background:none;box-shadow:none}
   .bezel::before{display:none}
   .bezel iframe{width:100%;height:100%;border-radius:0}
@@ -100,8 +100,13 @@ a:hover{color:var(--gold-hi)}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none !important}}
 </style>
+<link rel="stylesheet" href="../css/topbar.css">
+<style>/* the shared top bar (js/topbar.js, 76px / 66px on phones) replaces this
+   page's own header; its <select> and full-screen link stay in the DOM */
+header.bar{display:none}</style>
 </head>
 <body>
+<script src="../js/topbar.js" data-base="../" data-page="app" data-select="#lang" data-extra="#fullM"></script>
 
 <header class="bar">
   <a class="back" href="../index.html" data-i18n-aria="back">
@@ -243,7 +248,7 @@ a:hover{color:var(--gold-hi)}
 
   // Scale the 414x868 bezel to fit the window height (never above 1:1).
   function fit() {
-    var k = Math.min(1, (window.innerHeight - 64 - 56) / 868);
+    var k = Math.min(1, (window.innerHeight - 76 - 56) / 868);
     document.documentElement.style.setProperty('--k', Math.max(0.55, k).toFixed(4));
     chrome();
   }

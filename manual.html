@@ -47,11 +47,17 @@
       display: flex; flex-direction: column; align-items: center; gap: 10px;
     }
   </style>
+<link rel="stylesheet" href="css/topbar.css">
+<style>/* the shared top bar (js/topbar.js) replaces the fixed Home link and the
+   language select; the select stays, hidden, driven by the flags */
+#langSelect{display:none}
+body{margin:0}</style>
 </head>
 <body class="antialiased">
+<script src="js/topbar.js" data-page="manual" data-select="#langSelect"></script>
 
 <!-- LANGUAGE SELECTOR -->
-<div class="fixed top-4 right-4 z-50">
+<div class="fixed top-4 right-4 z-50" hidden>
   <select id="langSelect" aria-label="Language" class="text-sm rounded-lg px-3 py-2 cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#EBC57E]">
     <option value="sl">🇸🇮 Slovenščina</option>
     <option value="en">🇬🇧 English</option>
@@ -62,14 +68,14 @@
 </div>
 
 <!-- BACK TO HOME -->
-<div class="fixed top-4 left-4 z-50">
+<div class="fixed top-4 left-4 z-50" hidden>
   <a href="index.html" class="text-sm bg-[#111315] border border-gray-700 rounded-lg px-3 py-2 hover:border-[#EBC57E] transition">
     ← <span data-i18n="back_home">Domov</span>
   </a>
 </div>
 
 <!-- HEADER -->
-<header class="pt-24 pb-12 px-6 text-center">
+<header class="pt-12 pb-12 px-6 text-center">
   <img src="Slike/logo/hf-mark-glow.svg" alt="" aria-hidden="true" width="59" height="75" style="display:block;height:75px;width:auto;margin:0 auto 14px">
   <h1 class="text-4xl md:text-5xl font-bold mb-4">
     <span class="text-[#EBC57E]">HuntersFeeder</span> <span data-i18n="manual_title">Priročnik</span>
@@ -188,10 +194,10 @@
       `;
       box.appendChild(card);
     });
-    AOS.refreshHard && AOS.refreshHard();
+    window.AOS && AOS.refreshHard && AOS.refreshHard();
   }
 
-  AOS.init({ once: true, duration: 800 });
+  if (window.AOS) AOS.init({ once: true, duration: 800 });
   document.getElementById('year').textContent = new Date().getFullYear();
   render(currentLang());
   document.getElementById('langSelect').addEventListener('change', e => {

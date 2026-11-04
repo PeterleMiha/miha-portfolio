@@ -148,7 +148,7 @@ sh tools/update-app-demo.sh ~/HuntersFeeder-V3
 
 ## Development gallery (`galerija/`)
 
-Reached from the "Galerija" nav link, the footer, and the camera button above the
+Reached from the "Galerija" nav link, the footer, and the picture (gallery) button above the
 phone icon. All content is in **`galerija/data.js`** — one entry per revision with
 photos (`galerija/img/<folder>/...`) and YouTube video IDs. The format is
 described at the top of that file; the page itself never needs editing.

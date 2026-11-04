@@ -1,5 +1,5 @@
 /* =========================================================
-   HUNTERSFEEDER CHATBOT WIDGET
+   HUNTERSFEEDER CHATBOT WIDGET — "Bambi"
    ---------------------------------------------------------
    Handles the button + window UI, memory, and talking to
    your Cloudflare Worker (which safely holds the Gemini key).
@@ -10,52 +10,71 @@
    "not connected yet" message instead of erroring.
 ========================================================= */
 
-const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" };
+const CONFIG = {
+  WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev",
+  /* Every chat with Bambi is mailed to you through Formspree: one email per
+     conversation, sent after IDLE_MS without a new message or when the
+     visitor leaves / switches away from the page. Uses the same Formspree
+     form as the contact form (subject "Bambi pogovor …"); swap in the URL
+     of a separate Formspree form here to keep the two apart. */
+  LOG_URL: "https://formspree.io/f/xyznjgvd",
+  IDLE_MS: 2 * 60 * 1000
+};
 
 (function () {
 
   /* ---------- Text shown in the chat window, per language ---------- */
   const chatText = {
     sl: {
-      title: "HuntersFeeder pomočnik",
+      title: "Bambi",
+      sub: "virtualni pomočnik HuntersFeeder",
+      note: "Pogovori se shranjujejo za izboljšanje odgovorov.",
       placeholder: "Vprašaj me karkoli o napravi...",
-      greeting: "Pozdravljeni! Sem pomočnik HuntersFeeder. Vprašajte me o napravi, nastavitvi ali naročilu.",
+      greeting: "Zdravo, sem virtualni pomočnik Bambi! Kaj te zanima?",
       send: "Pošlji",
       typing: "Razmišljam...",
       notConnected: "Klepetalnik še ni povezan. Prosim, kontaktirajte mihapeterlea@gmail.com.",
       error: "Oprostite, prišlo je do napake. Poskusite znova ali pišite na mihapeterlea@gmail.com."
     },
     en: {
-      title: "HuntersFeeder assistant",
+      title: "Bambi",
+      sub: "HuntersFeeder virtual assistant",
+      note: "Chats are saved to improve the answers.",
       placeholder: "Ask me anything about the device...",
-      greeting: "Hi! I'm the HuntersFeeder assistant. Ask me about the device, setup, or ordering.",
+      greeting: "Hi, I'm Bambi, your virtual assistant! What would you like to know?",
       send: "Send",
       typing: "Thinking...",
       notConnected: "The chatbot isn't connected yet. Please contact mihapeterlea@gmail.com.",
       error: "Sorry, something went wrong. Please try again or email mihapeterlea@gmail.com."
     },
     hr: {
-      title: "HuntersFeeder pomoćnik",
+      title: "Bambi",
+      sub: "virtualni pomoćnik HuntersFeeder",
+      note: "Razgovori se spremaju radi poboljšanja odgovora.",
       placeholder: "Pitajte me bilo što o uređaju...",
-      greeting: "Pozdrav! Ja sam HuntersFeeder pomoćnik. Pitajte me o uređaju, postavljanju ili narudžbi.",
+      greeting: "Bok, ja sam virtualni pomoćnik Bambi! Što te zanima?",
       send: "Pošalji",
       typing: "Razmišljam...",
       notConnected: "Chatbot još nije povezan. Kontaktirajte mihapeterlea@gmail.com.",
       error: "Nažalost, došlo je do pogreške. Pokušajte ponovno ili pišite na mihapeterlea@gmail.com."
     },
     it: {
-      title: "Assistente HuntersFeeder",
+      title: "Bambi",
+      sub: "assistente virtuale HuntersFeeder",
+      note: "Le conversazioni vengono salvate per migliorare le risposte.",
       placeholder: "Chiedimi qualsiasi cosa sul dispositivo...",
-      greeting: "Ciao! Sono l'assistente HuntersFeeder. Chiedimi del dispositivo, della configurazione o dell'ordine.",
+      greeting: "Ciao, sono Bambi, il tuo assistente virtuale! Cosa ti interessa?",
       send: "Invia",
       typing: "Sto pensando...",
       notConnected: "Il chatbot non è ancora collegato. Contatta mihapeterlea@gmail.com.",
       error: "Spiacente, qualcosa è andato storto. Riprova o scrivi a mihapeterlea@gmail.com."
     },
     de: {
-      title: "HuntersFeeder-Assistent",
+      title: "Bambi",
+      sub: "virtueller Assistent von HuntersFeeder",
+      note: "Gespräche werden gespeichert, um die Antworten zu verbessern.",
       placeholder: "Frag mich alles über das Gerät...",
-      greeting: "Hallo! Ich bin der HuntersFeeder-Assistent. Frag mich zum Gerät, zur Einrichtung oder zur Bestellung.",
+      greeting: "Hallo, ich bin Bambi, dein virtueller Assistent! Was möchtest du wissen?",
       send: "Senden",
       typing: "Ich denke nach...",
       notConnected: "Der Chatbot ist noch nicht verbunden. Bitte kontaktiere mihapeterlea@gmail.com.",
@@ -65,6 +84,8 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
 
   /* Read the site language the page already stored in localStorage. */
   function currentLang() {
+    const pageLang = document.documentElement.lang;
+    if (chatText[pageLang]) return pageLang;
     try {
       const stored = localStorage.getItem('hf_lang');
       if (stored && chatText[stored]) return stored;
@@ -85,9 +106,10 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
       </button>
       <div id="hfChatWindow" class="hidden">
         <div id="hfChatHeader">
-          <span id="hfChatTitle">HuntersFeeder</span>
+          <span class="hfTitleWrap"><span id="hfChatTitle">Bambi</span><span id="hfChatSub"></span></span>
           <button id="hfChatClose" aria-label="Close chat">&times;</button>
         </div>
+        <div id="hfChatNote"></div>
         <div id="hfChatMessages"></div>
         <form id="hfChatForm">
           <input id="hfChatInput" type="text" autocomplete="off" />
@@ -101,6 +123,9 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
   function applyWidgetLanguage() {
     const t = chatText[currentLang()];
     document.getElementById('hfChatTitle').textContent = t.title;
+    document.getElementById('hfChatSub').textContent = t.sub;
+    document.getElementById('hfChatNote').textContent = t.note;
+    document.getElementById('hfChatToggle').setAttribute('aria-label', t.title + ' — ' + t.sub);
     document.getElementById('hfChatInput').placeholder = t.placeholder;
     document.getElementById('hfChatSend').textContent = t.send;
   }
@@ -108,7 +133,7 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
   function addMessage(text, who, extraClass) {
     const box = document.getElementById('hfChatMessages');
     const bubble = document.createElement('div');
-    bubble.className = 'hfMsg hf' + who + (extraClass ? ' ' + extraClass : '');
+    bubble.className = 'hfMsg hfMsg' + who + (extraClass ? ' ' + extraClass : '');
     bubble.textContent = text;
     box.appendChild(bubble);
     box.scrollTop = box.scrollHeight;
@@ -146,6 +171,45 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
     }
   }
 
+  /* ---------- Conversation log -> your email (Formspree) ----------
+     Only the visitor's questions and Bambi's answers since the last send,
+     plus language, page and time. No IP or device data is added here.
+     fetch(keepalive) instead of sendBeacon: it can send the
+     "Accept: application/json" header, which is what makes Formspree treat
+     this as an AJAX submission (no reCAPTCHA page, nothing to click). */
+  const convId = Math.random().toString(36).slice(2, 8).toUpperCase();
+  let loggedUpTo = 0;      // history index already sent
+  let logPart = 0;
+  let idleTimer = null;
+
+  function flushLog() {
+    clearTimeout(idleTimer);
+    const slice = history.slice(loggedUpTo);
+    if (!CONFIG.LOG_URL || !slice.some(m => m.role === 'user')) return;
+    loggedUpTo = history.length;
+    logPart += 1;
+    const transcript = slice.map(m =>
+      (m.role === 'user' ? 'Obiskovalec: ' : 'Bambi: ') + m.text).join('\n\n');
+    const fd = new FormData();
+    fd.append('_subject', 'Bambi pogovor ' + convId + (logPart > 1 ? ' (nadaljevanje ' + logPart + ')' : ''));
+    fd.append('vrsta', 'Bambi pogovor');
+    fd.append('pogovor', transcript);
+    fd.append('vprasanj', String(slice.filter(m => m.role === 'user').length));
+    fd.append('jezik', currentLang());
+    fd.append('stran', location.pathname);
+    fd.append('cas', new Date().toLocaleString('sl-SI', { timeZone: 'Europe/Ljubljana' }));
+    try {
+      fetch(CONFIG.LOG_URL, { method: 'POST', body: fd, keepalive: true,
+                              headers: { 'Accept': 'application/json' } }).catch(() => {});
+    } catch (e) {}
+  }
+  function scheduleLog() {
+    clearTimeout(idleTimer);
+    idleTimer = setTimeout(flushLog, CONFIG.IDLE_MS);
+  }
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushLog(); });
+  window.addEventListener('pagehide', flushLog);
+
   /* ---------- Wire everything up ---------- */
   function initWidget() {
     buildWidget();
@@ -158,8 +222,9 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
     const input = document.getElementById('hfChatInput');
 
     const greeting = chatText[currentLang()].greeting;
-    addMessage(greeting, 'bot');
+    const greetBubble = addMessage(greeting, 'bot');
     history.push({ role: 'bot', text: greeting });
+    loggedUpTo = history.length;   // the greeting itself is not worth an email
 
     // Tells index.html's floating "Zanima me" CTA to get out of the way
     // while the chat is open, instead of the two overlapping.
@@ -193,10 +258,19 @@ const CONFIG = { WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev" }
 
       addMessage(reply, 'bot');
       history.push({ role: 'bot', text: reply });
+      scheduleLog();
     });
 
-    const langSelect = document.getElementById('langSel');
-    if (langSelect) langSelect.addEventListener('change', applyWidgetLanguage);
+    /* index.html fires this on every language change. Until the visitor
+       has written anything, the greeting follows the language too. */
+    document.addEventListener('hf-lang-change', () => {
+      applyWidgetLanguage();
+      if (history.length === 1) {
+        const g = chatText[currentLang()].greeting;
+        greetBubble.textContent = g;
+        history[0].text = g;
+      }
+    });
   }
 
   if (document.readyState === 'loading') {

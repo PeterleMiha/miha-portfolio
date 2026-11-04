@@ -5,6 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>HuntersFeeder – Pametna rešitev za sodobne lovce</title>
 <meta name="description" content="HuntersFeeder – pametni krmilnik za divjad. Samodejno krmljenje po urniku in SMS-nadzor od koderkoli. Brez interneta, brez aplikacij, brez naročnine.">
+<link rel="icon" href="Slike/logo/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="Slike/logo/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="Slike/logo/apple-touch-icon.png">
+<meta name="theme-color" content="#0C110D">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -71,6 +75,15 @@ summary::marker{color:#E9C37B}
 /* Six nav links since the gallery: between the 860px cut-off and ~1060px they
    no longer fit at full spacing, and a two-word link wrapped onto two lines. */
 #topnav [data-hm] a{white-space:nowrap}
+
+/* ---- Brand: wordmark in nav, H mark in hero -------------------------------
+   Both are SVG files with a tight viewBox, so height alone sets the size and
+   the width follows the aspect ratio (wordmark ≈ 6:1, mark ≈ 0.79:1).      */
+.hf-brand img{display:block;height:28px;width:auto}
+.hf-mark{display:block;height:84px;width:auto;margin:0 auto 22px;
+  filter:drop-shadow(0 6px 22px rgba(0,0,0,.55));animation:fadeUp .8s ease both}
+@media (max-width:640px){.hf-mark{height:66px;margin-bottom:18px}}
+@media (max-width:480px){.hf-brand img{height:23px}}
 @media (max-width:1060px){#topnav [data-hm]{gap:16px !important;font-size:14px !important}}
 
 /* ---- Floating "gallery" button: same look, one slot higher ---------------- */
@@ -117,9 +130,8 @@ summary::marker{color:#E9C37B}
 <body>
 <nav id="topnav" style="position:fixed;top:0;left:0;right:0;z-index:80;border-bottom:1px solid rgba(255,255,255,0);transition:background .3s ease,border-color .3s ease">
   <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:22px;padding:14px 24px">
-    <a href="#vrh" style="display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:19px;color:#EFEDE4">
-      <span style="width:9px;height:9px;background:#E9C37B;transform:rotate(45deg);display:inline-block"></span>
-      <span>Hunters<span style="color:#E9C37B">Feeder</span></span>
+    <a href="#vrh" class="hf-brand" aria-label="HuntersFeeder" style="display:flex;align-items:center;flex:0 0 auto">
+      <img src="Slike/logo/hf-wordmark.svg" alt="HuntersFeeder" width="168" height="28">
     </a>
     <div data-hm="1" style="display:flex;gap:26px;margin-left:auto;font-size:15px">
       <a href="#prednosti" data-i18n="nav_f" style="color:#C9D0C3">Prednosti</a>
@@ -144,6 +156,7 @@ summary::marker{color:#E9C37B}
   <img src="Slike/Ozadje.jpeg" alt="Divjad ob krmišču HuntersFeeder" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 30%">
   <div style="position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,11,8,0.82) 0%,rgba(8,11,8,0.55) 40%,rgba(12,17,13,0.78) 78%,#0C110D 100%)"></div>
   <div style="position:relative;max-width:880px;margin:0 auto">
+    <img class="hf-mark" src="Slike/logo/hf-mark.svg" alt="" aria-hidden="true" width="66" height="84">
     <div data-i18n="h_kick" style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:#E9C37B;font-weight:600;margin-bottom:22px;animation:fadeUp .8s ease .05s both">HuntersFeeder — pametni krmilnik za divjad</div>
     <h1 style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(42px,6.4vw,74px);line-height:1.04;letter-spacing:-0.02em;margin:0 0 26px;animation:fadeUp .9s ease .15s both">
       <span data-i18n="h_t1">Krmišče, ki skrbi zase.</span><br>
@@ -160,12 +173,8 @@ summary::marker{color:#E9C37B}
         <div data-i18n="st1l" style="font-size:14px;color:#9FA89B;margin-top:4px">delovanja na eno polnitev</div>
       </div>
       <div style="padding:0 34px;border-left:1px solid rgba(255,255,255,0.14)">
-        <div data-i18n="st2n" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;color:#E9C37B">0 €</div>
-        <div data-i18n="st2l" style="font-size:14px;color:#9FA89B;margin-top:4px">naročnine — tvoja SIM, samo SMS</div>
-      </div>
-      <div style="padding:0 34px;border-left:1px solid rgba(255,255,255,0.14)">
-        <div data-i18n="st3n" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;color:#E9C37B">GPS</div>
-        <div data-i18n="st3l" style="font-size:14px;color:#9FA89B;margin-top:4px">vedno veš, kje je</div>
+        <div data-i18n="st2n" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:26px;color:#E9C37B">SMS</div>
+        <div data-i18n="st2l" style="font-size:14px;color:#9FA89B;margin-top:4px">obveščanje in upravljanje</div>
       </div>
     </div>
   </div>
@@ -243,7 +252,7 @@ summary::marker{color:#E9C37B}
       <div style="position:absolute;width:440px;height:440px;top:50%;left:50%;transform:translate(-50%,-50%);background:radial-gradient(circle,rgba(233,195,123,0.14) 0%,rgba(233,195,123,0) 65%);filter:blur(10px)"></div>
       <div data-reveal="100" style="position:relative;width:320px;background:#0E140F;border:8px solid #1B241D;border-radius:36px;padding:20px 16px;box-shadow:0 30px 80px rgba(0,0,0,0.55);animation:floaty 7s ease-in-out infinite">
         <div style="display:flex;align-items:center;gap:10px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.07);margin-bottom:14px">
-          <div style="width:36px;height:36px;border-radius:50%;background:#E9C37B;color:#171204;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center">HF</div>
+          <div style="width:36px;height:36px;border-radius:50%;background:#0C110D;border:1px solid rgba(233,195,123,0.55);display:flex;align-items:center;justify-content:center;flex:0 0 auto"><img src="Slike/logo/hf-mark.svg" alt="" width="17" height="22" style="display:block;height:22px;width:auto"></div>
           <div>
             <div style="font-size:14px;font-weight:600">HuntersFeeder</div>
             <div style="font-size:11.5px;color:#78826F">+386 41 435 803</div>
@@ -256,7 +265,7 @@ summary::marker{color:#E9C37B}
           <div data-i18n="sm_b3" style="align-self:flex-end;background:#E9C37B;color:#171204;font-weight:600;font-size:14.5px;padding:10px 14px;border-radius:16px 16px 4px 16px;max-width:80%">NAHRANI</div>
           <div data-i18n="sm_b4" style="align-self:flex-start;background:#1C2620;color:#E6E9E2;font-size:14.5px;line-height:1.5;padding:10px 14px;border-radius:16px 16px 16px 4px;max-width:85%">✓ Krmljenje izvedeno (250 g)</div>
           <div style="text-align:center;font-size:11px;color:#5E6759">19:44</div>
-          <div data-i18n="sm_b5" style="align-self:flex-start;background:rgba(233,195,123,0.08);border:1px solid rgba(233,195,123,0.45);color:#E9C37B;font-size:14.5px;line-height:1.5;padding:10px 14px;border-radius:16px 16px 16px 4px;max-width:85%">⚠ Hrana pod 15 % — čas za dolivanje</div>
+          <div data-i18n="sm_b5" style="align-self:flex-start;background:rgba(233,195,123,0.08);border:1px solid rgba(233,195,123,0.45);color:#E9C37B;font-size:14.5px;line-height:1.5;padding:10px 14px;border-radius:16px 16px 16px 4px;max-width:85%">⚠ Hrana pod 15 % — čas za polnjenje</div>
         </div>
       </div>
     </div>
@@ -336,7 +345,7 @@ summary::marker{color:#E9C37B}
         <div data-i18n="p1bg" style="position:absolute;top:-13px;left:50%;transform:translateX(-50%);background:#E9C37B;color:#171204;font-size:12.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:5px 14px;border-radius:999px;white-space:nowrap">Na voljo zdaj</div>
         <div data-i18n="p1n" style="font-size:16px;font-weight:600;color:#E9C37B;margin-bottom:10px">Testna serija</div>
         
-          <div data-i18n="p1p" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;line-height:1;margin-bottom:22px">150–200 €</div>
+          <div data-i18n="p1p" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;line-height:1;margin-bottom:22px">170–250 €</div>
         
         
         <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:30px">
@@ -349,7 +358,7 @@ summary::marker{color:#E9C37B}
       <div data-reveal="90" style="background:#151D17;border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:38px 32px;display:flex;flex-direction:column">
         <div data-i18n="p2n" style="font-size:16px;font-weight:600;color:#A9B2A4;margin-bottom:10px">Redna prodaja</div>
         
-          <div data-i18n="p2p" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;line-height:1;margin-bottom:22px;color:#C6CDBF">200–300 €</div>
+          <div data-i18n="p2p" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:44px;line-height:1;margin-bottom:22px;color:#C6CDBF">250–350 €</div>
         
         
         <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:30px">
@@ -429,6 +438,7 @@ summary::marker{color:#E9C37B}
       <input type="email" name="email" required placeholder="E-pošta" data-i18n-ph="fm_em" style="width:100%;box-sizing:border-box;background:#131A15;border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:14px 16px;color:#EFEDE4;font-size:15.5px;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#E9C37B;box-shadow:0 0 0 3px rgba(233,195,123,0.15)">
       <input type="tel" name="phone" placeholder="Telefon (neobvezno)" data-i18n-ph="fm_ph" style="width:100%;box-sizing:border-box;background:#131A15;border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:14px 16px;color:#EFEDE4;font-size:15.5px;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#E9C37B;box-shadow:0 0 0 3px rgba(233,195,123,0.15)">
       <textarea name="message" required rows="5" placeholder="Sporočilo — koliko kosov, kdaj, vprašanja …" data-i18n-ph="fm_ms" style="width:100%;box-sizing:border-box;background:#131A15;border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:14px 16px;color:#EFEDE4;font-size:15.5px;font-family:inherit;resize:vertical;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#E9C37B;box-shadow:0 0 0 3px rgba(233,195,123,0.15)"></textarea>
+      <input type="text" name="location" required autocomplete="address-level2" placeholder="Lokacija (kraj / lovišče)" data-i18n-ph="fm_lo" style="width:100%;box-sizing:border-box;background:#131A15;border:1px solid rgba(255,255,255,0.12);border-radius:12px;padding:14px 16px;color:#EFEDE4;font-size:15.5px;font-family:inherit;outline:none;transition:border-color .2s,box-shadow .2s" style-focus="border-color:#E9C37B;box-shadow:0 0 0 3px rgba(233,195,123,0.15)">
       <button type="submit" data-i18n="fm_bt" style="width:100%;background:#E9C37B;color:#171204;font-weight:700;font-size:16px;padding:15px 24px;border-radius:999px;border:none;cursor:pointer;font-family:inherit;transition:background .25s,transform .25s" style-hover="background:#F5D89E;transform:translateY(-1px)">Pošlji povpraševanje</button>
       <div data-i18n="fm_nt" style="text-align:center;font-size:13.5px;color:#78826F">Odgovorim osebno, običajno še isti dan.</div>
     </form>
@@ -438,10 +448,7 @@ summary::marker{color:#E9C37B}
 <footer style="background:#0A0E0B;border-top:1px solid rgba(255,255,255,0.07);padding:44px 24px">
   <div style="max-width:1140px;margin:0 auto;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
     <div>
-      <div style="display:flex;align-items:center;gap:10px;font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:18px">
-        <span style="width:8px;height:8px;background:#E9C37B;transform:rotate(45deg);display:inline-block"></span>
-        <span>Hunters<span style="color:#E9C37B">Feeder</span></span>
-      </div>
+      <img src="Slike/logo/hf-wordmark.svg" alt="HuntersFeeder" width="156" height="26" style="display:block;height:26px;width:auto">
       <div style="font-size:13.5px;color:#5E6759;margin-top:8px">© 2026 HuntersFeeder. <span data-i18n="ftr_r">Vse pravice pridržane.</span></div>
     </div>
     <div style="display:flex;flex-wrap:wrap;gap:26px;font-size:15px">
@@ -467,18 +474,20 @@ summary::marker{color:#E9C37B}
       <rect x="6" y="2.5" width="12" height="19" rx="2.6"/>
       <path d="M10.4 5.4h3.2"/><path d="M10.9 18.5h2.2"/>
     </svg>
-    <span class="lbl" data-i18n="fl_app">Preizkusi aplikacijo</span>
+    <span class="lbl" data-i18n="fl_app">Aplikacija</span>
   </a>
 
-  <!-- Camera → the development gallery. Stacked above #appDemo in the same
-       corner and the same style, without the buzz: one moving icon is enough. -->
+  <!-- Picture (photo with mountains + sun) → the development gallery. Was a
+       camera icon, which read as "this will open my camera". Stacked above
+       #appDemo in the same corner and style, without the buzz. -->
   <a id="galDemo" href="galerija/index.html">
     <svg class="ph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-      <path d="M4 8.5h3l1.6-2.5h6.8L17 8.5h3a1 1 0 0 1 1 1V18a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5a1 1 0 0 1 1-1z"/>
-      <circle cx="12" cy="13.3" r="3.4"/>
+      <rect x="3" y="4" width="18" height="16" rx="2.4"/>
+      <circle cx="8.6" cy="9.4" r="1.7"/>
+      <path d="M3.6 17.6l5.2-5.2 3.4 3.4 2.6-2.6 5.6 5.6"/>
     </svg>
-    <span class="lbl" data-i18n="fl_gal">Galerija razvoja</span>
+    <span class="lbl" data-i18n="fl_gal">Galerija</span>
   </a>
 
 <!-- ==========================================================
@@ -503,7 +512,7 @@ summary::marker{color:#E9C37B}
       h_kick:"HuntersFeeder — the smart game feeder", h_t1:"A feeder that runs itself.", h_t2:"You just hunt.",
       h_sub:"Scheduled feeding and SMS control from anywhere. No internet, no apps, no subscription — HuntersFeeder texts you when food or battery runs low.",
       h_c1:"Reserve a test unit", h_c2:"See how it works",
-      st1n:"1+ month", st1l:"on a single charge", st2n:"€0", st2l:"subscription — your SIM, SMS only", st3n:"GPS", st3l:"always know where it is",
+      st1n:"1+ month", st1l:"on a single charge", st2n:"SMS", st2l:"alerts and control",
       ft_h:"Why hunters choose HuntersFeeder", ft_s:"Everything a feeding site needs — nothing you don't.",
       f1t:"SMS control", f1d:"Send a command from any phone — no app, no internet needed.",
       f2t:"Scheduled feeding", f2d:"Set a time or light trigger — it feeds on the dot, every day.",
@@ -527,8 +536,8 @@ summary::marker{color:#E9C37B}
       sp5l:"Control", sp5v:"ESP32 · SMS commands + WiFi setup",
       sp6l:"Housing", sp6v:"Rugged, all-weather build",
       pr_h:"A price with no surprises", pr_s:"No subscription. No hidden costs. Just the device and your SIM card.", pr_ask:"Price on request",
-      p1n:"Test series", p1p:"€150–200", p1a:"Available now", p1b:"Limited number of units", p1c:"Direct support from the maker", p1cta:"Reserve a test unit", p1bg:"Available now",
-      p2n:"Regular sale", p2p:"€200–300", p2a:"Expected end of year", p2b:"Final product version", p2c:"Full warranty", p2cta:"Notify me when available",
+      p1n:"Test series", p1p:"€170–250", p1a:"Available now", p1b:"Limited number of units", p1c:"Direct support from the maker", p1cta:"Reserve a test unit", p1bg:"Available now",
+      p2n:"Regular sale", p2p:"€250–350", p2a:"Expected end of year", p2b:"Final product version", p2c:"Full warranty", p2cta:"Notify me when available",
       fo_k:"Founder", fo_h:"The person behind HuntersFeeder",
       fo_b:"I'm Miha Peterle, a master's student of electrical engineering. I built HuntersFeeder myself — from the circuit board to the software — out of a passion for electronics and nature. I assemble and test every unit personally, and I stand behind each one.",
       fo_r:"founder & developer",
@@ -540,16 +549,16 @@ summary::marker{color:#E9C37B}
       q5:"Can several people control it?", a5:"Yes — multi-user support, ideal for hunting parties.",
       q6:"How do I order?", a6:"Fill in the form below. Test units are limited; regular sales start around the end of the year.",
       fm_h:"Reserve your HuntersFeeder", fm_s:"Leave your details and I'll get back to you within 24 hours. Test units are limited — first come, first served.",
-      fm_nm:"Name", fm_em:"Email", fm_ph:"Phone (optional)", fm_ms:"Message — how many units, when, questions …", fm_bt:"Send inquiry", fm_nt:"I reply personally, usually the same day.",
+      fm_nm:"Name", fm_lo:"Location (town / hunting ground)", fm_em:"Email", fm_ph:"Phone (optional)", fm_ms:"Message — how many units, when, questions …", fm_bt:"Send inquiry", fm_nt:"I reply personally, usually the same day.",
       ftr_m:"User manual", ftr_r:"All rights reserved.", fl_cta:"I'm interested",
-      fl_app:"Try the app", fl_gal:"Development gallery", nav_g:"Gallery", ftr_g:"Development gallery"
+      fl_app:"App", fl_gal:"Gallery", nav_g:"Gallery", ftr_g:"Development gallery"
     },
     de: {
       nav_f:"Vorteile", nav_h:"Funktionsweise", nav_p:"Preis", nav_q:"Fragen", nav_c:"Kontakt", nav_cta:"Reservieren",
       h_kick:"HuntersFeeder — der smarte Wildfütterungsautomat", h_t1:"Ein Futterautomat, der sich selbst versorgt.", h_t2:"Sie jagen einfach.",
       h_sub:"Fütterung nach Zeitplan und SMS-Steuerung von überall. Kein Internet, keine App, kein Abo — HuntersFeeder meldet sich, wenn Futter oder Akku zur Neige gehen.",
       h_c1:"Testgerät reservieren", h_c2:"So funktioniert es",
-      st1n:"1+ Monat", st1l:"mit einer Akkuladung", st2n:"0 €", st2l:"Abo — Ihre SIM, nur SMS", st3n:"GPS", st3l:"Sie wissen immer, wo es steht",
+      st1n:"1+ Monat", st1l:"mit einer Akkuladung", st2n:"SMS", st2l:"Benachrichtigung und Steuerung",
       ft_h:"Warum Jäger HuntersFeeder wählen", ft_s:"Alles, was eine Kirrung braucht — und nichts Überflüssiges.",
       f1t:"SMS-Steuerung", f1d:"Befehl von jedem Handy — ohne App und ohne Internet.",
       f2t:"Fütterung nach Zeitplan", f2d:"Uhrzeit oder Lichtsensor einstellen — gefüttert wird pünktlich, jeden Tag.",
@@ -573,8 +582,8 @@ summary::marker{color:#E9C37B}
       sp5l:"Steuerung", sp5v:"ESP32 · SMS-Befehle + WLAN-Einrichtung",
       sp6l:"Gehäuse", sp6v:"Robust und wetterfest",
       pr_h:"Ein Preis ohne Überraschungen", pr_s:"Kein Abo. Keine versteckten Kosten. Nur das Gerät und Ihre SIM-Karte.", pr_ask:"Preis auf Anfrage",
-      p1n:"Testserie", p1p:"150–200 €", p1a:"Sofort verfügbar", p1b:"Begrenzte Stückzahl", p1c:"Direkter Support vom Entwickler", p1cta:"Testgerät reservieren", p1bg:"Jetzt verfügbar",
-      p2n:"Regulärer Verkauf", p2p:"200–300 €", p2a:"Voraussichtlich Ende des Jahres", p2b:"Finale Produktversion", p2c:"Volle Garantie", p2cta:"Benachrichtigen Sie mich",
+      p1n:"Testserie", p1p:"170–250 €", p1a:"Sofort verfügbar", p1b:"Begrenzte Stückzahl", p1c:"Direkter Support vom Entwickler", p1cta:"Testgerät reservieren", p1bg:"Jetzt verfügbar",
+      p2n:"Regulärer Verkauf", p2p:"250–350 €", p2a:"Voraussichtlich Ende des Jahres", p2b:"Finale Produktversion", p2c:"Volle Garantie", p2cta:"Benachrichtigen Sie mich",
       fo_k:"Gründer", fo_h:"Wer hinter HuntersFeeder steht",
       fo_b:"Ich bin Miha Peterle, Masterstudent der Elektrotechnik. HuntersFeeder habe ich komplett selbst entwickelt — von der Platine bis zur Software — aus Leidenschaft für Elektronik und Natur. Jedes Gerät baue und teste ich persönlich, und dafür stehe ich mit meinem Namen.",
       fo_r:"Gründer & Entwickler",
@@ -586,16 +595,16 @@ summary::marker{color:#E9C37B}
       q5:"Können mehrere Personen steuern?", a5:"Ja — Mehrbenutzer-Unterstützung, ideal für Jagdgruppen.",
       q6:"Wie bestelle ich?", a6:"Füllen Sie das Formular unten aus. Testgeräte sind begrenzt; der reguläre Verkauf startet voraussichtlich Ende des Jahres.",
       fm_h:"Reservieren Sie Ihren HuntersFeeder", fm_s:"Hinterlassen Sie Ihre Daten — ich melde mich innerhalb von 24 Stunden. Testgeräte sind begrenzt.",
-      fm_nm:"Name", fm_em:"E-Mail", fm_ph:"Telefon (optional)", fm_ms:"Nachricht — Stückzahl, Zeitraum, Fragen …", fm_bt:"Anfrage senden", fm_nt:"Ich antworte persönlich, meist noch am selben Tag.",
+      fm_nm:"Name", fm_lo:"Standort (Ort / Revier)", fm_em:"E-Mail", fm_ph:"Telefon (optional)", fm_ms:"Nachricht — Stückzahl, Zeitraum, Fragen …", fm_bt:"Anfrage senden", fm_nt:"Ich antworte persönlich, meist noch am selben Tag.",
       ftr_m:"Handbuch", ftr_r:"Alle Rechte vorbehalten.", fl_cta:"Ich habe Interesse",
-      fl_app:"App ausprobieren", fl_gal:"Entwicklungsgalerie", nav_g:"Galerie", ftr_g:"Entwicklungsgalerie"
+      fl_app:"App", fl_gal:"Galerie", nav_g:"Galerie", ftr_g:"Entwicklungsgalerie"
     },
     it: {
       nav_f:"Vantaggi", nav_h:"Come funziona", nav_p:"Prezzo", nav_q:"Domande", nav_c:"Contatto", nav_cta:"Prenota",
       h_kick:"HuntersFeeder — la mangiatoia intelligente per la selvaggina", h_t1:"La mangiatoia che si gestisce da sola.", h_t2:"Tu pensa solo a cacciare.",
       h_sub:"Alimentazione programmata e controllo via SMS ovunque tu sia. Niente internet, niente app, niente abbonamento — HuntersFeeder ti avvisa quando mangime o batteria si esauriscono.",
       h_c1:"Prenota un'unità di prova", h_c2:"Scopri come funziona",
-      st1n:"1+ mese", st1l:"con una sola carica", st2n:"0 €", st2l:"di abbonamento — la tua SIM, solo SMS", st3n:"GPS", st3l:"sai sempre dov'è",
+      st1n:"1+ mese", st1l:"con una sola carica", st2n:"SMS", st2l:"avvisi e controllo",
       ft_h:"Perché i cacciatori scelgono HuntersFeeder", ft_s:"Tutto ciò che serve a un punto di foraggiamento — niente di superfluo.",
       f1t:"Controllo via SMS", f1d:"Invia un comando da qualsiasi telefono — senza app né internet.",
       f2t:"Alimentazione programmata", f2d:"Imposta un orario o il sensore di luce — alimenta puntuale, ogni giorno.",
@@ -619,8 +628,8 @@ summary::marker{color:#E9C37B}
       sp5l:"Elettronica", sp5v:"ESP32 · comandi SMS + configurazione WiFi",
       sp6l:"Corpo", sp6v:"Robusto, per ogni condizione meteo",
       pr_h:"Un prezzo senza sorprese", pr_s:"Nessun abbonamento. Nessun costo nascosto. Solo il dispositivo e la tua SIM.", pr_ask:"Prezzo su richiesta",
-      p1n:"Serie di prova", p1p:"150–200 €", p1a:"Disponibile subito", p1b:"Unità limitate", p1c:"Supporto diretto dello sviluppatore", p1cta:"Prenota un'unità di prova", p1bg:"Disponibile ora",
-      p2n:"Vendita regolare", p2p:"200–300 €", p2a:"Prevista per fine anno", p2b:"Versione definitiva del prodotto", p2c:"Garanzia completa", p2cta:"Avvisami quando disponibile",
+      p1n:"Serie di prova", p1p:"170–250 €", p1a:"Disponibile subito", p1b:"Unità limitate", p1c:"Supporto diretto dello sviluppatore", p1cta:"Prenota un'unità di prova", p1bg:"Disponibile ora",
+      p2n:"Vendita regolare", p2p:"250–350 €", p2a:"Prevista per fine anno", p2b:"Versione definitiva del prodotto", p2c:"Garanzia completa", p2cta:"Avvisami quando disponibile",
       fo_k:"Fondatore", fo_h:"Chi c'è dietro HuntersFeeder",
       fo_b:"Sono Miha Peterle, studente magistrale di ingegneria elettrica. Ho costruito HuntersFeeder da solo — dal circuito al software — per passione verso l'elettronica e la natura. Assemblo e collaudo personalmente ogni unità, e ne rispondo in prima persona.",
       fo_r:"fondatore e sviluppatore",
@@ -632,16 +641,16 @@ summary::marker{color:#E9C37B}
       q5:"Possono controllarlo in più persone?", a5:"Sì — supporto multi-utente, ideale per le squadre di caccia.",
       q6:"Come ordino?", a6:"Compila il modulo qui sotto. Le unità di prova sono limitate; la vendita regolare inizia verso fine anno.",
       fm_h:"Prenota il tuo HuntersFeeder", fm_s:"Lascia i tuoi dati e ti risponderò entro 24 ore. Le unità di prova sono limitate.",
-      fm_nm:"Nome", fm_em:"Email", fm_ph:"Telefono (facoltativo)", fm_ms:"Messaggio — quante unità, quando, domande …", fm_bt:"Invia richiesta", fm_nt:"Rispondo personalmente, di solito in giornata.",
+      fm_nm:"Nome", fm_lo:"Località (paese / riserva di caccia)", fm_em:"Email", fm_ph:"Telefono (facoltativo)", fm_ms:"Messaggio — quante unità, quando, domande …", fm_bt:"Invia richiesta", fm_nt:"Rispondo personalmente, di solito in giornata.",
       ftr_m:"Manuale d'uso", ftr_r:"Tutti i diritti riservati.", fl_cta:"Mi interessa",
-      fl_app:"Prova l'app", fl_gal:"Galleria dello sviluppo", nav_g:"Galleria", ftr_g:"Galleria dello sviluppo"
+      fl_app:"App", fl_gal:"Galleria", nav_g:"Galleria", ftr_g:"Galleria dello sviluppo"
     },
     hr: {
       nav_f:"Prednosti", nav_h:"Kako radi", nav_p:"Cijena", nav_q:"Pitanja", nav_c:"Kontakt", nav_cta:"Rezerviraj",
       h_kick:"HuntersFeeder — pametna hranilica za divljač", h_t1:"Hranilica koja se brine sama za sebe.", h_t2:"Ti samo lovi.",
       h_sub:"Automatsko hranjenje po rasporedu i SMS upravljanje s bilo kojeg mjesta. Bez interneta, bez aplikacija, bez pretplate — HuntersFeeder ti javi kad ponestane hrane ili baterije.",
       h_c1:"Rezerviraj testni primjerak", h_c2:"Pogledaj kako radi",
-      st1n:"1+ mjesec", st1l:"rada na jedno punjenje", st2n:"0 €", st2l:"pretplate — tvoja SIM, samo SMS", st3n:"GPS", st3l:"uvijek znaš gdje je",
+      st1n:"1+ mjesec", st1l:"rada na jedno punjenje", st2n:"SMS", st2l:"obavijesti i upravljanje",
       ft_h:"Zašto lovci biraju HuntersFeeder", ft_s:"Sve što hranilište treba — ništa suvišno.",
       f1t:"SMS upravljanje", f1d:"Pošalji naredbu s bilo kojeg telefona — bez aplikacije i interneta.",
       f2t:"Hranjenje po rasporedu", f2d:"Postavi sat ili svjetlosni senzor — hrani točno, svaki dan.",
@@ -665,8 +674,8 @@ summary::marker{color:#E9C37B}
       sp5l:"Upravljanje", sp5v:"ESP32 · SMS naredbe + WiFi postavke",
       sp6l:"Kućište", sp6v:"Robusno, za sve vremenske uvjete",
       pr_h:"Cijena bez iznenađenja", pr_s:"Bez pretplate. Bez skrivenih troškova. Samo uređaj i tvoja SIM kartica.", pr_ask:"Cijena na upit",
-      p1n:"Testna serija", p1p:"150–200 €", p1a:"Dostupno odmah", p1b:"Ograničen broj primjeraka", p1c:"Izravna podrška razvijatelja", p1cta:"Rezerviraj testni primjerak", p1bg:"Dostupno sada",
-      p2n:"Redovna prodaja", p2p:"200–300 €", p2a:"Očekivano krajem godine", p2b:"Konačna izvedba proizvoda", p2c:"Puno jamstvo", p2cta:"Obavijesti me kad bude dostupno",
+      p1n:"Testna serija", p1p:"170–250 €", p1a:"Dostupno odmah", p1b:"Ograničen broj primjeraka", p1c:"Izravna podrška razvijatelja", p1cta:"Rezerviraj testni primjerak", p1bg:"Dostupno sada",
+      p2n:"Redovna prodaja", p2p:"250–350 €", p2a:"Očekivano krajem godine", p2b:"Konačna izvedba proizvoda", p2c:"Puno jamstvo", p2cta:"Obavijesti me kad bude dostupno",
       fo_k:"Osnivač", fo_h:"Tko stoji iza HuntersFeedera",
       fo_b:"Ja sam Miha Peterle, student diplomskog studija elektrotehnike. HuntersFeeder sam izradio sam — od pločice do softvera — iz strasti prema elektronici i prirodi. Svaki primjerak osobno sastavim i testiram, i osobno stojim iza njega.",
       fo_r:"osnivač i razvijatelj",
@@ -678,9 +687,9 @@ summary::marker{color:#E9C37B}
       q5:"Može li upravljati više ljudi?", a5:"Da — podrška za više korisnika, idealno za lovačke družine.",
       q6:"Kako naručiti?", a6:"Ispuni obrazac u nastavku. Testni primjerci su ograničeni; redovna prodaja kreće predvidivo krajem godine.",
       fm_h:"Rezerviraj svoj HuntersFeeder", fm_s:"Ostavi podatke i javit ću se u roku 24 sata. Testnih primjeraka je ograničen broj.",
-      fm_nm:"Ime", fm_em:"Email", fm_ph:"Telefon (neobavezno)", fm_ms:"Poruka — koliko primjeraka, kada, pitanja …", fm_bt:"Pošalji upit", fm_nt:"Odgovaram osobno, obično isti dan.",
+      fm_nm:"Ime", fm_lo:"Lokacija (mjesto / lovište)", fm_em:"Email", fm_ph:"Telefon (neobavezno)", fm_ms:"Poruka — koliko primjeraka, kada, pitanja …", fm_bt:"Pošalji upit", fm_nt:"Odgovaram osobno, obično isti dan.",
       ftr_m:"Priručnik", ftr_r:"Sva prava pridržana.", fl_cta:"Zanima me",
-      fl_app:"Isprobaj aplikaciju", fl_gal:"Galerija razvoja", nav_g:"Galerija", ftr_g:"Galerija razvoja"
+      fl_app:"Aplikacija", fl_gal:"Galerija", nav_g:"Galerija", ftr_g:"Galerija razvoja"
     }
   };
   TR.sl = {};

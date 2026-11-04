@@ -32,7 +32,7 @@
   it, ask them to contact the developer and describe what the feeder did and which SMS
   it sent.
 - Mention the free online demo of the app when it helps: the phone icon at the bottom
-  left of the page opens the real app with demo data. The camera icon above it opens
+  left of the page opens the real app with demo data. The picture (gallery) icon above it opens
   the development gallery (photos of every stage of development).
 
 ---

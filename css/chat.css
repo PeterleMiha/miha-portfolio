@@ -86,3 +86,12 @@
 #hfChatTitle { font-size: 16px; font-weight: 700; }
 #hfChatSub { font-size: 12px; font-weight: 500; opacity: .85; }
 #hfChatNote { font-size: 11.5px; color: #8b9187; padding: 7px 14px; border-bottom: 1px solid #2A2E2A; background: #0f1112; }
+
+/* "Show me" buttons under a Bambi answer (js/chat.js addGoButtons) */
+.hfGo{display:flex;flex-wrap:wrap;gap:6px;margin-top:9px}
+.hfGo button{display:inline-flex;align-items:center;gap:6px;font:inherit;font-size:13px;font-weight:600;
+  color:#171204;background:#E9C37B;border:0;border-radius:999px;padding:6px 12px 6px 9px;cursor:pointer;
+  transition:background .2s ease,transform .2s ease}
+.hfGo button:hover{background:#F5D89E;transform:translateY(-1px)}
+.hfGo button:focus-visible{outline:2px solid #E9C37B;outline-offset:2px}
+.hfGo svg{width:14px;height:14px}

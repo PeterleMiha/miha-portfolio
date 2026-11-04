@@ -12,11 +12,10 @@
 
 const CONFIG = {
   WORKER_URL: "https://huntersfeeder.miha-peterlea.workers.dev",
-  /* Every chat with Bambi is mailed to you through Formspree: one email per
-     conversation, sent after IDLE_MS without a new message or when the
-     visitor leaves / switches away from the page. Uses the same Formspree
-     form as the contact form (subject "Bambi pogovor …"); swap in the URL
-     of a separate Formspree form here to keep the two apart. */
+  /* Every chat with Bambi is mailed to you: one email per conversation, sent
+     after IDLE_MS without a new message or when the visitor leaves / switches
+     away. First through the Worker (Resend, 100 a day free); if the Worker
+     can't send (no RESEND_API_KEY yet, daily cap reached), through Formspree. */
   LOG_URL: "https://formspree.io/f/xyznjgvd",
   IDLE_MS: 2 * 60 * 1000
 };
@@ -81,6 +80,59 @@ const CONFIG = {
       error: "Entschuldigung, etwas ist schiefgelaufen. Bitte versuche es erneut oder schreibe an mihapeterlea@gmail.com."
     }
   };
+
+  /* ---------- "Show me" buttons under Bambi's answers ----------
+     Bambi ends an answer with tags like [[go:manual]]; they are cut from the
+     text and become buttons. A keyword check on the visitor's question adds
+     the same buttons when the model forgets (or the Worker is older). The
+     button opens the burger menu, pulses the right item, then follows it
+     (top bar's window.hfMenuShow), so the visitor also learns where it is. */
+  const GO = { features: 'f', how: 'h', price: 'p', pricing: 'p', faq: 'q', contact: 'c',
+               gallery: 'g', app: 'a', manual: 'm' };
+  const GO_HREF = { f: '#prednosti', h: '#delovanje', p: '#cena', q: '#faq', c: '#kontakt',
+                    g: 'galerija/index.html', a: 'app/index.html', m: 'manual.html' };
+  const GO_WORDS = [
+    ['m', /navodil|priro[čc]nik|manual|anleitung|handbuch|istruzion|upute|uputstv|kako (jo |ga )?(nastavim|za[žz]enem|pove[žz]em|vklopim)|v delovanje|setup|einricht/],
+    ['p', /cen[aeiou]?|cenik|koliko stane|price|preis|kostet|prezz|costa|cijen/],
+    ['g', /galerij|slik[eo]|fotk|fotografij|gallery|galerie|galleri|photo|bilder|foto/],
+    ['a', /aplikacij|app|demo/],
+    ['c', /naro[čc]|rezerv|kupi|kupim|order|buy|bestell|kaufen|ordin|acquist|narud/]
+  ];
+  function parseGo(text) {
+    const keys = [];
+    const clean = text.replace(/\[\[\s*go\s*:\s*([a-z]+)\s*\]\]/gi, (m, k) => {
+      const c = GO[k.toLowerCase()]; if (c && !keys.includes(c)) keys.push(c); return '';
+    }).replace(/[ \t]+\n/g, '\n').trim();
+    return { clean, keys };
+  }
+  function guessGo(question) {
+    const q = question.toLowerCase();
+    return GO_WORDS.filter(([, re]) => re.test(q)).map(([k]) => k);
+  }
+  function addGoButtons(bubble, keys) {
+    if (!keys.length) return;
+    const row = document.createElement('div');
+    row.className = 'hfGo';
+    keys.slice(0, 3).forEach(k => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.dataset.k = k;
+      b.textContent = (window.hfMenuLabel && window.hfMenuLabel(k)) || k;
+      b.insertAdjacentHTML('afterbegin', '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>');
+      b.addEventListener('click', () => {
+        flushLog();
+        document.dispatchEvent(new CustomEvent('hf-chat-close'));
+        if (!(window.hfMenuShow && window.hfMenuShow(k))) {
+          const h = GO_HREF[k], onHome = !/\/(galerija|app)\/|manual\.html/.test(location.pathname);
+          location.href = (h[0] === '#' && !onHome) ? 'index.html' + h : h;
+        }
+      });
+      row.appendChild(b);
+    });
+    bubble.appendChild(row);
+    const box = document.getElementById('hfChatMessages');
+    box.scrollTop = box.scrollHeight;
+  }
 
   /* Read the site language the page already stored in localStorage. */
   function currentLang() {
@@ -190,6 +242,11 @@ const CONFIG = {
     logPart += 1;
     const transcript = slice.map(m =>
       (m.role === 'user' ? 'Obiskovalec: ' : 'Bambi: ') + m.text).join('\n\n');
+    const subject = 'Bambi pogovor ' + convId + (logPart > 1 ? ' (nadaljevanje ' + logPart + ')' : '');
+    const meta = { jezik: currentLang(), stran: location.pathname,
+                   cas: new Date().toLocaleString('sl-SI', { timeZone: 'Europe/Ljubljana' }),
+                   vprasanj: String(slice.filter(m => m.role === 'user').length) };
+    const viaFormspree = () => {
     const fd = new FormData();
     fd.append('_subject', 'Bambi pogovor ' + convId + (logPart > 1 ? ' (nadaljevanje ' + logPart + ')' : ''));
     fd.append('vrsta', 'Bambi pogovor');
@@ -202,6 +259,17 @@ const CONFIG = {
       fetch(CONFIG.LOG_URL, { method: 'POST', body: fd, keepalive: true,
                               headers: { 'Accept': 'application/json' } }).catch(() => {});
     } catch (e) {}
+    };
+    if (!CONFIG.WORKER_URL) return viaFormspree();
+    try {
+      /* text/plain keeps this a "simple" CORS request (no preflight), which
+         keepalive needs to survive the page closing; the Worker parses JSON anyway. */
+      fetch(CONFIG.WORKER_URL, { method: 'POST', keepalive: true,
+        headers: { 'Content-Type': 'text/plain' },
+        body: JSON.stringify({ mode: 'notify', kind: 'bambi', subject, text: transcript, meta })
+      }).then(r => r.ok ? r.json() : null).then(d => { if (!d || !d.ok) viaFormspree(); })
+        .catch(viaFormspree);
+    } catch (e) { viaFormspree(); }
   }
   function scheduleLog() {
     clearTimeout(idleTimer);
@@ -242,6 +310,7 @@ const CONFIG = {
 
     toggle.addEventListener('click', () => setOpen(win.classList.contains('hidden')));
     closeBtn.addEventListener('click', () => setOpen(false));
+    document.addEventListener('hf-chat-close', () => setOpen(false));
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -256,8 +325,11 @@ const CONFIG = {
       const reply = await sendToBot();
       typingBubble.remove();
 
-      addMessage(reply, 'bot');
-      history.push({ role: 'bot', text: reply });
+      const go = parseGo(reply);
+      const keys = go.keys.length ? go.keys : guessGo(text);
+      const bubble = addMessage(go.clean || reply, 'bot');
+      addGoButtons(bubble, keys);
+      history.push({ role: 'bot', text: go.clean || reply });
       scheduleLog();
     });
 

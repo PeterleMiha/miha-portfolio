@@ -94,4 +94,8 @@
   .tb-menu{top:calc(74px + env(safe-area-inset-top,0px));left:10px;right:10px;width:auto}
 }
 @media (max-width:360px){.tb-chev{display:none}}
-@media (prefers-reduced-motion:reduce){.tb *,.tb-menu{transition:none !important}}
+/* "show me where": pulsing highlight on a menu item / the burger */
+.tb-menu a.tb-hl{background:rgba(233,195,123,0.22);color:#F5D89E;box-shadow:0 0 0 2px #E9C37B inset;animation:tbHl .8s ease-in-out infinite}
+.tb-burger.tb-hl{box-shadow:0 0 0 3px rgba(233,195,123,0.65)}
+@keyframes tbHl{50%{background:rgba(233,195,123,0.36)}}
+@media (prefers-reduced-motion:reduce){.tb *,.tb-menu{transition:none !important}.tb-menu a.tb-hl{animation:none}}

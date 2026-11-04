@@ -117,6 +117,14 @@ section[id]{scroll-margin-top:88px !important}
 #galDemo:hover .lbl,#galDemo:focus-visible .lbl{opacity:1}
 @media (max-width:640px){#galDemo{left:16px;bottom:78px;width:50px;height:50px}
   #galDemo .ph{width:22px;height:22px}}
+/* ---- Message box: clear (X) button, shown while there is text ---- */
+.fm-msgwrap{position:relative}
+.fm-msgwrap textarea{padding-right:44px}
+#fmClear{position:absolute;top:9px;right:9px;width:30px;height:30px;border-radius:50%;border:1px solid rgba(255,255,255,0.14);
+  background:#1B241D;color:#A9B2A4;display:flex;align-items:center;justify-content:center;cursor:pointer;padding:0;transition:color .2s,border-color .2s}
+#fmClear[hidden]{display:none}
+#fmClear:hover,#fmClear:focus-visible{color:#E9C37B;border-color:#E9C37B;outline:none}
+#fmClear svg{width:14px;height:14px}
 </style>
 </head>
 <body>
@@ -134,7 +142,7 @@ section[id]{scroll-margin-top:88px !important}
     </h1>
     <p data-i18n="h_sub" style="font-size:clamp(17px,2vw,20px);line-height:1.65;color:#C6CDBF;max-width:640px;margin:0 auto 38px;animation:fadeUp .9s ease .25s both">Samodejno krmljenje po urniku in SMS-nadzor od koderkoli. Brez interneta, brez aplikacij, brez naročnine — HuntersFeeder ti javi, ko zmanjka hrane ali baterije.</p>
     <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;animation:fadeUp .9s ease .35s both">
-      <a href="#kontakt" data-i18n="h_c1" style="background:#E9C37B;color:#171204;font-weight:700;font-size:16px;padding:15px 32px;border-radius:999px;transition:background .25s,transform .25s" style-hover="background:#F5D89E;color:#171204;transform:translateY(-2px)">Rezerviraj testni kos</a>
+      <a href="#kontakt" data-msg="test" data-i18n="h_c1" style="background:#E9C37B;color:#171204;font-weight:700;font-size:16px;padding:15px 32px;border-radius:999px;transition:background .25s,transform .25s" style-hover="background:#F5D89E;color:#171204;transform:translateY(-2px)">Rezerviraj testni kos</a>
       <a href="#delovanje" data-i18n="h_c2" style="border:1px solid rgba(233,195,123,0.45);color:#E9C37B;font-weight:600;font-size:16px;padding:15px 32px;border-radius:999px;transition:background .25s" style-hover="background:rgba(233,195,123,0.1)">Poglej, kako deluje</a>
     </div>
     <div style="display:flex;justify-content:center;flex-wrap:wrap;margin-top:64px;animation:fadeUp .9s ease .5s both">
@@ -323,7 +331,7 @@ section[id]{scroll-margin-top:88px !important}
           <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:#E9C37B;font-weight:700">✓</span><span data-i18n="p1b" style="font-size:15.5px;color:#C6CDBF">Omejeno število kosov</span></div>
           <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:#E9C37B;font-weight:700">✓</span><span data-i18n="p1c" style="font-size:15.5px;color:#C6CDBF">Neposredna podpora razvijalca</span></div>
         </div>
-        <a href="#kontakt" data-i18n="p1cta" style="margin-top:auto;display:block;text-align:center;background:#E9C37B;color:#171204;font-weight:700;font-size:15.5px;padding:14px 24px;border-radius:999px;transition:background .25s" style-hover="background:#F5D89E;color:#171204">Rezerviraj testni kos</a>
+        <a href="#kontakt" data-msg="test" data-i18n="p1cta" style="margin-top:auto;display:block;text-align:center;background:#E9C37B;color:#171204;font-weight:700;font-size:15.5px;padding:14px 24px;border-radius:999px;transition:background .25s" style-hover="background:#F5D89E;color:#171204">Rezerviraj testni kos</a>
       </div>
       <div data-reveal="90" style="background:#151D17;border:1px solid rgba(255,255,255,0.08);border-radius:20px;padding:38px 32px;display:flex;flex-direction:column">
         <div data-i18n="p2n" style="font-size:16px;font-weight:600;color:#A9B2A4;margin-bottom:10px">Redna prodaja</div>
@@ -336,7 +344,7 @@ section[id]{scroll-margin-top:88px !important}
           <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:#78826F;font-weight:700">✓</span><span data-i18n="p2b" style="font-size:15.5px;color:#A9B2A4">Končna izvedba izdelka</span></div>
           <div style="display:flex;gap:10px;align-items:flex-start"><span style="color:#78826F;font-weight:700">✓</span><span data-i18n="p2c" style="font-size:15.5px;color:#A9B2A4">Polna garancija</span></div>
         </div>
-        <a href="#kontakt" data-i18n="p2cta" style="margin-top:auto;display:block;text-align:center;border:1px solid rgba(233,195,123,0.45);color:#E9C37B;font-weight:600;font-size:15.5px;padding:14px 24px;border-radius:999px;transition:background .25s" style-hover="background:rgba(233,195,123,0.1)">Obvesti me, ko bo na voljo</a>
+        <a href="#kontakt" data-msg="offer" data-i18n="p2cta" style="margin-top:auto;display:block;text-align:center;border:1px solid rgba(233,195,123,0.45);color:#E9C37B;font-weight:600;font-size:15.5px;padding:14px 24px;border-radius:999px;transition:background .25s" style-hover="background:rgba(233,195,123,0.1)">Obvesti me, ko bo na voljo</a>
       </div>
     </div>
   </div>
@@ -388,7 +396,7 @@ section[id]{scroll-margin-top:88px !important}
         <p data-i18n="a5" style="margin:12px 0 0;font-size:15.5px;line-height:1.65;color:#A9B2A4">Da, podpira več uporabnikov — idealno za lovske družine.</p>
       </details>
       <details style="background:#151D17;border:1px solid rgba(255,255,255,0.07);border-radius:14px;padding:18px 22px">
-        <summary data-i18n="q6" style="cursor:pointer;font-size:17px;font-weight:600">Kako naročim?</summary>
+        <summary data-go="kontakt" data-i18n="q6" style="cursor:pointer;font-size:17px;font-weight:600">Kako naročim?</summary>
         <p data-i18n="a6" style="margin:12px 0 0;font-size:15.5px;line-height:1.65;color:#A9B2A4">Izpolni obrazec spodaj. Na voljo je omejeno število testnih kosov; redna prodaja se začne predvidoma konec leta.</p>
       </details>
     </div>
@@ -413,7 +421,10 @@ section[id]{scroll-margin-top:88px !important}
         <input type="tel" name="phone" id="fmPhone" autocomplete="tel" placeholder="Telefon (priporočeno)" data-i18n-ph="fm_ph" class="fm-in">
         <input type="text" name="location" id="fmLoc" autocomplete="address-level2" placeholder="Kraj (priporočeno)" data-i18n-ph="fm_lo" class="fm-in">
       </div>
-      <textarea name="message" id="fmMsg" rows="5" placeholder="Sporočilo / vprašanje" data-i18n-ph="fm_ms" class="fm-in" style="resize:vertical"></textarea>
+      <div class="fm-msgwrap">
+        <textarea name="message" id="fmMsg" rows="5" placeholder="Sporočilo / vprašanje" data-i18n-ph="fm_ms" class="fm-in" style="resize:vertical"></textarea>
+        <button type="button" id="fmClear" hidden aria-label="Izbriši sporočilo" title="Izbriši sporočilo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      </div>
       <div data-i18n="fm_req" style="font-size:13px;color:#78826F;margin:-4px 4px 0">Polja, označena z *, so obvezna.</div>
       <div id="fmAiOut" aria-live="polite"></div>
       <button type="button" id="fmAi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg><span data-i18n="fm_ai">Popravi z AI</span></button>
@@ -731,9 +742,20 @@ section[id]{scroll-margin-top:88px !important}
     var mouse = window.matchMedia('(hover:hover) and (pointer:fine)');
     list.forEach(function (d) {
       var t = null;
-      d.addEventListener('mouseenter', function () { if (!mouse.matches) return; clearTimeout(t); d.open = true; });
+      d.addEventListener('mouseenter', function () { if (!mouse.matches || d.querySelector('[data-go]')) return; clearTimeout(t); d.open = true; });
       d.addEventListener('mouseleave', function () { if (!mouse.matches) return; t = setTimeout(function () { d.open = false; }, 140); });
       d.querySelector('summary').addEventListener('click', function (e) {
+        // "Kako naročim?" -> straight down to the form (keyboard and mouse alike)
+        var go = this.getAttribute('data-go');
+        if (go) {
+          e.preventDefault();
+          var k = document.getElementById(go);
+          if (k) k.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          var n = document.getElementById('fmName');
+          // focus only with a real keyboard, so phones don't pop the keyboard up
+          if (n && mouse.matches) setTimeout(function () { n.focus({ preventScroll: true }); }, 700);
+          return;
+        }
         if (e.detail === 0) return;            // keyboard: native toggle of this one
         e.preventDefault();
         if (mouse.matches) { d.open = true; return; }
@@ -918,6 +940,8 @@ section[id]{scroll-margin-top:88px !important}
      once per page; a second click on the submit button always sends. Any
      error or a slow answer (> 8 s) just sends the form as usual. */
   async function askBambi(text) {
+    // A pre-written message (reserve / test unit / offer) is always a lead: straight to Miha.
+    if (msg.dataset.preset) return false;
     if (triaged || !WORKER || !text || !window.hfBambiAnswer) return false;
     triaged = true;
     submitBtn.disabled = true;
@@ -1003,6 +1027,43 @@ section[id]{scroll-margin-top:88px !important}
     busy = false; aiBtn.disabled = false;
     show(lines);
   });
+})();
+</script>
+
+<script>
+/* Pre-written messages: "Rezerviraj testni kos" -> test, "Obvesti me, ko bo na
+   voljo" -> offer, "Rezerviraj" in the top bar -> reserve (sub-pages send
+   ?m=reserve). Only fills the box when it is empty or still holds one of these
+   texts, so nothing the visitor typed is ever overwritten. X clears the box. */
+(function () {
+  var M = {sl:{test:'Zdravo, zanima me če so na voljo še testni kosi?',offer:'Zdravo, zanima me če so kosi že v redni prodaji in če lahko dobim ponudbo za krmilnico HuntersFeeder?',reserve:'Zdravo, rad bi opravil rezervacijo za krmilnik HuntersFeeder.',clear:'Izbriši sporočilo'},en:{test:'Hi, are there any test units still available?',offer:'Hi, are the units already in regular sale, and could I get an offer for the HuntersFeeder feeder?',reserve:'Hi, I would like to make a reservation for the HuntersFeeder feeder.',clear:'Clear message'},hr:{test:'Pozdrav, zanima me ima li još dostupnih testnih primjeraka?',offer:'Pozdrav, zanima me jesu li uređaji već u redovnoj prodaji i mogu li dobiti ponudu za hranilicu HuntersFeeder?',reserve:'Pozdrav, želio bih rezervirati hranilicu HuntersFeeder.',clear:'Obriši poruku'},it:{test:'Salve, sono ancora disponibili unità di prova?',offer:'Salve, le unità sono già in vendita regolare e posso ricevere un\'offerta per la mangiatoia HuntersFeeder?',reserve:'Salve, vorrei prenotare la mangiatoia HuntersFeeder.',clear:'Cancella messaggio'},de:{test:'Hallo, sind noch Testgeräte verfügbar?',offer:'Hallo, sind die Geräte schon im regulären Verkauf und kann ich ein Angebot für den HuntersFeeder-Futterautomaten bekommen?',reserve:'Hallo, ich möchte einen HuntersFeeder-Futterautomaten reservieren.',clear:'Nachricht löschen'}};
+  var msg = document.getElementById('fmMsg'), x = document.getElementById('fmClear');
+  if (!msg || !x) return;
+  function lang() { return M[document.documentElement.lang] ? document.documentElement.lang : 'sl'; }
+  function isPreset(v) {
+    v = v.trim(); if (!v) return true;
+    return Object.keys(M).some(function (l) { return ['test','offer','reserve'].some(function (k) { return M[l][k] === v; }); });
+  }
+  function sync() {
+    x.hidden = !msg.value.trim();
+    x.setAttribute('aria-label', M[lang()].clear); x.title = M[lang()].clear;
+  }
+  function fill(k) {
+    if (!M.sl[k] || !isPreset(msg.value)) return;
+    msg.value = M[lang()][k]; msg.dataset.preset = k; sync();
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-msg]'); if (a) fill(a.getAttribute('data-msg'));
+  });
+  x.addEventListener('click', function () { msg.value = ''; delete msg.dataset.preset; sync(); msg.focus(); });
+  msg.addEventListener('input', function () { delete msg.dataset.preset; sync(); });
+  document.addEventListener('hf-lang-change', function () {
+    var k = msg.dataset.preset; if (k && isPreset(msg.value)) msg.value = M[lang()][k];
+    sync();
+  });
+  var q = new URLSearchParams(location.search).get('m');
+  if (q) fill(q);
+  sync();
 })();
 </script>
 </body>

@@ -402,7 +402,7 @@ section[id]{scroll-margin-top:88px !important}
       <h2 data-i18n="fm_h" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(30px,4vw,44px);line-height:1.12;margin:0 0 16px">Rezerviraj svoj HuntersFeeder</h2>
       <p data-i18n="fm_s" style="font-size:17px;line-height:1.6;color:#A9B2A4;margin:0">Pusti podatke in oglasim se ti v 24 urah. Testnih kosov je omejeno število — kdor prej pride, prej melje.</p>
     </div>
-    <form id="hfForm" data-reveal="60" action="https://formspree.io/f/xyznjgvd" method="POST" style="background:#10160F;border:1px solid rgba(233,195,123,0.16);border-radius:20px;padding:36px;display:grid;gap:14px">
+    <form id="hfForm" novalidate data-reveal="60" action="https://formspree.io/f/xyznjgvd" method="POST" style="background:#10160F;border:1px solid rgba(233,195,123,0.16);border-radius:20px;padding:36px;display:grid;gap:14px">
       <input type="hidden" name="_subject" value="HuntersFeeder povpraševanje">
       <input type="text" name="website" id="fmHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <input type="text" name="name" id="fmName" required autocomplete="name" placeholder="Ime in priimek *" data-i18n-ph="fm_nm" aria-describedby="fmNameErr" class="fm-in">
@@ -823,31 +823,31 @@ section[id]{scroll-margin-top:88px !important}
 (function () {
   var WORKER = (typeof CONFIG !== 'undefined' && CONFIG.WORKER_URL) || '';
   var FX = {
-    sl: { sending:"Pošiljam …", sent:"Hvala! Povpraševanje je poslano — oglasim se ti čim prej.", checking:"Preverjam in popravljam …", okFields:"Obvezna polja so izpolnjena.", fixFields:"Popravi označena polja.",
+    sl: { checkQ:"Preverjam vprašanje …", answered:"Na tvoje vprašanje je odgovoril Bambi (klepet spodaj desno). Če želiš vseeno pisati meni, klikni »Pošlji povpraševanje« še enkrat.", enough:"✓ To mi zadostuje", enoughReply:"Super! Če boš še kaj potreboval, sem tukaj — ali pa mi pošlji povpraševanje.", anyway:"Vseeno pošlji povpraševanje", notSent:"Povpraševanje ni bilo poslano. Če želiš, ga lahko še vedno pošlješ.", badChars:"E-naslov ne sme vsebovati šumnikov ali presledkov (npr. joze.gorisek@gmail.com).", sending:"Pošiljam …", sent:"Hvala! Povpraševanje je poslano — oglasim se ti čim prej.", checking:"Preverjam in popravljam …", okFields:"Obvezna polja so izpolnjena.", fixFields:"Popravi označena polja.",
           needName:"Vpiši ime in priimek.", needSurname:"Dodaj še priimek (npr. Janez Novak).", needEmail:"Vpiši e-poštni naslov.",
           badEmail:"E-poštni naslov ni pravilen (npr. ime@primer.si).", recPhone:"Namig: s telefonom in krajem ti lahko odgovorim hitreje.",
           noMsg:"Sporočilo je prazno — napiši nekaj besed in ga bom izboljšal.", improved:"Sporočilo je izboljšano — preberi ga in po potrebi popravi.",
           undo:"Razveljavi", undone:"Vrnjeno izvirno sporočilo.", same:"Sporočilo je že v redu.", nameFixed:"Ime zapisano kot:",
           unavailable:"AI popravek trenutno ni na voljo. Obvezna polja so preverjena — obrazec lahko vseeno pošlješ." },
-    en: { sending:"Sending …", sent:"Thank you! Your inquiry has been sent — I\'ll get back to you soon.", checking:"Checking and improving …", okFields:"All required fields are filled in.", fixFields:"Please fix the marked fields.",
+    en: { checkQ:"Checking your question …", answered:"Bambi answered your question in the chat (bottom right). To write to me anyway, click “Send inquiry” again.", enough:"✓ That answers it", enoughReply:"Great! I\'m here if you need anything else — or send me an inquiry.", anyway:"Send the inquiry anyway", notSent:"The inquiry was not sent. You can still send it if you like.", badChars:"The email address cannot contain accented letters or spaces (e.g. john.smith@gmail.com).", sending:"Sending …", sent:"Thank you! Your inquiry has been sent — I\'ll get back to you soon.", checking:"Checking and improving …", okFields:"All required fields are filled in.", fixFields:"Please fix the marked fields.",
           needName:"Enter your first and last name.", needSurname:"Please add your last name too (e.g. John Smith).", needEmail:"Enter your email address.",
           badEmail:"That email address doesn't look right (e.g. name@example.com).", recPhone:"Tip: with a phone number and town I can reply faster.",
           noMsg:"The message is empty — write a few words and I'll polish them.", improved:"Message improved — read it and adjust if needed.",
           undo:"Undo", undone:"Original message restored.", same:"The message is already fine.", nameFixed:"Name written as:",
           unavailable:"AI help isn't available right now. Required fields are checked — you can still send the form." },
-    hr: { sending:"Šaljem …", sent:"Hvala! Upit je poslan — javit ću se uskoro.", checking:"Provjeravam i popravljam …", okFields:"Obavezna polja su ispunjena.", fixFields:"Popravi označena polja.",
+    hr: { checkQ:"Provjeravam pitanje …", answered:"Bambi je odgovorio na tvoje pitanje u chatu (dolje desno). Ako ipak želiš pisati meni, ponovno klikni »Pošalji upit«.", enough:"✓ To mi je dovoljno", enoughReply:"Super! Ako trebaš još nešto, tu sam — ili mi pošalji upit.", anyway:"Ipak pošalji upit", notSent:"Upit nije poslan. Ako želiš, još ga uvijek možeš poslati.", badChars:"Email adresa ne smije sadržavati dijakritičke znakove ili razmake (npr. ivan.horvat@gmail.com).", sending:"Šaljem …", sent:"Hvala! Upit je poslan — javit ću se uskoro.", checking:"Provjeravam i popravljam …", okFields:"Obavezna polja su ispunjena.", fixFields:"Popravi označena polja.",
           needName:"Upiši ime i prezime.", needSurname:"Dodaj i prezime (npr. Ivan Horvat).", needEmail:"Upiši e-mail adresu.",
           badEmail:"E-mail adresa nije ispravna (npr. ime@primjer.hr).", recPhone:"Savjet: s telefonom i mjestom mogu brže odgovoriti.",
           noMsg:"Poruka je prazna — napiši nekoliko riječi i poboljšat ću je.", improved:"Poruka je poboljšana — pročitaj je i po potrebi ispravi.",
           undo:"Poništi", undone:"Vraćena izvorna poruka.", same:"Poruka je već u redu.", nameFixed:"Ime zapisano kao:",
           unavailable:"AI pomoć trenutno nije dostupna. Obavezna polja su provjerena — obrazac možeš ipak poslati." },
-    it: { sending:"Invio …", sent:"Grazie! La richiesta è stata inviata — ti risponderò presto.", checking:"Controllo e miglioro …", okFields:"Tutti i campi obbligatori sono compilati.", fixFields:"Correggi i campi evidenziati.",
+    it: { checkQ:"Controllo la domanda …", answered:"Bambi ha risposto alla tua domanda nella chat (in basso a destra). Per scrivermi comunque, clicca di nuovo «Invia richiesta».", enough:"✓ Mi basta", enoughReply:"Perfetto! Se ti serve altro sono qui — oppure inviami una richiesta.", anyway:"Invia comunque la richiesta", notSent:"La richiesta non è stata inviata. Puoi ancora inviarla, se vuoi.", badChars:"L\'indirizzo email non può contenere lettere accentate o spazi (es. mario.rossi@gmail.com).", sending:"Invio …", sent:"Grazie! La richiesta è stata inviata — ti risponderò presto.", checking:"Controllo e miglioro …", okFields:"Tutti i campi obbligatori sono compilati.", fixFields:"Correggi i campi evidenziati.",
           needName:"Inserisci nome e cognome.", needSurname:"Aggiungi anche il cognome (es. Mario Rossi).", needEmail:"Inserisci l'indirizzo email.",
           badEmail:"L'indirizzo email non sembra corretto (es. nome@esempio.it).", recPhone:"Suggerimento: con telefono e località posso rispondere prima.",
           noMsg:"Il messaggio è vuoto — scrivi qualche parola e lo migliorerò.", improved:"Messaggio migliorato — leggilo e modificalo se serve.",
           undo:"Annulla", undone:"Messaggio originale ripristinato.", same:"Il messaggio va già bene.", nameFixed:"Nome scritto come:",
           unavailable:"L'aiuto IA non è disponibile al momento. I campi obbligatori sono controllati — puoi comunque inviare il modulo." },
-    de: { sending:"Wird gesendet …", sent:"Danke! Ihre Anfrage wurde gesendet — ich melde mich bald.", checking:"Ich prüfe und verbessere …", okFields:"Alle Pflichtfelder sind ausgefüllt.", fixFields:"Bitte die markierten Felder korrigieren.",
+    de: { checkQ:"Ich prüfe die Frage …", answered:"Bambi hat deine Frage im Chat beantwortet (unten rechts). Um mir trotzdem zu schreiben, klicke erneut auf „Anfrage senden“.", enough:"✓ Das reicht mir", enoughReply:"Super! Wenn du noch etwas brauchst, bin ich da — oder schick mir eine Anfrage.", anyway:"Anfrage trotzdem senden", notSent:"Die Anfrage wurde nicht gesendet. Du kannst sie trotzdem noch senden.", badChars:"Die E-Mail-Adresse darf keine Umlaute oder Leerzeichen enthalten (z. B. max.mueller@gmail.com).", sending:"Wird gesendet …", sent:"Danke! Ihre Anfrage wurde gesendet — ich melde mich bald.", checking:"Ich prüfe und verbessere …", okFields:"Alle Pflichtfelder sind ausgefüllt.", fixFields:"Bitte die markierten Felder korrigieren.",
           needName:"Bitte Vor- und Nachnamen eingeben.", needSurname:"Bitte auch den Nachnamen angeben (z. B. Max Müller).", needEmail:"Bitte E-Mail-Adresse eingeben.",
           badEmail:"Die E-Mail-Adresse scheint nicht korrekt (z. B. name@beispiel.de).", recPhone:"Tipp: Mit Telefon und Ort kann ich schneller antworten.",
           noMsg:"Die Nachricht ist leer — schreiben Sie ein paar Worte, ich verbessere sie.", improved:"Nachricht verbessert — bitte lesen und bei Bedarf anpassen.",
@@ -874,6 +874,7 @@ section[id]{scroll-margin-top:88px !important}
     else if (n.length < 2) { setErr(name, $('fmNameErr'), x.needSurname); ok = false; }
     else setErr(name, $('fmNameErr'), '');
     if (!e) { setErr(email, $('fmEmailErr'), x.needEmail); ok = false; }
+    else if (/[^\x21-\x7e]/.test(e)) { setErr(email, $('fmEmailErr'), x.badChars); ok = false; }
     else if (!EMAIL_RE.test(e)) { setErr(email, $('fmEmailErr'), x.badEmail); ok = false; }
     else setErr(email, $('fmEmailErr'), '');
     return ok;
@@ -886,14 +887,14 @@ section[id]{scroll-margin-top:88px !important}
   /* Send through the Worker (Resend -> email, Reply goes straight to the
      visitor). If the Worker can't (no key yet, daily cap, offline), the form
      is submitted the classic way to Formspree, exactly as before. */
-  var sending = false, submitBtn = form.querySelector('button[type="submit"]');
-  form.addEventListener('submit', async function (e) {
-    e.preventDefault();
-    if (!check()) { var b = firstBad(); if (b) b.focus(); return; }
+  var sending = false, triaged = false, submitBtn = form.querySelector('button[type="submit"]');
+  var btnLabel = function () { return submitBtn.getAttribute('data-label') || submitBtn.textContent; };
+
+  async function sendForm() {
     if (sending) return;
     if (!WORKER) { form.submit(); return; }
     sending = true; submitBtn.disabled = true;
-    var label = submitBtn.textContent; submitBtn.textContent = t().sending;
+    submitBtn.setAttribute('data-label', submitBtn.textContent); submitBtn.textContent = t().sending;
     try {
       var res = await fetch(WORKER, {
         method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -907,9 +908,45 @@ section[id]{scroll-margin-top:88px !important}
       form.innerHTML = '<div id="fmSent" role="status" style="text-align:center;padding:28px 8px;font-size:18px;line-height:1.55;color:#EFEDE4">' +
         '<div style="font-size:40px;color:#E9C37B;margin-bottom:10px">✓</div>' + esc(t().sent) + '</div>';
     } catch (err) {
-      submitBtn.textContent = label; submitBtn.disabled = false; sending = false;
+      submitBtn.textContent = btnLabel(); submitBtn.disabled = false; sending = false;
       form.submit();                     // Formspree fallback (native POST, no submit event)
     }
+  }
+
+  /* Only a general question (e.g. "koliko stane?")? Bambi answers it in the
+     chat, and the visitor decides: "that answers it" or "send anyway". Asked
+     once per page; a second click on the submit button always sends. Any
+     error or a slow answer (> 8 s) just sends the form as usual. */
+  async function askBambi(text) {
+    if (triaged || !WORKER || !text || !window.hfBambiAnswer) return false;
+    triaged = true;
+    submitBtn.disabled = true;
+    submitBtn.setAttribute('data-label', submitBtn.textContent); submitBtn.textContent = t().checkQ;
+    var d = null;
+    try {
+      var ctl = new AbortController(), timer = setTimeout(function () { ctl.abort(); }, 8000);
+      var res = await fetch(WORKER, { method: 'POST', signal: ctl.signal, headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'triage', lang: document.documentElement.lang || 'sl', message: text }) });
+      clearTimeout(timer);
+      d = res.ok ? await res.json() : null;
+    } catch (e) { d = null; }
+    submitBtn.textContent = btnLabel(); submitBtn.disabled = false;
+    if (!d || !d.answerable || !d.answer) return false;
+    var x = t();
+    show([esc(x.answered)]);
+    window.hfBambiAnswer(text, d.answer, [
+      { label: x.enough, reply: x.enoughReply, onClick: function () { show([esc(x.notSent)]); } },
+      { label: x.anyway, onClick: function () { sendForm(); } }
+    ]);
+    return true;
+  }
+
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!check()) { var b = firstBad(); if (b) b.focus(); return; }
+    if (sending) return;
+    if (await askBambi(msg.value.trim())) return;
+    sendForm();
   });
   document.addEventListener('hf-lang-change', function () {
     if (form.querySelector('.fm-bad')) check();

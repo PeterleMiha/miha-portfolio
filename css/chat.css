@@ -95,3 +95,13 @@
 .hfGo button:hover{background:#F5D89E;transform:translateY(-1px)}
 .hfGo button:focus-visible{outline:2px solid #E9C37B;outline-offset:2px}
 .hfGo svg{width:14px;height:14px}
+
+/* Buttons after a contact-form answer (window.hfBambiAnswer) */
+.hfAct{display:flex;flex-direction:column;gap:7px;align-self:stretch;margin:2px 0 4px}
+.hfAct button{font:inherit;font-size:13.5px;font-weight:600;border-radius:12px;padding:9px 12px;cursor:pointer;
+  background:transparent;color:#E9C37B;border:1px solid rgba(233,195,123,0.55);text-align:center;transition:background .2s ease}
+.hfAct button.hfActMain{background:#E9C37B;color:#171204;border-color:#E9C37B}
+.hfAct button:hover:not(:disabled){background:rgba(233,195,123,0.16)}
+.hfAct button.hfActMain:hover:not(:disabled){background:#F5D89E}
+.hfAct button:disabled{opacity:.45;cursor:default}
+.hfAct button.hfActChosen{opacity:1;box-shadow:0 0 0 2px #E9C37B}

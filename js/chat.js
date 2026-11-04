@@ -333,6 +333,43 @@ const CONFIG = {
       scheduleLog();
     });
 
+    /* Contact form hand-off (index.html): the visitor's form message was only a
+       general question, so Bambi answers it here. `actions` are buttons under
+       the answer, e.g. "That answers it" / "Send anyway"; each runs once and
+       then the row is disabled. The exchange is logged like any chat. */
+    window.hfBambiAnswer = function (question, answer, actions) {
+      setOpen(true);
+      addMessage(question, 'user');
+      history.push({ role: 'user', text: question });
+      const go = parseGo(answer);
+      const bubble = addMessage(go.clean || answer, 'bot');
+      addGoButtons(bubble, go.keys);
+      history.push({ role: 'bot', text: go.clean || answer });
+      if (actions && actions.length) {
+        const row = document.createElement('div');
+        row.className = 'hfAct';
+        actions.forEach((a, i) => {
+          const b = document.createElement('button');
+          b.type = 'button';
+          b.textContent = a.label;
+          if (i === 0) b.className = 'hfActMain';
+          b.addEventListener('click', () => {
+            row.querySelectorAll('button').forEach(x => { x.disabled = true; });
+            b.classList.add('hfActChosen');
+            history.push({ role: 'user', text: '[' + a.label + ']' });
+            if (a.reply) { addMessage(a.reply, 'bot'); history.push({ role: 'bot', text: a.reply }); }
+            if (a.onClick) a.onClick();
+            scheduleLog();
+          });
+          row.appendChild(b);
+        });
+        document.getElementById('hfChatMessages').appendChild(row);
+      }
+      const box = document.getElementById('hfChatMessages');
+      box.scrollTop = box.scrollHeight;
+      scheduleLog();
+    };
+
     /* index.html fires this on every language change. Until the visitor
        has written anything, the greeting follows the language too. */
     document.addEventListener('hf-lang-change', () => {

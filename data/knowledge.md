@@ -247,7 +247,7 @@ The feeder went through several stages:
 
 ## 12. Where to find things on the website (for directing visitors)
 
-Website: https://peterlemiha.github.io/miha-portfolio/
+Website: https://huntersfeeder.com/
 
 The dark green bar at the top of the main page stays visible while scrolling. From left
 to right: the HuntersFeeder logo (click = back to the top), the language button (a flag;

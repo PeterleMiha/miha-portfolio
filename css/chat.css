@@ -80,3 +80,9 @@
 @media (max-width: 480px) {
   #hfChatWindow { height: 60vh; max-height: 60vh; }
 }
+
+/* Bambi header: name + small subtitle, and the privacy line under it */
+.hfTitleWrap { display: flex; flex-direction: column; line-height: 1.15; }
+#hfChatTitle { font-size: 16px; font-weight: 700; }
+#hfChatSub { font-size: 12px; font-weight: 500; opacity: .85; }
+#hfChatNote { font-size: 11.5px; color: #8b9187; padding: 7px 14px; border-bottom: 1px solid #2A2E2A; background: #0f1112; }

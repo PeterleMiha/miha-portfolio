@@ -152,3 +152,24 @@ Reached from the "Galerija" nav link, the footer, and the picture (gallery) butt
 phone icon. All content is in **`galerija/data.js`** — one entry per revision with
 photos (`galerija/img/<folder>/...`) and YouTube video IDs. The format is
 described at the top of that file; the page itself never needs editing.
+
+---
+
+## Bambi (chatbot) and the "Popravi z AI" button — Worker update
+
+`worker/worker.js` now has two modes:
+
+- chat (as before) — the assistant now introduces itself as **Bambi**;
+- `mode: "fix"` — used by the contact form's **Popravi z AI** button: fixes the
+  capitalisation of the name and polishes the message, returns JSON.
+
+After changing `worker/worker.js`, paste it into Cloudflare again:
+Cloudflare dashboard → Workers & Pages → `huntersfeeder` → **Edit code** → select all,
+paste the new file → **Deploy**. Until then the chat keeps working, and the form
+button falls back to checking the fields only (it says AI help is unavailable).
+
+**Conversation log:** `js/chat.js` mails each Bambi conversation to the Formspree form
+in `CONFIG.LOG_URL` (one email per conversation, after 2 minutes of silence or when the
+visitor leaves the page). Subject: `Bambi pogovor XXXXXX`. Formspree's free plan allows
+50 submissions a month for the form, shared with the contact form; for a separate
+inbox/quota create a second Formspree form and put its URL in `CONFIG.LOG_URL`.

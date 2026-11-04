@@ -103,7 +103,7 @@
   menu.innerHTML = (extraSel ? '<a href="#" data-tb="extra">' + ico(I.x) + '<span></span></a><hr>' : '') +
     ITEMS.map(function (it) {
       if (!it) return '<hr>';
-      return '<a href="' + it[1] + '"' + (it[2] && it[2] === page ? ' aria-current="page"' : '') + '>' +
+      return '<a data-k="' + it[0] + '" href="' + it[1] + '"' + (it[2] && it[2] === page ? ' aria-current="page"' : '') + '>' +
         ico(I[it[0]]) + '<span data-tbk="' + it[0] + '"></span></a>';
     }).join('');
 
@@ -213,6 +213,31 @@
   }
 
   paint();
+
+  /* ---------- "show me where" (used by Bambi's link buttons) ----------
+     Opens the menu, pulses the item for a moment so the visitor sees where
+     it lives, then follows it. Deferred one tick so the click that called
+     it doesn't reach the outside-click handler and close the menu again. */
+  window.hfMenuShow = function (k) {
+    var a = menu.querySelector('[data-k="' + k + '"]');
+    if (!a) return false;
+    var still = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+    setTimeout(function () {
+      burger.classList.add('tb-hl');
+      openMenu(true);
+      a.classList.add('tb-hl');
+      setTimeout(function () {
+        a.classList.remove('tb-hl'); burger.classList.remove('tb-hl');
+        a.click();
+      }, still ? 500 : 1600);
+    }, 0);
+    return true;
+  };
+  window.hfMenuLabel = function (k) {
+    var s = menu.querySelector('[data-k="' + k + '"] span');
+    return s ? s.textContent : '';
+  };
+
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', function () { hideSelect(); paint(); });
   else hideSelect();
   window.addEventListener('load', fit);

@@ -186,3 +186,21 @@ in `CONFIG.LOG_URL` (one email per conversation, after 2 minutes of silence or w
 visitor leaves the page). Subject: `Bambi pogovor XXXXXX`. Formspree's free plan allows
 50 submissions a month for the form, shared with the contact form; for a separate
 inbox/quota create a second Formspree form and put its URL in `CONFIG.LOG_URL`.
+
+### Email notifications (contact form + Bambi chats) via Resend
+
+Both the contact form and every Bambi conversation are sent by the Worker
+through [Resend](https://resend.com) — free: 3,000 emails a month, max 100 a day
+(Formspree free: 50 a month). If the Worker cannot send (no key, daily cap,
+error), the browser falls back to Formspree automatically, so nothing is lost.
+
+One-time setup:
+1. Sign up at resend.com **with mihapeterlea@gmail.com** — without your own
+   domain, Resend may only send to the address of its own account.
+2. Resend → API Keys → Create API Key (permission "Sending access") → copy it.
+3. Cloudflare → Workers & Pages → huntersfeeder → Settings → Variables and
+   Secrets → Add → Type **Secret**, name `RESEND_API_KEY`, value = the key → Deploy.
+4. Optional: plain variable `NOTIFY_TO` if the Resend account uses another address.
+
+Bambi's answers can end with tags such as `[[go:manual]]`; js/chat.js turns them
+into buttons that open the burger menu, highlight the item and follow it.

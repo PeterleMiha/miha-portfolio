@@ -66,6 +66,57 @@ section[id]{scroll-margin-top:88px !important}
 #fmAiOut ul{margin:6px 0 0;padding-left:18px}
 #fmAiOut button{background:none;border:0;padding:0;margin-left:6px;color:#E9C37B;font:inherit;
   font-weight:700;text-decoration:underline;cursor:pointer}
+/* ---- Floating "app screens" button ---------------------------------------
+   Bottom-LEFT on purpose: bottom-right belongs to the chat widget and
+   bottom-centre to #floatCta, so this is the only free corner.
+   The buzz is one long keyframe that is still for three quarters of its
+   cycle — a phone vibrating in bursts, not a permanently shaking icon.
+   The global prefers-reduced-motion rule above switches both off.        */
+#appDemo{position:fixed;left:22px;bottom:24px;z-index:70;width:56px;height:56px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:#131A15;border:1px solid rgba(233,195,123,0.55);color:#E9C37B;
+  box-shadow:0 10px 26px -8px rgba(0,0,0,0.7);
+  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease}
+#appDemo:hover{background:#1B2419;border-color:#E9C37B;color:#F5D89E;
+  box-shadow:0 12px 32px -8px rgba(0,0,0,0.85)}
+#appDemo:focus-visible{outline:2px solid #E9C37B;outline-offset:3px}
+#appDemo .ph{width:25px;height:25px;display:block;animation:hfBuzz 3.4s ease-in-out infinite}
+#appDemo:hover .ph{animation-play-state:paused}
+#appDemo::before{content:"";position:absolute;inset:-1px;border-radius:50%;
+  border:2px solid #E9C37B;pointer-events:none;animation:hfRing 3.4s ease-out infinite}
+#appDemo .lbl{position:absolute;left:68px;white-space:nowrap;opacity:0;pointer-events:none;
+  background:rgba(10,14,11,0.95);border:1px solid rgba(255,255,255,0.12);color:#EFEDE4;
+  font-size:13.5px;font-weight:600;padding:8px 12px;border-radius:10px;transition:opacity .2s ease}
+#appDemo:hover .lbl,#appDemo:focus-visible .lbl{opacity:1}
+@keyframes hfBuzz{
+  0%,70%,100%{transform:translateX(0) rotate(0)}
+  72%{transform:translateX(-1.5px) rotate(-8deg)}
+  75%{transform:translateX(1.5px) rotate(8deg)}
+  78%{transform:translateX(-1.5px) rotate(-7deg)}
+  81%{transform:translateX(1.5px) rotate(7deg)}
+  84%{transform:translateX(-1px) rotate(-4deg)}
+  87%{transform:translateX(1px) rotate(4deg)}
+  90%{transform:translateX(0) rotate(0)}
+}
+@keyframes hfRing{0%{transform:scale(1);opacity:.5}70%,100%{transform:scale(1.5);opacity:0}}
+@media (max-width:640px){#appDemo{left:16px;bottom:18px;width:50px;height:50px}
+  #appDemo .ph{width:22px;height:22px}}
+/* ---- Floating "gallery" button: same look, one slot higher ---------------- */
+#galDemo{position:fixed;left:22px;bottom:92px;z-index:70;width:56px;height:56px;
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  background:#131A15;border:1px solid rgba(233,195,123,0.55);color:#E9C37B;
+  box-shadow:0 10px 26px -8px rgba(0,0,0,0.7);
+  transition:background .25s ease,border-color .25s ease,box-shadow .25s ease}
+#galDemo:hover{background:#1B2419;border-color:#E9C37B;color:#F5D89E;
+  box-shadow:0 12px 32px -8px rgba(0,0,0,0.85)}
+#galDemo:focus-visible{outline:2px solid #E9C37B;outline-offset:3px}
+#galDemo .ph{width:25px;height:25px;display:block}
+#galDemo .lbl{position:absolute;left:68px;white-space:nowrap;opacity:0;pointer-events:none;
+  background:rgba(10,14,11,0.95);border:1px solid rgba(255,255,255,0.12);color:#EFEDE4;
+  font-size:13.5px;font-weight:600;padding:8px 12px;border-radius:10px;transition:opacity .2s ease}
+#galDemo:hover .lbl,#galDemo:focus-visible .lbl{opacity:1}
+@media (max-width:640px){#galDemo{left:16px;bottom:78px;width:50px;height:50px}
+  #galDemo .ph{width:22px;height:22px}}
 </style>
 </head>
 <body>
@@ -353,6 +404,7 @@ section[id]{scroll-margin-top:88px !important}
     </div>
     <form id="hfForm" data-reveal="60" action="https://formspree.io/f/xyznjgvd" method="POST" style="background:#10160F;border:1px solid rgba(233,195,123,0.16);border-radius:20px;padding:36px;display:grid;gap:14px">
       <input type="hidden" name="_subject" value="HuntersFeeder povpraševanje">
+      <input type="text" name="website" id="fmHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <input type="text" name="name" id="fmName" required autocomplete="name" placeholder="Ime in priimek *" data-i18n-ph="fm_nm" aria-describedby="fmNameErr" class="fm-in">
       <div class="fm-err" id="fmNameErr" aria-live="polite"></div>
       <input type="email" name="email" id="fmEmail" required autocomplete="email" placeholder="E-pošta *" data-i18n-ph="fm_em" aria-describedby="fmEmailErr" class="fm-in">
@@ -390,6 +442,31 @@ section[id]{scroll-margin-top:88px !important}
   <a id="floatCta" href="#kontakt" style="position:fixed;bottom:24px;left:50%;transform:translate(-50%,200%);z-index:70;background:#E9C37B;color:#171204;font-weight:700;font-size:15px;padding:13px 26px;border-radius:999px;display:flex;align-items:center;gap:8px;transition:transform .5s cubic-bezier(0.34,1.3,0.64,1);animation:glowPulse 2.8s ease-in-out infinite">
     <span>❤</span><span data-i18n="fl_cta">Zanima me</span>
   </a>
+       link's accessible name as well as its hover tooltip, so it carries the
+       data-i18n key; the Slovene string is harvested from this markup. -->
+  <a id="appDemo" href="app/index.html">
+    <svg class="ph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="6" y="2.5" width="12" height="19" rx="2.6"/>
+      <path d="M10.4 5.4h3.2"/><path d="M10.9 18.5h2.2"/>
+    </svg>
+    <span class="lbl" data-i18n="fl_app">Aplikacija</span>
+  </a>
+
+  <!-- Picture (photo with mountains + sun) → the development gallery. Was a
+       camera icon, which read as "this will open my camera". Stacked above
+       #appDemo in the same corner and style, without the buzz. -->
+  <a id="galDemo" href="galerija/index.html">
+    <svg class="ph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <rect x="3" y="4" width="18" height="16" rx="2.4"/>
+      <circle cx="8.6" cy="9.4" r="1.7"/>
+      <path d="M3.6 17.6l5.2-5.2 3.4 3.4 2.6-2.6 5.6 5.6"/>
+    </svg>
+    <span class="lbl" data-i18n="fl_gal">Galerija</span>
+  </a>
+
+
 
 
 <!-- ==========================================================
@@ -746,31 +823,31 @@ section[id]{scroll-margin-top:88px !important}
 (function () {
   var WORKER = (typeof CONFIG !== 'undefined' && CONFIG.WORKER_URL) || '';
   var FX = {
-    sl: { checking:"Preverjam in popravljam …", okFields:"Obvezna polja so izpolnjena.", fixFields:"Popravi označena polja.",
+    sl: { sending:"Pošiljam …", sent:"Hvala! Povpraševanje je poslano — oglasim se ti čim prej.", checking:"Preverjam in popravljam …", okFields:"Obvezna polja so izpolnjena.", fixFields:"Popravi označena polja.",
           needName:"Vpiši ime in priimek.", needSurname:"Dodaj še priimek (npr. Janez Novak).", needEmail:"Vpiši e-poštni naslov.",
           badEmail:"E-poštni naslov ni pravilen (npr. ime@primer.si).", recPhone:"Namig: s telefonom in krajem ti lahko odgovorim hitreje.",
           noMsg:"Sporočilo je prazno — napiši nekaj besed in ga bom izboljšal.", improved:"Sporočilo je izboljšano — preberi ga in po potrebi popravi.",
           undo:"Razveljavi", undone:"Vrnjeno izvirno sporočilo.", same:"Sporočilo je že v redu.", nameFixed:"Ime zapisano kot:",
           unavailable:"AI popravek trenutno ni na voljo. Obvezna polja so preverjena — obrazec lahko vseeno pošlješ." },
-    en: { checking:"Checking and improving …", okFields:"All required fields are filled in.", fixFields:"Please fix the marked fields.",
+    en: { sending:"Sending …", sent:"Thank you! Your inquiry has been sent — I\'ll get back to you soon.", checking:"Checking and improving …", okFields:"All required fields are filled in.", fixFields:"Please fix the marked fields.",
           needName:"Enter your first and last name.", needSurname:"Please add your last name too (e.g. John Smith).", needEmail:"Enter your email address.",
           badEmail:"That email address doesn't look right (e.g. name@example.com).", recPhone:"Tip: with a phone number and town I can reply faster.",
           noMsg:"The message is empty — write a few words and I'll polish them.", improved:"Message improved — read it and adjust if needed.",
           undo:"Undo", undone:"Original message restored.", same:"The message is already fine.", nameFixed:"Name written as:",
           unavailable:"AI help isn't available right now. Required fields are checked — you can still send the form." },
-    hr: { checking:"Provjeravam i popravljam …", okFields:"Obavezna polja su ispunjena.", fixFields:"Popravi označena polja.",
+    hr: { sending:"Šaljem …", sent:"Hvala! Upit je poslan — javit ću se uskoro.", checking:"Provjeravam i popravljam …", okFields:"Obavezna polja su ispunjena.", fixFields:"Popravi označena polja.",
           needName:"Upiši ime i prezime.", needSurname:"Dodaj i prezime (npr. Ivan Horvat).", needEmail:"Upiši e-mail adresu.",
           badEmail:"E-mail adresa nije ispravna (npr. ime@primjer.hr).", recPhone:"Savjet: s telefonom i mjestom mogu brže odgovoriti.",
           noMsg:"Poruka je prazna — napiši nekoliko riječi i poboljšat ću je.", improved:"Poruka je poboljšana — pročitaj je i po potrebi ispravi.",
           undo:"Poništi", undone:"Vraćena izvorna poruka.", same:"Poruka je već u redu.", nameFixed:"Ime zapisano kao:",
           unavailable:"AI pomoć trenutno nije dostupna. Obavezna polja su provjerena — obrazac možeš ipak poslati." },
-    it: { checking:"Controllo e miglioro …", okFields:"Tutti i campi obbligatori sono compilati.", fixFields:"Correggi i campi evidenziati.",
+    it: { sending:"Invio …", sent:"Grazie! La richiesta è stata inviata — ti risponderò presto.", checking:"Controllo e miglioro …", okFields:"Tutti i campi obbligatori sono compilati.", fixFields:"Correggi i campi evidenziati.",
           needName:"Inserisci nome e cognome.", needSurname:"Aggiungi anche il cognome (es. Mario Rossi).", needEmail:"Inserisci l'indirizzo email.",
           badEmail:"L'indirizzo email non sembra corretto (es. nome@esempio.it).", recPhone:"Suggerimento: con telefono e località posso rispondere prima.",
           noMsg:"Il messaggio è vuoto — scrivi qualche parola e lo migliorerò.", improved:"Messaggio migliorato — leggilo e modificalo se serve.",
           undo:"Annulla", undone:"Messaggio originale ripristinato.", same:"Il messaggio va già bene.", nameFixed:"Nome scritto come:",
           unavailable:"L'aiuto IA non è disponibile al momento. I campi obbligatori sono controllati — puoi comunque inviare il modulo." },
-    de: { checking:"Ich prüfe und verbessere …", okFields:"Alle Pflichtfelder sind ausgefüllt.", fixFields:"Bitte die markierten Felder korrigieren.",
+    de: { sending:"Wird gesendet …", sent:"Danke! Ihre Anfrage wurde gesendet — ich melde mich bald.", checking:"Ich prüfe und verbessere …", okFields:"Alle Pflichtfelder sind ausgefüllt.", fixFields:"Bitte die markierten Felder korrigieren.",
           needName:"Bitte Vor- und Nachnamen eingeben.", needSurname:"Bitte auch den Nachnamen angeben (z. B. Max Müller).", needEmail:"Bitte E-Mail-Adresse eingeben.",
           badEmail:"Die E-Mail-Adresse scheint nicht korrekt (z. B. name@beispiel.de).", recPhone:"Tipp: Mit Telefon und Ort kann ich schneller antworten.",
           noMsg:"Die Nachricht ist leer — schreiben Sie ein paar Worte, ich verbessere sie.", improved:"Nachricht verbessert — bitte lesen und bei Bedarf anpassen.",
@@ -806,8 +883,33 @@ section[id]{scroll-margin-top:88px !important}
   [name, email].forEach(function (el) {
     el.addEventListener('input', function () { if (el.classList.contains('fm-bad')) check(); });
   });
-  form.addEventListener('submit', function (e) {
-    if (!check()) { e.preventDefault(); var b = firstBad(); if (b) b.focus(); }
+  /* Send through the Worker (Resend -> email, Reply goes straight to the
+     visitor). If the Worker can't (no key yet, daily cap, offline), the form
+     is submitted the classic way to Formspree, exactly as before. */
+  var sending = false, submitBtn = form.querySelector('button[type="submit"]');
+  form.addEventListener('submit', async function (e) {
+    e.preventDefault();
+    if (!check()) { var b = firstBad(); if (b) b.focus(); return; }
+    if (sending) return;
+    if (!WORKER) { form.submit(); return; }
+    sending = true; submitBtn.disabled = true;
+    var label = submitBtn.textContent; submitBtn.textContent = t().sending;
+    try {
+      var res = await fetch(WORKER, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ mode: 'notify', kind: 'contact', lang: document.documentElement.lang || 'sl',
+          website: $('fmHp').value,
+          fields: { name: name.value.trim(), email: email.value.trim(), phone: phone.value.trim(),
+                    location: loc.value.trim(), message: msg.value.trim() } })
+      });
+      var d = res.ok ? await res.json() : null;
+      if (!d || !d.ok) throw new Error('worker');
+      form.innerHTML = '<div id="fmSent" role="status" style="text-align:center;padding:28px 8px;font-size:18px;line-height:1.55;color:#EFEDE4">' +
+        '<div style="font-size:40px;color:#E9C37B;margin-bottom:10px">✓</div>' + esc(t().sent) + '</div>';
+    } catch (err) {
+      submitBtn.textContent = label; submitBtn.disabled = false; sending = false;
+      form.submit();                     // Formspree fallback (native POST, no submit event)
+    }
   });
   document.addEventListener('hf-lang-change', function () {
     if (form.querySelector('.fm-bad')) check();

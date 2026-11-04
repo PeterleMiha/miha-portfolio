@@ -50,7 +50,7 @@ jobs:
           sleep 5
           url="https://huntersfeeder.miha-peterlea.workers.dev"
           code=$(curl -s -o out.json -w '%{http_code}' -X POST "$url" \
-            -H 'Content-Type: application/json' -H 'Origin: https://peterlemiha.github.io' \
+            -H 'Content-Type: application/json' -H 'Origin: https://huntersfeeder.com' \
             -d '{"mode":"fix","lang":"sl","name":"janez novak","message":"a je testn kos se na volo"}')
           echo "HTTP $code"; cat out.json; echo
           if [ "$code" != "200" ] || ! grep -q '"name"' out.json; then

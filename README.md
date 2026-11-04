@@ -204,3 +204,15 @@ One-time setup:
 
 Bambi's answers can end with tags such as `[[go:manual]]`; js/chat.js turns them
 into buttons that open the burger menu, highlight the item and follow it.
+
+## Domain huntersfeeder.com
+
+Registered at Cloudflare; the site is still served by GitHub Pages.
+- `CNAME` (repo root) tells GitHub Pages to serve the site at huntersfeeder.com;
+  peterlemiha.github.io/miha-portfolio/… then redirects there (old links and QR codes keep working).
+- DNS at Cloudflare, all **DNS only** (grey cloud): apex A 185.199.108–111.153,
+  AAAA 2606:50c0:8000–8003::153, `www` CNAME peterlemiha.github.io.
+- After the certificate is issued: GitHub → Settings → Pages → tick "Enforce HTTPS".
+- Worker accepts calls from huntersfeeder.com, www.huntersfeeder.com and the old github.io
+  address (SITE_ORIGINS) and reads knowledge.md from the new domain, with the old one as fallback.
+- QR codes for https://huntersfeeder.com: `Slike/qr/` (QR 4-H, 33×33, logo zone 11×13 modules).

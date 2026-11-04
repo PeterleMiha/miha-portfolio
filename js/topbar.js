@@ -87,7 +87,7 @@
         '<span class="tb-flag" id="tbFlag"></span>' +
         '<svg class="tb-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>' +
       '</button></div>' +
-      '<a class="tb-cta" data-tb="cta" href="' + home_ + '#kontakt">Rezerviraj</a>' +
+      '<a class="tb-cta" data-tb="cta" data-msg="reserve" href="' + home_ + (home ? '' : '?m=reserve') + '#kontakt">Rezerviraj</a>' +
       '<button type="button" class="tb-burger" id="tbBurger" aria-expanded="false" aria-controls="tbMenu"><i></i></button>' +
     '</div>';
 

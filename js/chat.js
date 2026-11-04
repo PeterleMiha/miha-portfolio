@@ -25,6 +25,7 @@ const CONFIG = {
   /* ---------- Text shown in the chat window, per language ---------- */
   const chatText = {
     sl: {
+      unclear: 'Ne razumem popolnoma, mogoče misliš', topics: [['Delovanje', 'Kako deluje HuntersFeeder?'], ['Cena', 'Koliko stane HuntersFeeder?'], ['Nastavitev', 'Kako nastavim napravo?']],
       title: "Bambi",
       sub: "virtualni pomočnik HuntersFeeder",
       note: "Pogovori se shranjujejo za izboljšanje odgovorov.",
@@ -36,6 +37,7 @@ const CONFIG = {
       error: "Oprostite, prišlo je do napake. Poskusite znova ali pišite na mihapeterlea@gmail.com."
     },
     en: {
+      unclear: 'I don\'t quite understand — maybe you mean', topics: [['How it works', 'How does HuntersFeeder work?'], ['Price', 'How much does HuntersFeeder cost?'], ['Setup', 'How do I set up the device?']],
       title: "Bambi",
       sub: "HuntersFeeder virtual assistant",
       note: "Chats are saved to improve the answers.",
@@ -47,6 +49,7 @@ const CONFIG = {
       error: "Sorry, something went wrong. Please try again or email mihapeterlea@gmail.com."
     },
     hr: {
+      unclear: 'Ne razumijem sasvim, možda misliš', topics: [['Kako radi', 'Kako radi HuntersFeeder?'], ['Cijena', 'Koliko košta HuntersFeeder?'], ['Postavljanje', 'Kako postaviti uređaj?']],
       title: "Bambi",
       sub: "virtualni pomoćnik HuntersFeeder",
       note: "Razgovori se spremaju radi poboljšanja odgovora.",
@@ -58,6 +61,7 @@ const CONFIG = {
       error: "Nažalost, došlo je do pogreške. Pokušajte ponovno ili pišite na mihapeterlea@gmail.com."
     },
     it: {
+      unclear: 'Non ho capito bene, forse intendi', topics: [['Funzionamento', 'Come funziona HuntersFeeder?'], ['Prezzo', 'Quanto costa HuntersFeeder?'], ['Configurazione', 'Come configuro il dispositivo?']],
       title: "Bambi",
       sub: "assistente virtuale HuntersFeeder",
       note: "Le conversazioni vengono salvate per migliorare le risposte.",
@@ -69,6 +73,7 @@ const CONFIG = {
       error: "Spiacente, qualcosa è andato storto. Riprova o scrivi a mihapeterlea@gmail.com."
     },
     de: {
+      unclear: 'Ich verstehe das nicht ganz – meinst du vielleicht', topics: [['Funktion', 'Wie funktioniert HuntersFeeder?'], ['Preis', 'Was kostet HuntersFeeder?'], ['Einrichtung', 'Wie richte ich das Gerät ein?']],
       title: "Bambi",
       sub: "virtueller Assistent von HuntersFeeder",
       note: "Gespräche werden gespeichert, um die Antworten zu verbessern.",
@@ -132,6 +137,31 @@ const CONFIG = {
     bubble.appendChild(row);
     const box = document.getElementById('hfChatMessages');
     box.scrollTop = box.scrollHeight;
+  }
+
+  /* "[[unclear]]" from the Worker (or an input with no letters at all): Bambi
+     echoes the message and offers three topics as buttons; a button sends its
+     question as if the visitor had typed it. */
+  function unclearBubble(question) {
+    const t = chatText[currentLang()];
+    const short = question.length > 40 ? question.slice(0, 40) + '…' : question;
+    const text = '"' + short + '"? ' + t.unclear + ' ' +
+      t.topics.map(x => x[0].toLowerCase()).join(', ') + '?';
+    const bubble = addMessage(text, 'bot');
+    const row = document.createElement('div');
+    row.className = 'hfGo';
+    t.topics.forEach(([label, q]) => {
+      const b = document.createElement('button');
+      b.type = 'button'; b.textContent = label;
+      b.addEventListener('click', () => {
+        row.querySelectorAll('button').forEach(x => { x.disabled = true; });
+        window.hfBambiSend && window.hfBambiSend(q);
+      });
+      row.appendChild(b);
+    });
+    bubble.appendChild(row);
+    document.getElementById('hfChatMessages').scrollTop = 1e9;
+    return text;
   }
 
   /* Read the site language the page already stored in localStorage. */
@@ -312,25 +342,37 @@ const CONFIG = {
     closeBtn.addEventListener('click', () => setOpen(false));
     document.addEventListener('hf-chat-close', () => setOpen(false));
 
-    form.addEventListener('submit', async (e) => {
+    async function ask(text) {
+      addMessage(text, 'user');
+      history.push({ role: 'user', text });
+
+      // nothing to read at all (no letters or digits): no need to ask the model
+      let reply = /[\p{L}\p{N}]/u.test(text) ? null : '[[unclear]]';
+      if (!reply) {
+        const typingBubble = addMessage(chatText[currentLang()].typing, 'bot', 'hfTyping');
+        reply = await sendToBot();
+        typingBubble.remove();
+      }
+
+      if (/\[\[\s*unclear\s*\]\]/i.test(reply)) {
+        history.push({ role: 'bot', text: unclearBubble(text) });
+      } else {
+        const go = parseGo(reply);
+        const keys = go.keys.length ? go.keys : guessGo(text);
+        const bubble = addMessage(go.clean || reply, 'bot');
+        addGoButtons(bubble, keys);
+        history.push({ role: 'bot', text: go.clean || reply });
+      }
+      scheduleLog();
+    }
+    window.hfBambiSend = ask;
+
+    form.addEventListener('submit', (e) => {
       e.preventDefault();
       const text = input.value.trim();
       if (!text) return;
       input.value = '';
-
-      addMessage(text, 'user');
-      history.push({ role: 'user', text });
-
-      const typingBubble = addMessage(chatText[currentLang()].typing, 'bot', 'hfTyping');
-      const reply = await sendToBot();
-      typingBubble.remove();
-
-      const go = parseGo(reply);
-      const keys = go.keys.length ? go.keys : guessGo(text);
-      const bubble = addMessage(go.clean || reply, 'bot');
-      addGoButtons(bubble, keys);
-      history.push({ role: 'bot', text: go.clean || reply });
-      scheduleLog();
+      ask(text);
     });
 
     /* Contact form hand-off (index.html): the visitor's form message was only a

@@ -4,13 +4,13 @@
 #
 # For every .jpg/.jpeg/.png in the source folder it writes
 #   galerija\img\<name>.jpg          long side 1800 px  (opened in the lightbox)
-#   galerija\img\thumbs\<name>.jpg   long side  640 px  (shown in the grid)
+#   galerija\img\thumbs\<name>.jpg   long side 1000 px  (shown in the grid)
 # Phone photos are turned upright using their EXIF orientation. Existing
 # outputs are overwritten. Uses only .NET's System.Drawing - nothing to install.
 param(
   [Parameter(Mandatory = $true)][string]$Source,
   [int]$Full = 1800,
-  [int]$Thumb = 640,
+  [int]$Thumb = 1000,
   [int]$Quality = 82
 )
 Add-Type -AssemblyName System.Drawing

@@ -146,6 +146,13 @@ section[id]{scroll-margin-top:88px !important}
 #fmClear[hidden]{display:none}
 #fmClear:hover,#fmClear:focus-visible{color:#E9C37B;border-color:#E9C37B;outline:none}
 #fmClear svg{width:14px;height:14px}
+/* ---- Setup section: steps beside the app screenshot ---- */
+.hw-grid{display:grid;grid-template-columns:1fr 300px;gap:28px;align-items:center}
+.hw-steps{display:grid;gap:16px}
+.hw-app{display:flex;flex-direction:column;align-items:center;gap:12px;color:#E9C37B;font-weight:600;font-size:15.5px;text-decoration:none}
+.hw-app img{width:100%;max-width:300px;height:auto;border-radius:34px;filter:drop-shadow(0 18px 40px rgba(0,0,0,.55));transition:transform .3s ease}
+.hw-app:hover img{transform:translateY(-4px)}
+@media (max-width:820px){.hw-grid{grid-template-columns:1fr}.hw-app img{max-width:260px}}
 </style>
 </head>
 <body>
@@ -275,60 +282,32 @@ section[id]{scroll-margin-top:88px !important}
   <div style="max-width:1140px;margin:0 auto">
     <div data-reveal="0" style="text-align:center;max-width:640px;margin:0 auto 56px">
       <div data-i18n="hw_k" style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:#E9C37B;font-weight:600;margin-bottom:16px">Namestitev</div>
-      <h2 data-i18n="hw_h" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(30px,4vw,44px);line-height:1.12;margin:0">Od škatle do krmišča v 10 minutah</h2>
+      <h2 data-i18n="hw_h" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(30px,4vw,44px);line-height:1.12;margin:0">Pritrdiš. Nastaviš. Deluje.</h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px">
+    <div class="hw-grid">
+      <div class="hw-steps">
       <div data-reveal="0" style="background:#151D17;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:30px">
         <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:42px;color:rgba(233,195,123,0.9);line-height:1;margin-bottom:16px">01</div>
         <div data-i18n="hw1t" style="font-size:19px;font-weight:700;margin-bottom:8px">Napolni in poveži</div>
         <div data-i18n="hw1d" style="font-size:15.5px;line-height:1.6;color:#A9B2A4">Napolni baterijo, vstavi svojo SIM kartico in nasuj hrano v zalogovnik.</div>
-      </div>
-      <div data-reveal="80" style="background:#151D17;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:30px">
+        </div>
+        <div data-reveal="80" style="background:#151D17;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:30px">
         <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:42px;color:rgba(233,195,123,0.9);line-height:1;margin-bottom:16px">02</div>
         <div data-i18n="hw2t" style="font-size:19px;font-weight:700;margin-bottom:8px">Nastavi prek WiFi</div>
         <div data-i18n="hw2d" style="font-size:15.5px;line-height:1.6;color:#A9B2A4">Poveži se na WiFi omrežje »HuntersFeeder« in v brskalniku nastavi urnik ter telefonsko številko.</div>
-      </div>
-      <div data-reveal="160" style="background:#151D17;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:30px">
+        </div>
+        <div data-reveal="160" style="background:#151D17;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:30px">
         <div style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:42px;color:rgba(233,195,123,0.9);line-height:1;margin-bottom:16px">03</div>
         <div data-i18n="hw3t" style="font-size:19px;font-weight:700;margin-bottom:8px">Pozabi na skrbi</div>
         <div data-i18n="hw3d" style="font-size:15.5px;line-height:1.6;color:#A9B2A4">Naprava krmi sama in ti po SMS-u javi, ko te potrebuje.</div>
+        </div>
       </div>
+      <a class="hw-app" data-reveal="120" href="app/index.html">
+        <img src="Slike/Aplikacija.png" width="381" height="789" alt="Aplikacija HuntersFeeder: količina krme, baterija, signal in naslednje krmljenje" loading="lazy">
+        <span data-i18n="hw_app">Poglej aplikacijo →</span>
+      </a>
     </div>
-    <img data-reveal="100" src="Slike/Slika3.jpeg" alt="Polnjenje zalogovnika, SMS upravljanje in divjad ob krmišču" style="width:100%;height:420px;object-fit:cover;object-position:center;border-radius:20px;margin-top:48px;border:1px solid rgba(255,255,255,0.07)">
-  </div>
-</section>
-
-<section data-screen-label="Tehnika" style="padding:104px 24px;background:#0C110D">
-  <div style="max-width:1140px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:center">
-    <img data-reveal="0" src="Slike/Slika2.jpeg" alt="Notranjost naprave HuntersFeeder" style="width:100%;border-radius:20px;border:1px solid rgba(255,255,255,0.08)">
-    <div data-reveal="80">
-      <div data-i18n="tc_k" style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:#E9C37B;font-weight:600;margin-bottom:16px">Specifikacije</div>
-      <h2 data-i18n="tc_h" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:700;font-size:clamp(30px,4vw,44px);line-height:1.12;margin:0 0 24px">Zgrajen za teren, ne za vitrino</h2>
-      <div style="display:flex;justify-content:space-between;gap:24px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08)">
-        <span data-i18n="sp1l" style="font-size:15px;color:#78826F;white-space:nowrap">Povezljivost</span>
-        <span data-i18n="sp1v" style="font-size:15.5px;font-weight:600;text-align:right">LTE Cat-M1 · urnik deluje tudi brez signala</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;gap:24px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08)">
-        <span data-i18n="sp2l" style="font-size:15px;color:#78826F;white-space:nowrap">Baterija</span>
-        <span data-i18n="sp2v" style="font-size:15.5px;font-weight:600;text-align:right">Li-ion 9–12 Ah · 1+ mesec delovanja</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;gap:24px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08)">
-        <span data-i18n="sp3l" style="font-size:15px;color:#78826F;white-space:nowrap">Mere</span>
-        <span data-i18n="sp3v" style="font-size:15.5px;font-weight:600;text-align:right">200 × 200 × 160 mm</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;gap:24px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08)">
-        <span data-i18n="sp4l" style="font-size:15px;color:#78826F;white-space:nowrap">Zalogovnik</span>
-        <span data-i18n="sp4v" style="font-size:15.5px;font-weight:600;text-align:right">Neomejen — poljubna zunanja posoda</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;gap:24px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,0.08)">
-        <span data-i18n="sp5l" style="font-size:15px;color:#78826F;white-space:nowrap">Krmiljenje</span>
-        <span data-i18n="sp5v" style="font-size:15.5px;font-weight:600;text-align:right">ESP32 · SMS ukazi + WiFi nastavitve</span>
-      </div>
-      <div style="display:flex;justify-content:space-between;gap:24px;padding:14px 0">
-        <span data-i18n="sp6l" style="font-size:15px;color:#78826F;white-space:nowrap">Ohišje</span>
-        <span data-i18n="sp6v" style="font-size:15.5px;font-weight:600;text-align:right">Robustno, za vse vremenske razmere</span>
-      </div>
-    </div>
+    <img data-reveal="100" src="Slike/Slika3.jpeg" alt="Polnjenje soda, aplikacija HuntersFeeder na telefonu in krmilnica, ki izmeče krmo" style="width:100%;height:420px;object-fit:cover;object-position:center;border-radius:20px;margin-top:48px;border:1px solid rgba(255,255,255,0.07)">
   </div>
 </section>
 
@@ -474,8 +453,6 @@ section[id]{scroll-margin-top:88px !important}
   <a id="floatCta" href="#kontakt" style="position:fixed;bottom:24px;left:50%;transform:translate(-50%,200%);z-index:70;background:#E9C37B;color:#171204;font-weight:700;font-size:15px;padding:13px 26px;border-radius:999px;display:flex;align-items:center;gap:8px;transition:transform .5s cubic-bezier(0.34,1.3,0.64,1);animation:glowPulse 2.8s ease-in-out infinite">
     <span>❤</span><span data-i18n="fl_cta">Zanima me</span>
   </a>
-       link's accessible name as well as its hover tooltip, so it carries the
-       data-i18n key; the Slovene string is harvested from this markup. -->
   <a id="appDemo" href="app/index.html">
     <svg class="ph" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9"
          stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
@@ -535,7 +512,7 @@ section[id]{scroll-margin-top:88px !important}
       sm_h:"One text does it all", sm_s:"A sample conversation with the device — it's that simple. Works with any phone, even an old Nokia.",
       sm_b1:"STATUS", sm_b2:"Battery 87% · Feed 64% · Next feeding at 17:30", sm_b3:"FEED", sm_b4:"✓ Feeding done (250 g)", sm_b5:"⚠ Feed below 15% — time to refill",
       sm_n:"Commands shown as an example. The device can also run fully on schedule, no texting needed.",
-      hw_k:"Setup", hw_h:"From box to feeding site in 10 minutes",
+      hw_k:"Setup", hw_app:"See the app →", hw_h:"Mount it. Set it. Done.",
       hw1t:"Charge & load", hw1d:"Charge the battery, insert your SIM card and pour in the feed.",
       hw2t:"Set up over WiFi", hw2d:"Join the \"HuntersFeeder\" WiFi network and set the schedule and phone number in your browser.",
       hw3t:"Forget about it", hw3d:"It feeds on its own and texts you when it needs you.",
@@ -581,7 +558,7 @@ section[id]{scroll-margin-top:88px !important}
       sm_h:"Eine SMS genügt", sm_s:"Ein Beispielgespräch mit dem Gerät — so einfach ist es. Funktioniert mit jedem Handy, auch einem alten Nokia.",
       sm_b1:"STATUS", sm_b2:"Akku 87 % · Futter 64 % · Nächste Fütterung um 17:30", sm_b3:"FÜTTERN", sm_b4:"✓ Fütterung ausgeführt (250 g)", sm_b5:"⚠ Futter unter 15 % — bitte nachfüllen",
       sm_n:"Befehle beispielhaft dargestellt. Das Gerät läuft auch komplett nach Zeitplan, ganz ohne SMS.",
-      hw_k:"Einrichtung", hw_h:"Vom Karton zur Kirrung in 10 Minuten",
+      hw_k:"Einrichtung", hw_app:"App ansehen →", hw_h:"Montieren. Einstellen. Läuft.",
       hw1t:"Laden & befüllen", hw1d:"Akku laden, eigene SIM-Karte einlegen und Futter einfüllen.",
       hw2t:"Über WLAN einrichten", hw2d:"Mit dem WLAN „HuntersFeeder\" verbinden und im Browser Zeitplan und Rufnummer festlegen.",
       hw3t:"Und vergessen", hw3d:"Das Gerät füttert selbstständig und meldet sich per SMS, wenn es Sie braucht.",
@@ -627,7 +604,7 @@ section[id]{scroll-margin-top:88px !important}
       sm_h:"Basta un SMS", sm_s:"Un esempio di conversazione con il dispositivo — è così semplice. Funziona con qualsiasi telefono, anche un vecchio Nokia.",
       sm_b1:"STATO", sm_b2:"Batteria 87% · Mangime 64% · Prossima alimentazione alle 17:30", sm_b3:"ALIMENTA", sm_b4:"✓ Alimentazione eseguita (250 g)", sm_b5:"⚠ Mangime sotto il 15% — è ora di ricaricare",
       sm_n:"Comandi mostrati a titolo di esempio. Il dispositivo funziona anche solo a programma, senza SMS.",
-      hw_k:"Installazione", hw_h:"Dalla scatola al bosco in 10 minuti",
+      hw_k:"Installazione", hw_app:"Guarda l\'app →", hw_h:"Lo fissi. Lo imposti. Funziona.",
       hw1t:"Carica e riempi", hw1d:"Carica la batteria, inserisci la tua SIM e versa il mangime.",
       hw2t:"Configura via WiFi", hw2d:"Collegati alla rete WiFi \"HuntersFeeder\" e imposta orari e numero di telefono dal browser.",
       hw3t:"E dimenticatene", hw3d:"Alimenta da solo e ti scrive quando ha bisogno di te.",
@@ -673,7 +650,7 @@ section[id]{scroll-margin-top:88px !important}
       sm_h:"Sve rješavaš jednim SMS-om", sm_s:"Primjer razgovora s uređajem — toliko je jednostavno. Radi s bilo kojim telefonom, čak i sa starom Nokiom.",
       sm_b1:"STATUS", sm_b2:"Baterija 87 % · Hrana 64 % · Sljedeće hranjenje u 17.30", sm_b3:"NAHRANI", sm_b4:"✓ Hranjenje izvršeno (250 g)", sm_b5:"⚠ Hrana ispod 15 % — vrijeme za dopunu",
       sm_n:"Naredbe su prikazane kao primjer. Uređaj može raditi i potpuno po rasporedu, bez SMS-ova.",
-      hw_k:"Postavljanje", hw_h:"Od kutije do hranilišta za 10 minuta",
+      hw_k:"Postavljanje", hw_app:"Pogledaj aplikaciju →", hw_h:"Pričvrstiš. Postaviš. Radi.",
       hw1t:"Napuni i poveži", hw1d:"Napuni bateriju, umetni svoju SIM karticu i naspi hranu.",
       hw2t:"Postavi preko WiFi-ja", hw2d:"Spoji se na WiFi mrežu \"HuntersFeeder\" i u pregledniku postavi raspored i broj telefona.",
       hw3t:"Zaboravi na brige", hw3d:"Uređaj hrani sam i javi ti se SMS-om kad te treba.",
@@ -724,7 +701,7 @@ section[id]{scroll-margin-top:88px !important}
     var d = Object.assign({}, TR.sl, TR[l] || {});
     document.querySelectorAll('[data-i18n]').forEach(function (el) {
       var k = el.getAttribute('data-i18n');
-      if (d[k] !== undefined) el.innerHTML = d[k];
+      if (d[k] !== undefined) el.innerHTML = String(d[k]).replace(/SMS-(?!\u2060)/g, 'SMS-\u2060');
     });
     document.querySelectorAll('[data-i18n-ph]').forEach(function (el) {
       var k = el.getAttribute('data-i18n-ph');

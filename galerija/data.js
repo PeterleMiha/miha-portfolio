@@ -63,6 +63,23 @@ window.HF_GALLERY = [
   },
 
   {
+    title: { sl: "Aplikacija", en: "The app", hr: "Aplikacija", it: "L'app", de: "Die App" },
+    text: {
+      sl: "Trenutna aplikacija na enem zaslonu pokaže vse, kar potrebuješ: koliko krme je še v sodu, stanje baterije in signala ter kdaj bo naslednje krmljenje. Z enim gumbom lahko nakrmiš takoj.",
+      en: "The current app shows everything you need on one screen: how much feed is left in the barrel, battery and signal, and when the next feeding is. One button feeds right away.",
+      hr: "Trenutna aplikacija na jednom zaslonu prikazuje sve što trebaš: koliko je hrane ostalo u bačvi, stanje baterije i signala te kada je sljedeće hranjenje. Jednim gumbom možeš nahraniti odmah.",
+      it: "L'app attuale mostra tutto ciò che serve in una schermata: quanto mangime resta nel fusto, batteria e segnale, e quando sarà la prossima distribuzione. Un pulsante distribuisce subito.",
+      de: "Die aktuelle App zeigt alles Wichtige auf einem Bildschirm: wie viel Futter noch im Fass ist, Akku und Signal und wann die nächste Fütterung ist. Ein Knopf füttert sofort."
+    },
+    photos: [
+      { src: "img/NovaAplikacija.jpg", fit: "tall",
+        cap: { sl: "Pregled: krma, baterija, signal, naslednje krmljenje", en: "Overview: feed, battery, signal, next feeding",
+               hr: "Pregled: hrana, baterija, signal, sljedeće hranjenje", it: "Panoramica: mangime, batteria, segnale, prossima distribuzione",
+               de: "Übersicht: Futter, Akku, Signal, nächste Fütterung" } }
+    ]
+  },
+
+  {
     title: { sl: "Najnovejši 3D-tiski", en: "The latest 3D prints", hr: "Najnoviji 3D ispisi",
              it: "Le ultime stampe 3D", de: "Die neuesten 3D-Drucke" },
     text: {

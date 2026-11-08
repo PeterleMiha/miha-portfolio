@@ -421,6 +421,7 @@ section[id]{scroll-margin-top:88px !important}
     </div>
     <form id="hfForm" novalidate data-reveal="60" action="https://formspree.io/f/xyznjgvd" method="POST" style="background:#10160F;border:1px solid rgba(233,195,123,0.16);border-radius:20px;padding:36px;display:grid;gap:14px">
       <input type="hidden" name="_subject" value="HuntersFeeder povpraševanje">
+      <input type="hidden" name="jezik" id="fmLang" value="sl">
       <input type="text" name="website" id="fmHp" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
       <input type="text" name="name" id="fmName" required autocomplete="name" placeholder="Ime in priimek *" data-i18n-ph="fm_nm" aria-describedby="fmNameErr" class="fm-in">
       <div class="fm-err" id="fmNameErr" aria-live="polite"></div>
@@ -928,9 +929,16 @@ section[id]{scroll-margin-top:88px !important}
   var sending = false, triaged = false, submitBtn = form.querySelector('button[type="submit"]');
   var btnLabel = function () { return submitBtn.getAttribute('data-label') || submitBtn.textContent; };
 
+  /* Formspree fallback: the site language as a field and at the start of the subject */
+  function setFallbackLang() {
+    var lg = (document.documentElement.lang || 'sl').slice(0, 2).toUpperCase();
+    $('fmLang').value = lg;
+    form.querySelector('input[name="_subject"]').value = '[' + lg + '] HuntersFeeder povpraševanje';
+  }
+
   async function sendForm() {
     if (sending) return;
-    if (!WORKER) { form.submit(); return; }
+    if (!WORKER) { setFallbackLang(); form.submit(); return; }
     sending = true; submitBtn.disabled = true;
     submitBtn.setAttribute('data-label', submitBtn.textContent); submitBtn.textContent = t().sending;
     try {
@@ -947,6 +955,7 @@ section[id]{scroll-margin-top:88px !important}
         '<div style="font-size:40px;color:#E9C37B;margin-bottom:10px">✓</div>' + esc(t().sent) + '</div>';
     } catch (err) {
       submitBtn.textContent = btnLabel(); submitBtn.disabled = false; sending = false;
+      setFallbackLang();
       form.submit();                     // Formspree fallback (native POST, no submit event)
     }
   }

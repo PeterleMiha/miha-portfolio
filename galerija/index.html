@@ -84,7 +84,7 @@ button{font:inherit}
 .rev h2{font-size:clamp(24px,3vw,32px);letter-spacing:-.02em;margin:8px 0 10px}
 .rev p.tx{color:var(--ink-2);font-size:16px;line-height:1.6;margin:0 0 20px;max-width:70ch;white-space:pre-line}
 
-.grid{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr))}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
 .ph{position:relative;display:block;padding:0;border:0;cursor:zoom-in;border-radius:14px;overflow:hidden;
   aspect-ratio:4/3;background:var(--panel);outline-offset:3px}
 .ph img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease}
@@ -93,9 +93,11 @@ button{font:inherit}
 .ph.contain img{object-fit:contain}
 .ph.tall{aspect-ratio:9/16;background:#131A15}
 .ph:focus-visible{outline:2px solid var(--gold)}
-.ph .cap{position:absolute;left:0;right:0;bottom:0;padding:22px 12px 9px;text-align:left;font-size:13px;color:#fff;
+.ph .cap{position:absolute;left:0;right:0;bottom:0;padding:26px 14px 11px;text-align:left;font-size:14.5px;font-weight:600;color:#fff;
   background:linear-gradient(transparent,rgba(0,0,0,.72));opacity:0;transition:opacity .25s}
 .ph:hover .cap,.ph:focus-visible .cap{opacity:1}
+/* touch screens have no hover: captions always visible */
+@media (hover:none){.ph .cap{opacity:1}}
 
 .vgrid{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));margin-top:14px}
 .vid{border-radius:14px;overflow:hidden;background:var(--panel);border:1px solid var(--line)}
@@ -110,6 +112,7 @@ button{font:inherit}
 .vid .fr .play svg{width:22px;height:22px;fill:var(--gold)}
 .vid .fr button:focus-visible .play{outline:2px solid var(--gold);outline-offset:3px}
 .vid iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.vid video{position:absolute;inset:0;width:100%;height:100%;background:#000;object-fit:contain}
 .vid .vc{padding:12px 14px;font-size:14.5px;color:var(--ink-2)}
 
 .empty{padding:70px 24px;text-align:center;border:1px dashed rgba(233,195,123,.35);border-radius:20px;
@@ -118,30 +121,62 @@ button{font:inherit}
 .empty p{margin:0 auto;max-width:48ch;line-height:1.6}
 
 /* ---- lightbox ------------------------------------------------------------ */
-.lb{position:fixed;inset:0;z-index:100;background:rgba(6,9,7,.95);display:none;
-  align-items:center;justify-content:center;flex-direction:column;padding:56px 12px 20px;touch-action:pan-y}
+.lb{position:fixed;inset:0;z-index:100;background:#060907;display:none;
+  align-items:center;justify-content:center;flex-direction:column;padding:12px 8px 14px;touch-action:none;
+  overscroll-behavior:contain}
 .lb.on{display:flex}
-.lb img{max-width:100%;max-height:calc(100dvh - 140px);object-fit:contain;border-radius:8px;user-select:none}
+/* The picture lives in its own viewport: pinch / wheel / double-tap zoom and
+   pan move only the picture (touch-action:none keeps the browser from zooming
+   the page behind it). */
+.lbv{position:relative;flex:1;width:100%;min-height:0;overflow:hidden;display:flex;align-items:center;
+  justify-content:center;touch-action:none;cursor:zoom-in}
+.lbv.z{cursor:grab}.lbv.z.drag{cursor:grabbing}
+.lb img{max-width:100%;max-height:100%;object-fit:contain;border-radius:6px;user-select:none;-webkit-user-select:none;
+  -webkit-user-drag:none;transform-origin:50% 50%;will-change:transform;transition:transform .22s ease}
+.lb img.live{transition:none}
 .lb .lc{color:var(--ink-2);font-size:15px;margin-top:14px;text-align:center;min-height:1.4em;max-width:70ch}
 .lb .ln{color:var(--ink-3);font-size:13px;margin-top:4px}
+.lb .lc{margin-top:10px}
 .lb button{position:absolute;cursor:pointer;width:48px;height:48px;border-radius:50%;border:1px solid var(--line);
   background:rgba(19,26,21,.9);color:var(--ink);display:grid;place-items:center}
 .lb button:hover{border-color:var(--gold);color:var(--gold)}
 .lb button svg{width:22px;height:22px}
-.lb .x{top:calc(12px + env(safe-area-inset-top,0px));right:12px}
+.lb .x{top:calc(12px + env(safe-area-inset-top,0px));right:12px;z-index:2}
+.lb .pv,.lb .nx{z-index:2}
 .lb .pv{left:14px;top:50%;transform:translateY(-50%)}
 .lb .nx{right:14px;top:50%;transform:translateY(-50%)}
 @media (max-width:640px){
   .bar{padding:8px 12px;padding-top:calc(8px + env(safe-area-inset-top,0px))}
   .back span{display:none}.back{padding:7px}
   .hero{padding:34px 0 14px}
-  .grid{grid-template-columns:repeat(2,1fr);gap:8px}
+  .grid{grid-template-columns:1fr;gap:10px}
+  .ph.tall{aspect-ratio:4/5}
   .ph{border-radius:10px}
   .vgrid{grid-template-columns:1fr}
   .rev{padding-left:30px}
   .lb .pv,.lb .nx{top:auto;bottom:16px;transform:none}
-  .lb img{max-height:calc(100dvh - 190px)}
+  .lb{padding-bottom:76px}
 }
+/* ---- side scrubber: drag to move through the page fast; while scrolling a
+   bubble next to it names the section you are in ------------------------- */
+.scrub{position:fixed;right:2px;top:calc(76px + 14px + env(safe-area-inset-top,0px));bottom:16px;width:34px;z-index:30;
+  touch-action:none;opacity:0;transition:opacity .35s;pointer-events:none}
+.scrub.ready{pointer-events:auto}
+@media (hover:hover){.scrub.ready{opacity:.5}.scrub.ready:hover{opacity:1}}
+.scrub.on{opacity:1 !important}
+.scrub .trk{position:absolute;right:10px;top:0;bottom:0;width:4px;border-radius:2px;background:rgba(255,255,255,.13)}
+.scrub .tick{position:absolute;right:-4px;width:12px;height:2px;border-radius:1px;background:rgba(233,195,123,.55)}
+.scrub .hdl{position:absolute;right:-8px;width:20px;height:48px;border-radius:10px;background:var(--gold);
+  box-shadow:0 0 0 3px rgba(12,17,13,.7),0 4px 14px rgba(0,0,0,.5)}
+.scrub .hdl::before,.scrub .hdl::after{content:"";position:absolute;left:6px;right:6px;height:2px;border-radius:1px;background:rgba(23,18,4,.5)}
+.scrub .hdl::before{top:19px}.scrub .hdl::after{top:26px}
+.scrub .bub{position:absolute;right:36px;transform:translateY(-50%);max-width:min(70vw,420px);white-space:nowrap;overflow:hidden;
+  text-overflow:ellipsis;background:rgba(19,26,21,.96);border:1px solid rgba(233,195,123,.55);color:var(--ink);
+  padding:8px 13px;border-radius:12px;font-weight:650;font-size:14.5px;box-shadow:0 8px 24px rgba(0,0,0,.45);
+  opacity:0;transition:opacity .2s;pointer-events:none}
+.scrub .bub small{color:var(--gold);font-weight:600;margin-right:8px}
+.scrub.on .bub{opacity:1}
+@media (max-width:640px){.scrub{top:calc(66px + 12px + env(safe-area-inset-top,0px))}}
 @media (prefers-reduced-motion:reduce){*{transition:none !important}}
 </style>
 <link rel="stylesheet" href="../css/topbar.css">
@@ -183,41 +218,43 @@ header.bar{display:none}</style>
 <div class="lb" id="lb" role="dialog" aria-modal="true">
   <button class="x" id="lbX" data-i18n-aria="close"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
   <button class="pv" id="lbP" data-i18n-aria="prev"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
-  <img id="lbI" alt="">
+  <div class="lbv" id="lbV"><img id="lbI" alt="" draggable="false"></div>
   <div class="lc" id="lbC"></div>
   <div class="ln" id="lbN"></div>
   <button class="nx" id="lbN2" data-i18n-aria="next"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
 </div>
 
+<div class="scrub" id="scrub" aria-hidden="true"><div class="trk" id="trk"><div class="hdl" id="hdl"></div></div><div class="bub" id="bub"></div></div>
+
 <script src="data.js"></script>
 <script>
 (function () {
   var T = {
-    sl: { back:"Nazaj na glavno stran", lang:"Jezik", kick:"Galerija", title:"galerija",
+    sl: { zoom:"Povečava: dvoklik, kolešček ali dva prsta", back:"Nazaj na glavno stran", lang:"Jezik", kick:"Galerija", title:"galerija",
       h:"Od prve tiskanine do krmilnice v gozdu.",
       lead:"Vsaka revizija, vsak test in vsaka napaka, ki je naredila HuntersFeeder boljši. Tako je nastajal izdelek, ki ga dobite.",
       f_all:"Vse", f_ph:"Fotografije", f_vid:"Videi", close:"Zapri", prev:"Prejšnja", next:"Naslednja", play:"Predvajaj video",
       e_h:"Galerija se polni", e_p:"Fotografije revizij in videi testov prihajajo kmalu. Medtem si lahko ogledate aplikacijo.",
       e_a:"Preizkusi aplikacijo →", months:["jan","feb","mar","apr","maj","jun","jul","avg","sep","okt","nov","dec"] },
-    en: { back:"Back to the main page", lang:"Language", kick:"Gallery", title:"gallery",
+    en: { zoom:"Zoom: double-click, mouse wheel or two fingers", back:"Back to the main page", lang:"Language", kick:"Gallery", title:"gallery",
       h:"From the first circuit board to a feeder in the forest.",
       lead:"Every revision, every test and every mistake that made HuntersFeeder better. This is how the product you get came to be.",
       f_all:"All", f_ph:"Photos", f_vid:"Videos", close:"Close", prev:"Previous", next:"Next", play:"Play video",
       e_h:"The gallery is filling up", e_p:"Photos of every revision and videos of the tests are coming soon. In the meantime, try the app.",
       e_a:"Try the app →", months:["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"] },
-    hr: { back:"Natrag na glavnu stranicu", lang:"Jezik", kick:"Galerija", title:"galerija",
+    hr: { zoom:"Povećanje: dvoklik, kotačić ili dva prsta", back:"Natrag na glavnu stranicu", lang:"Jezik", kick:"Galerija", title:"galerija",
       h:"Od prve tiskane pločice do hranilice u šumi.",
       lead:"Svaka revizija, svaki test i svaka greška koja je HuntersFeeder učinila boljim. Tako je nastajao proizvod koji dobivate.",
       f_all:"Sve", f_ph:"Fotografije", f_vid:"Videozapisi", close:"Zatvori", prev:"Prethodna", next:"Sljedeća", play:"Pokreni video",
       e_h:"Galerija se puni", e_p:"Fotografije revizija i videozapisi testova stižu uskoro. U međuvremenu isprobajte aplikaciju.",
       e_a:"Isprobaj aplikaciju →", months:["sij","velj","ožu","tra","svi","lip","srp","kol","ruj","lis","stu","pro"] },
-    it: { back:"Torna alla pagina principale", lang:"Lingua", kick:"Galleria", title:"galleria",
+    it: { zoom:"Zoom: doppio clic, rotellina o due dita", back:"Torna alla pagina principale", lang:"Lingua", kick:"Galleria", title:"galleria",
       h:"Dal primo circuito stampato al distributore nel bosco.",
       lead:"Ogni revisione, ogni test e ogni errore che ha reso HuntersFeeder migliore. Così è nato il prodotto che ricevi.",
       f_all:"Tutto", f_ph:"Foto", f_vid:"Video", close:"Chiudi", prev:"Precedente", next:"Successiva", play:"Riproduci video",
       e_h:"La galleria si sta riempiendo", e_p:"Le foto di ogni revisione e i video dei test arriveranno presto. Nel frattempo prova l'app.",
       e_a:"Prova l'app →", months:["gen","feb","mar","apr","mag","giu","lug","ago","set","ott","nov","dic"] },
-    de: { back:"Zurück zur Hauptseite", lang:"Sprache", kick:"Galerie", title:"Galerie",
+    de: { zoom:"Zoomen: Doppelklick, Mausrad oder zwei Finger", back:"Zurück zur Hauptseite", lang:"Sprache", kick:"Galerie", title:"Galerie",
       h:"Von der ersten Leiterplatte zum Futterautomaten im Wald.",
       lead:"Jede Revision, jeder Test und jeder Fehler, der HuntersFeeder besser gemacht hat. So ist das Produkt entstanden, das Sie bekommen.",
       f_all:"Alle", f_ph:"Fotos", f_vid:"Videos", close:"Schließen", prev:"Zurück", next:"Weiter", play:"Video abspielen",
@@ -295,6 +332,12 @@ header.bar{display:none}</style>
         h += '<div class="vgrid">';
         vi.forEach(function (v) {
           var id = String(v.yt || "").replace(/[^\w-]/g, ""), cap = tx(v.cap);
+          if (v.src) {          /* a video file on the site: native player, nothing loads before play */
+            h += '<div class="vid"><div class="fr"><video controls playsinline preload="none" src="' + esc(v.src) + '"' +
+                 (v.poster ? ' poster="' + esc(v.poster) + '"' : '') + ' aria-label="' + esc(cap || t.play) + '"></video></div>' +
+                 (cap ? '<div class="vc">' + esc(cap) + '</div>' : '') + '</div>';
+            return;
+          }
           h += '<div class="vid"><div class="fr" data-yt="' + id + '">' +
                '<button aria-label="' + esc(t.play + (cap ? ": " + cap : "")) + '">' +
                '<img src="https://i.ytimg.com/vi/' + id + '/hqdefault.jpg" alt="" loading="lazy">' +
@@ -316,6 +359,7 @@ header.bar{display:none}</style>
     document.getElementById("filters").hidden = false;
     tl.classList.remove("none");
     tl.innerHTML = html.join("");
+    if (window.__hfTicks) setTimeout(window.__hfTicks, 0);
   }
 
   /* A thumbnail that is not there yet: show the full image instead. Image
@@ -340,14 +384,40 @@ header.bar{display:none}</style>
   });
 
   // ---- lightbox -------------------------------------------------------------
-  var lb = document.getElementById("lb"), lbI = document.getElementById("lbI"),
+  /* Zoom and pan act on the picture only. Touch: two fingers pinch, one
+     finger pans a zoomed picture, swipes to the next one at normal size,
+     double-tap toggles zoom. Mouse: wheel zooms at the pointer, double-click
+     toggles, drag pans. Keys: + / - / 0, arrows, Esc. */
+  var lb = document.getElementById("lb"), lbV = document.getElementById("lbV"), lbI = document.getElementById("lbI"),
       lbC = document.getElementById("lbC"), lbN = document.getElementById("lbN"), cur = 0, last = null;
+  var MAXZ = 5, z = 1, ox = 0, oy = 0;
+  function apply(live) {
+    lbI.classList.toggle("live", !!live);
+    lbI.style.transform = "translate(" + ox + "px," + oy + "px) scale(" + z + ")";
+    lbV.classList.toggle("z", z > 1.01);
+  }
+  function clamp() {
+    var vw = lbV.clientWidth, vh = lbV.clientHeight, w = lbI.offsetWidth * z, h = lbI.offsetHeight * z;
+    var mx = Math.max(0, (w - vw) / 2), my = Math.max(0, (h - vh) / 2);
+    ox = Math.min(mx, Math.max(-mx, ox)); oy = Math.min(my, Math.max(-my, oy));
+  }
+  /* zoom to `nz`, keeping the picture point under (px,py) (client coords) in place */
+  function zoomAt(nz, px, py, live) {
+    nz = Math.min(MAXZ, Math.max(1, nz));
+    var r = lbV.getBoundingClientRect(), cx = px - (r.left + r.width / 2), cy = py - (r.top + r.height / 2);
+    var ix = (cx - ox) / z, iy = (cy - oy) / z;
+    z = nz; ox = cx - z * ix; oy = cy - z * iy;
+    if (z <= 1.001) { z = 1; ox = 0; oy = 0; }
+    clamp(); apply(live);
+  }
+  function reset() { z = 1; ox = 0; oy = 0; apply(false); }
   function show(i) {
     cur = (i + flat.length) % flat.length;
     var p = flat[cur];
+    reset();
     lbI.src = p.src; lbI.alt = p.cap || p.rev || "";
     lbC.textContent = p.cap ? p.cap + (p.rev ? " — " + p.rev : "") : (p.rev || "");
-    lbN.textContent = (cur + 1) + " / " + flat.length;
+    lbN.textContent = (cur + 1) + " / " + flat.length + "  ·  " + T[lang].zoom;
   }
   function open(i) {
     last = document.activeElement;
@@ -355,7 +425,7 @@ header.bar{display:none}</style>
     document.getElementById("lbX").focus();
   }
   function close() {
-    lb.classList.remove("on"); document.body.style.overflow = ""; lbI.removeAttribute("src");
+    lb.classList.remove("on"); document.body.style.overflow = ""; lbI.removeAttribute("src"); reset();
     if (last) last.focus();
   }
   document.getElementById("lbX").onclick = close;
@@ -364,17 +434,150 @@ header.bar{display:none}</style>
   lb.addEventListener("click", function (e) { if (e.target === lb) close(); });
   document.addEventListener("keydown", function (e) {
     if (!lb.classList.contains("on")) return;
-    if (e.key === "Escape") close();
-    else if (e.key === "ArrowLeft") show(cur - 1);
-    else if (e.key === "ArrowRight") show(cur + 1);
+    var r = lbV.getBoundingClientRect(), mx = r.left + r.width / 2, my = r.top + r.height / 2;
+    if (e.key === "Escape") { if (z > 1) reset(); else close(); }
+    else if (e.key === "ArrowLeft" && z === 1) show(cur - 1);
+    else if (e.key === "ArrowRight" && z === 1) show(cur + 1);
+    else if (e.key === "+" || e.key === "=") zoomAt(z * 1.5, mx, my);
+    else if (e.key === "-") zoomAt(z / 1.5, mx, my);
+    else if (e.key === "0") reset();
   });
-  var x0 = null;
-  lb.addEventListener("touchstart", function (e) { x0 = e.touches[0].clientX; }, { passive: true });
-  lb.addEventListener("touchend", function (e) {
-    if (x0 === null) return;
-    var dx = e.changedTouches[0].clientX - x0; x0 = null;
-    if (Math.abs(dx) > 50) show(cur + (dx < 0 ? 1 : -1));
+  lbV.addEventListener("wheel", function (e) {
+    e.preventDefault();
+    zoomAt(z * Math.exp(-e.deltaY * (e.deltaMode ? 0.05 : 0.0018)), e.clientX, e.clientY, true);
+  }, { passive: false });
+  lbV.addEventListener("dblclick", function (e) {
+    if (e.pointerType === "touch") return;          /* touch double-tap is handled below */
+    if (z > 1.01) reset(); else zoomAt(2.5, e.clientX, e.clientY);
   });
+  /* iOS Safari: never let the page itself zoom while the lightbox is open */
+  ["gesturestart", "gesturechange"].forEach(function (n) {
+    document.addEventListener(n, function (e) { if (lb.classList.contains("on")) e.preventDefault(); }, { passive: false });
+  });
+
+  var pts = {}, g = null, lastTap = 0, lastTapX = 0, lastTapY = 0;
+  function npts() { return Object.keys(pts).length; }
+  function two() { var k = Object.keys(pts); return [pts[k[0]], pts[k[1]]]; }
+  lbV.addEventListener("pointerdown", function (e) {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    try { lbV.setPointerCapture(e.pointerId); } catch (er) {}
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    if (npts() === 2) {
+      var q = two(), r = lbV.getBoundingClientRect();
+      var mx = (q[0].x + q[1].x) / 2 - (r.left + r.width / 2), my = (q[0].y + q[1].y) / 2 - (r.top + r.height / 2);
+      g = { pinch: true, d0: Math.hypot(q[0].x - q[1].x, q[0].y - q[1].y) || 1, z0: z,
+            ix: (mx - ox) / z, iy: (my - oy) / z, moved: true };
+    } else if (npts() === 1) {
+      g = { pinch: false, x0: e.clientX, y0: e.clientY, tx0: ox, ty0: oy, t0: Date.now(), moved: false,
+            onImg: e.target === lbI };
+    }
+  });
+  lbV.addEventListener("pointermove", function (e) {
+    if (!pts[e.pointerId] || !g) return;
+    pts[e.pointerId] = { x: e.clientX, y: e.clientY };
+    if (g.pinch && npts() >= 2) {
+      var q = two(), r = lbV.getBoundingClientRect();
+      var mx = (q[0].x + q[1].x) / 2 - (r.left + r.width / 2), my = (q[0].y + q[1].y) / 2 - (r.top + r.height / 2);
+      z = Math.min(MAXZ, Math.max(1, g.z0 * Math.hypot(q[0].x - q[1].x, q[0].y - q[1].y) / g.d0));
+      ox = mx - z * g.ix; oy = my - z * g.iy;      /* the pinched point follows the fingers */
+      clamp(); apply(true);
+    } else if (!g.pinch) {
+      var dx = e.clientX - g.x0, dy = e.clientY - g.y0;
+      if (Math.abs(dx) + Math.abs(dy) > 6) g.moved = true;
+      if (z > 1.01) { ox = g.tx0 + dx; oy = g.ty0 + dy; clamp(); apply(true); lbV.classList.add("drag"); }
+    }
+  });
+  function up(e) {
+    if (!pts[e.pointerId]) return;
+    delete pts[e.pointerId];
+    lbV.classList.remove("drag");
+    if (!g) return;
+    if (g.pinch) {
+      if (npts() === 0) { if (z < 1.05) reset(); else { clamp(); apply(false); } g = null; }
+      else g = null;                                   /* one finger left: wait for a fresh gesture */
+      return;
+    }
+    if (npts() > 0) return;
+    var dx = e.clientX - g.x0, dy = e.clientY - g.y0, quick = Date.now() - g.t0 < 350;
+    if (!g.moved && quick && e.pointerType !== "mouse") {           /* tap */
+      var now = Date.now();
+      if (now - lastTap < 320 && Math.hypot(e.clientX - lastTapX, e.clientY - lastTapY) < 30) {
+        lastTap = 0;
+        if (z > 1.01) reset(); else zoomAt(2.5, e.clientX, e.clientY);
+      } else {
+        lastTap = now; lastTapX = e.clientX; lastTapY = e.clientY;
+        if (!g.onImg && z === 1) setTimeout(function () { if (lastTap === now) close(); }, 330);
+      }
+    } else if (!g.moved && e.pointerType === "mouse" && !g.onImg && z === 1) {
+      close();                                         /* click beside the picture */
+    } else if (z === 1 && Math.abs(dx) > 60 && Math.abs(dx) > Math.abs(dy) * 1.3) {
+      show(cur + (dx < 0 ? 1 : -1));                  /* swipe at normal size */
+    }
+    g = null;
+  }
+  lbV.addEventListener("pointerup", up);
+  lbV.addEventListener("pointercancel", up);
+  window.addEventListener("resize", function () { if (lb.classList.contains("on")) { clamp(); apply(false); } });
+
+  // ---- side scrubber --------------------------------------------------------
+  var sc = document.getElementById("scrub"), trk = document.getElementById("trk"),
+      hdl = document.getElementById("hdl"), bub = document.getElementById("bub"), hideT = null, dragging = false;
+  function maxY() { return Math.max(0, document.documentElement.scrollHeight - window.innerHeight); }
+  function sections() { return Array.prototype.slice.call(tl.querySelectorAll(".rev")); }
+  function current() {
+    var list = sections(), line = window.innerHeight * 0.5, c = null, k = -1;
+    list.forEach(function (el, i) { if (el.getBoundingClientRect().top < line) { c = el; k = i; } });
+    if (!c && list.length) { c = list[0]; k = 0; }
+    return { el: c, i: k, n: list.length };
+  }
+  function place() {
+    var m = maxY(), H = trk.clientHeight, hh = hdl.offsetHeight;
+    var y = m ? (window.scrollY / m) * (H - hh) : 0;
+    hdl.style.top = y + "px";
+    var c = current();
+    if (c.el) {
+      var h2 = c.el.querySelector("h2");
+      bub.innerHTML = '<small>' + (c.i + 1) + ' / ' + c.n + '</small>' + esc(h2 ? h2.textContent : "");
+    }
+    bub.style.top = (y + hh / 2) + "px";
+  }
+  window.__hfTicks = ticks;
+  function ticks() {
+    trk.querySelectorAll(".tick").forEach(function (t) { t.remove(); });
+    var m = maxY(), H = trk.clientHeight, hh = hdl.offsetHeight;
+    sc.classList.toggle("ready", m > window.innerHeight * 0.6);
+    if (!m) return;
+    sections().forEach(function (el) {
+      var top = el.getBoundingClientRect().top + window.scrollY - 90;
+      var t = document.createElement("span"); t.className = "tick";
+      t.style.top = (Math.min(1, Math.max(0, top / m)) * (H - hh) + hh / 2) + "px";
+      trk.appendChild(t);
+    });
+    place();
+  }
+  function flash() {
+    sc.classList.add("on"); clearTimeout(hideT);
+    hideT = setTimeout(function () { if (!dragging) sc.classList.remove("on"); }, 1300);
+  }
+  window.addEventListener("scroll", function () { place(); if (sc.classList.contains("ready")) flash(); }, { passive: true });
+  window.addEventListener("resize", ticks);
+  if (window.ResizeObserver) new ResizeObserver(ticks).observe(tl);
+  function seek(e) {
+    var r = trk.getBoundingClientRect(), hh = hdl.offsetHeight;
+    var f = Math.min(1, Math.max(0, (e.clientY - r.top - hh / 2) / (r.height - hh)));
+    window.scrollTo(0, f * maxY());
+  }
+  sc.addEventListener("pointerdown", function (e) {
+    if (!sc.classList.contains("ready")) return;
+    e.preventDefault(); dragging = true; sc.classList.add("on");
+    try { sc.setPointerCapture(e.pointerId); } catch (er) {}
+    document.documentElement.style.scrollBehavior = "auto";
+    seek(e);
+  });
+  sc.addEventListener("pointermove", function (e) { if (dragging) seek(e); });
+  function endDrag() { if (!dragging) return; dragging = false; flash(); document.documentElement.style.scrollBehavior = ""; }
+  sc.addEventListener("pointerup", endDrag);
+  sc.addEventListener("pointercancel", endDrag);
 
   // ---- filters + language ---------------------------------------------------
   document.getElementById("filters").addEventListener("click", function (e) {

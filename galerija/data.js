@@ -23,16 +23,44 @@
    Photos: run
        powershell -ExecutionPolicy Bypass -File tools\gallery-images.ps1 <folder>
    It writes a 1800 px copy to galerija/img/<name>.jpg (opened in the
-   lightbox) and a 640 px one to galerija/img/thumbs/<name>.jpg (shown in the
+   lightbox) and a 1000 px one to galerija/img/thumbs/<name>.jpg (shown in the
    grid). Reference the big one as "img/<name>.jpg"; the thumbnail is found by
    itself. Use plain ASCII file names (no č/š/ž or spaces). Add
    fit: "contain"  to a photo that must not be cropped in the grid, such as a
    CAD render; fit: "tall" gives a phone screenshot a tall tile.
-   Videos: `yt` is the ID from the YouTube link - the part after "v=" in
+   Videos: either a video file on the site,
+       { src: "vid/name.mp4", poster: "vid/name.jpg", cap: ... }
+   (H.264 MP4, ~720p, a few MB; poster = a still shown before play), or
+   YouTube: `yt` is the ID from the YouTube link - the part after "v=" in
    youtube.com/watch?v=ID, or after the slash in youtu.be/ID. Nothing is loaded
    from YouTube until the visitor presses play.
    ========================================================================== */
 window.HF_GALLERY = [
+
+  {
+    title: { sl: "Na terenu", en: "Out in the field", hr: "Na terenu", it: "Sul campo", de: "Im Einsatz" },
+    text: {
+      sl: "Testni kos v gozdu: krmilnica na sodu, obešena na drevo. Ob urniku sama izvrže krmo in po vsakem krmljenju pošlje SMS s stanjem: koliko krme je ostalo, zdravje motorja in kdaj je naslednje krmljenje. Krmilnica se pritrdi na pokrov soda, sod pa zapre z obročem.",
+      en: "A test unit in the forest: the feeder on a barrel, hung on a tree. It throws out feed on schedule and texts its status after every feeding: how much feed is left, motor health and when the next feeding is. The feeder mounts on the barrel lid, and a clamp ring closes the barrel.",
+      hr: "Testni komad u šumi: hranilica na bačvi, obješena na stablo. Prema rasporedu sama izbacuje hranu i nakon svakog hranjenja šalje SMS sa stanjem: koliko je hrane ostalo, zdravlje motora i kada je sljedeće hranjenje. Hranilica se pričvršćuje na poklopac bačve, a bačva se zatvara obručem.",
+      it: "Un'unità di prova nel bosco: la mangiatoia sul fusto, appesa a un albero. Distribuisce il mangime secondo l'orario e dopo ogni distribuzione invia un SMS con lo stato: quanto mangime resta, lo stato del motore e quando sarà la prossima distribuzione. La mangiatoia si monta sul coperchio del fusto, che si chiude con un anello di serraggio.",
+      de: "Ein Testgerät im Wald: der Futterautomat auf einem Fass, an einen Baum gehängt. Er wirft das Futter nach Zeitplan aus und schickt nach jeder Fütterung eine SMS mit dem Status: wie viel Futter übrig ist, Motorzustand und wann die nächste Fütterung ist. Der Futterautomat sitzt auf dem Fassdeckel, das Fass wird mit einem Spannring verschlossen."
+    },
+    photos: [
+      { src: "img/TerenMihaKrmilnica.jpg", fit: "tall",
+        cap: { sl: "Krmilnica na drevesu", en: "The feeder on a tree", hr: "Hranilica na stablu", it: "La mangiatoia sull'albero", de: "Der Futterautomat am Baum" } },
+      { src: "img/TerenSMS.jpg",
+        cap: { sl: "SMS po krmljenju", en: "The text after a feeding", hr: "SMS nakon hranjenja", it: "L'SMS dopo la distribuzione", de: "Die SMS nach der Fütterung" } },
+      { src: "img/KrmilnicaNaSodu.jpg",
+        cap: { sl: "Krmilnica na pokrovu soda", en: "The feeder on the barrel lid", hr: "Hranilica na poklopcu bačve", it: "La mangiatoia sul coperchio del fusto", de: "Der Futterautomat auf dem Fassdeckel" } }
+    ],
+    videos: [
+      { src: "vid/Izmet.mp4", poster: "vid/Izmet.jpg",
+        cap: { sl: "Izmet krme (8 s)", en: "Throwing out feed (8 s)", hr: "Izbacivanje hrane (8 s)", it: "Distribuzione del mangime (8 s)", de: "Futterauswurf (8 s)" } },
+      { src: "vid/ZapiranjeSoda.mp4", poster: "vid/ZapiranjeSoda.jpg",
+        cap: { sl: "Krmilnica na pokrov, zapiranje soda", en: "Feeder onto the lid, closing the barrel", hr: "Hranilica na poklopac, zatvaranje bačve", it: "Mangiatoia sul coperchio, chiusura del fusto", de: "Futterautomat auf den Deckel, Fass verschließen" } }
+    ]
+  },
 
   {
     title: { sl: "Najnovejši 3D-tiski", en: "The latest 3D prints", hr: "Najnoviji 3D ispisi",

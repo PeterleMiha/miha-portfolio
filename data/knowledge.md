@@ -259,13 +259,13 @@ The menu (burger, top right) has these items. Names in Slovenian, then English:
 - "Prednosti" / Features: what the feeder can do (SMS control, scheduled feeding,
   alerts, GPS location, battery, multiple users).
 - "Delovanje" / How it works: a sample SMS conversation with the feeder, then the
-  three setup steps and the technical specifications.
+  three setup steps ("Pritrdiš. Nastaviš. Deluje.") next to a screenshot of the app.
 - "Cena" / Price: test series and regular sale, with current prices.
 - "Vprašanja" / FAQ: frequently asked questions. With a mouse an answer opens when you
   point at the question; on a phone one tap opens all answers, another tap closes them.
 - "Kontakt" / Contact: the reservation and contact form (see below).
 - "Galerija" / Gallery: separate page with photos and videos of every development
-  stage, newest first (address: .../galerija/index.html).
+  stage, newest first (field test in the forest, the current app, 3D prints, ...) (address: .../galerija/index.html).
 - "Aplikacija" / App: separate page with the real feeder app running in the browser with
   demo data, so you can try every screen before buying (address: .../app/index.html).
   There is a "Celozaslonsko" (full screen) link at the top.

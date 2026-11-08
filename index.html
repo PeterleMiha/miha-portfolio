@@ -153,6 +153,15 @@ section[id]{scroll-margin-top:88px !important}
 .hw-app img{width:100%;max-width:300px;height:auto;border-radius:34px;filter:drop-shadow(0 18px 40px rgba(0,0,0,.55));transition:transform .3s ease}
 .hw-app:hover img{transform:translateY(-4px)}
 @media (max-width:820px){.hw-grid{grid-template-columns:1fr}.hw-app img{max-width:260px}}
+/* ---- "send me news" consent checkbox (unchecked by default) ---- */
+.fm-chk{display:flex;align-items:flex-start;gap:12px;cursor:pointer;font-size:15px;line-height:1.5;color:#C6CDBF;padding:4px 4px 2px}
+.fm-chk input{position:absolute;opacity:0;width:1px;height:1px}
+.fm-box{flex:0 0 22px;width:22px;height:22px;margin-top:1px;border-radius:6px;border:1.5px solid rgba(233,195,123,0.6);background:#131A15;
+  display:flex;align-items:center;justify-content:center;transition:background .15s,border-color .15s}
+.fm-box::after{content:"";width:6px;height:11px;border:solid #171204;border-width:0 2.5px 2.5px 0;transform:rotate(45deg) translate(-1px,-1px);opacity:0}
+.fm-chk input:checked + .fm-box{background:#E9C37B;border-color:#E9C37B}
+.fm-chk input:checked + .fm-box::after{opacity:1}
+.fm-chk input:focus-visible + .fm-box{outline:2px solid #E9C37B;outline-offset:2px}
 </style>
 </head>
 <body>
@@ -425,6 +434,7 @@ section[id]{scroll-margin-top:88px !important}
         <textarea name="message" id="fmMsg" rows="5" placeholder="Sporočilo / vprašanje" data-i18n-ph="fm_ms" class="fm-in" style="resize:vertical"></textarea>
         <button type="button" id="fmClear" hidden aria-label="Izbriši sporočilo" title="Izbriši sporočilo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
       </div>
+      <label class="fm-chk"><input type="checkbox" name="obvestila" id="fmNews" value="DA"><span class="fm-box" aria-hidden="true"></span><span data-i18n="fm_news">Želim prejemati obvestila o napredku in novostih HuntersFeeder po e-pošti. Odjava kadarkoli.</span></label>
       <div data-i18n="fm_req" style="font-size:13px;color:#78826F;margin:-4px 4px 0">Polja, označena z *, so obvezna.</div>
       <div id="fmAiOut" aria-live="polite"></div>
       <button type="button" id="fmAi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.8 4.7L18.5 9.5l-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 15l.8 2.2L22 18l-2.2.8L19 21l-.8-2.2L16 18l2.2-.8z"/></svg><span data-i18n="fm_ai">Popravi z AI</span></button>
@@ -537,7 +547,7 @@ section[id]{scroll-margin-top:88px !important}
       q5:"Can several people control it?", a5:"Yes — multi-user support, ideal for hunting parties.",
       q6:"How do I order?", a6:"Fill in the form below. Test units are limited; regular sales start around the end of the year.",
       fm_h:"Reserve your HuntersFeeder", fm_s:"Leave your details and I'll get back to you within 24 hours. Test units are limited — first come, first served.",
-      fm_nm:"Full name *", fm_em:"Email *", fm_ph:"Phone (recommended)", fm_lo:"Town / area (recommended)", fm_ms:"Message / question", fm_req:"Fields marked * are required.", fm_ai:"Fix with AI", fm_bt:"Send inquiry", fm_nt:"I reply personally, usually the same day.",
+      fm_nm:"Full name *", fm_em:"Email *", fm_ph:"Phone (recommended)", fm_lo:"Town / area (recommended)", fm_ms:"Message / question", fm_news:"Send me email updates about HuntersFeeder progress and news. Unsubscribe anytime.", fm_req:"Fields marked * are required.", fm_ai:"Fix with AI", fm_bt:"Send inquiry", fm_nt:"I reply personally, usually the same day.",
       ftr_m:"User manual", ftr_r:"All rights reserved.", fl_cta:"I'm interested",
       fl_app:"App", fl_gal:"Gallery", nav_g:"Gallery", ftr_g:"Development gallery"
     },
@@ -583,7 +593,7 @@ section[id]{scroll-margin-top:88px !important}
       q5:"Können mehrere Personen steuern?", a5:"Ja — Mehrbenutzer-Unterstützung, ideal für Jagdgruppen.",
       q6:"Wie bestelle ich?", a6:"Füllen Sie das Formular unten aus. Testgeräte sind begrenzt; der reguläre Verkauf startet voraussichtlich Ende des Jahres.",
       fm_h:"Reservieren Sie Ihren HuntersFeeder", fm_s:"Hinterlassen Sie Ihre Daten — ich melde mich innerhalb von 24 Stunden. Testgeräte sind begrenzt.",
-      fm_nm:"Vor- und Nachname *", fm_em:"E-Mail *", fm_ph:"Telefon (empfohlen)", fm_lo:"Ort (empfohlen)", fm_ms:"Nachricht / Frage", fm_req:"Mit * markierte Felder sind Pflichtfelder.", fm_ai:"Mit KI verbessern", fm_bt:"Anfrage senden", fm_nt:"Ich antworte persönlich, meist noch am selben Tag.",
+      fm_nm:"Vor- und Nachname *", fm_em:"E-Mail *", fm_ph:"Telefon (empfohlen)", fm_lo:"Ort (empfohlen)", fm_ms:"Nachricht / Frage", fm_news:"Ich möchte per E-Mail über Fortschritte und Neuigkeiten von HuntersFeeder informiert werden. Abmeldung jederzeit.", fm_req:"Mit * markierte Felder sind Pflichtfelder.", fm_ai:"Mit KI verbessern", fm_bt:"Anfrage senden", fm_nt:"Ich antworte persönlich, meist noch am selben Tag.",
       ftr_m:"Handbuch", ftr_r:"Alle Rechte vorbehalten.", fl_cta:"Ich habe Interesse",
       fl_app:"App", fl_gal:"Galerie", nav_g:"Galerie", ftr_g:"Entwicklungsgalerie"
     },
@@ -629,7 +639,7 @@ section[id]{scroll-margin-top:88px !important}
       q5:"Possono controllarlo in più persone?", a5:"Sì — supporto multi-utente, ideale per le squadre di caccia.",
       q6:"Come ordino?", a6:"Compila il modulo qui sotto. Le unità di prova sono limitate; la vendita regolare inizia verso fine anno.",
       fm_h:"Prenota il tuo HuntersFeeder", fm_s:"Lascia i tuoi dati e ti risponderò entro 24 ore. Le unità di prova sono limitate.",
-      fm_nm:"Nome e cognome *", fm_em:"Email *", fm_ph:"Telefono (consigliato)", fm_lo:"Località (consigliato)", fm_ms:"Messaggio / domanda", fm_req:"I campi contrassegnati con * sono obbligatori.", fm_ai:"Correggi con l'IA", fm_bt:"Invia richiesta", fm_nt:"Rispondo personalmente, di solito in giornata.",
+      fm_nm:"Nome e cognome *", fm_em:"Email *", fm_ph:"Telefono (consigliato)", fm_lo:"Località (consigliato)", fm_ms:"Messaggio / domanda", fm_news:"Desidero ricevere via email aggiornamenti e novità su HuntersFeeder. Disiscrizione in qualsiasi momento.", fm_req:"I campi contrassegnati con * sono obbligatori.", fm_ai:"Correggi con l'IA", fm_bt:"Invia richiesta", fm_nt:"Rispondo personalmente, di solito in giornata.",
       ftr_m:"Manuale d'uso", ftr_r:"Tutti i diritti riservati.", fl_cta:"Mi interessa",
       fl_app:"App", fl_gal:"Galleria", nav_g:"Galleria", ftr_g:"Galleria dello sviluppo"
     },
@@ -675,7 +685,7 @@ section[id]{scroll-margin-top:88px !important}
       q5:"Može li upravljati više ljudi?", a5:"Da — podrška za više korisnika, idealno za lovačke družine.",
       q6:"Kako naručiti?", a6:"Ispuni obrazac u nastavku. Testni primjerci su ograničeni; redovna prodaja kreće predvidivo krajem godine.",
       fm_h:"Rezerviraj svoj HuntersFeeder", fm_s:"Ostavi podatke i javit ću se u roku 24 sata. Testnih primjeraka je ograničen broj.",
-      fm_nm:"Ime i prezime *", fm_em:"Email *", fm_ph:"Telefon (preporučeno)", fm_lo:"Mjesto (preporučeno)", fm_ms:"Poruka / pitanje", fm_req:"Polja označena s * su obavezna.", fm_ai:"Popravi s AI", fm_bt:"Pošalji upit", fm_nt:"Odgovaram osobno, obično isti dan.",
+      fm_nm:"Ime i prezime *", fm_em:"Email *", fm_ph:"Telefon (preporučeno)", fm_lo:"Mjesto (preporučeno)", fm_ms:"Poruka / pitanje", fm_news:"Želim primati obavijesti o napretku i novostima HuntersFeedera e-poštom. Odjava u bilo kojem trenutku.", fm_req:"Polja označena s * su obavezna.", fm_ai:"Popravi s AI", fm_bt:"Pošalji upit", fm_nt:"Odgovaram osobno, obično isti dan.",
       ftr_m:"Priručnik", ftr_r:"Sva prava pridržana.", fl_cta:"Zanima me",
       fl_app:"Aplikacija", fl_gal:"Galerija", nav_g:"Galerija", ftr_g:"Galerija razvoja"
     }
@@ -928,7 +938,7 @@ section[id]{scroll-margin-top:88px !important}
         method: 'POST', headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ mode: 'notify', kind: 'contact', lang: document.documentElement.lang || 'sl',
           website: $('fmHp').value,
-          fields: { name: name.value.trim(), email: email.value.trim(), phone: phone.value.trim(),
+          fields: { news: $('fmNews').checked, name: name.value.trim(), email: email.value.trim(), phone: phone.value.trim(),
                     location: loc.value.trim(), message: msg.value.trim() } })
       });
       var d = res.ok ? await res.json() : null;
@@ -947,7 +957,7 @@ section[id]{scroll-margin-top:88px !important}
      error or a slow answer (> 8 s) just sends the form as usual. */
   async function askBambi(text) {
     // A pre-written message (reserve / test unit / offer) is always a lead: straight to Miha.
-    if (msg.dataset.preset) return false;
+    if (msg.dataset.preset || $('fmNews').checked) return false;
     if (triaged || !WORKER || !text || !window.hfBambiAnswer) return false;
     triaged = true;
     submitBtn.disabled = true;

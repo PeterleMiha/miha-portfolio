@@ -253,12 +253,14 @@ async function notify(body, request, env) {
     if (!cut(f.name, 120).trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) {
       return json({ ok: false, error: "fields" }, 400);
     }
-    subject = "HuntersFeeder povpraševanje — " + cut(f.name, 80);
+    const news = f.news === true || f.news === "DA";
+    subject = "HuntersFeeder povpraševanje — " + cut(f.name, 80) + (news ? " · želi obvestila" : "");
     text = [
       "Ime in priimek: " + cut(f.name, 120),
       "E-pošta: " + email,
       "Telefon: " + (cut(f.phone, 60) || "—"),
       "Kraj: " + (cut(f.location, 120) || "—"),
+      "Obvestila po e-pošti: " + (news ? "DA, želi prejemati obvestila o napredku" : "ne"),
       "Jezik strani: " + cut(body.lang, 5),
       "",
       "Sporočilo:",

@@ -195,6 +195,22 @@ section[id]{scroll-margin-top:88px !important}
   </div>
 </section>
 
+<section id="video" data-screen-label="Video" style="padding:72px 24px 96px;background:#0C110D;scroll-margin-top:70px">
+  <div style="max-width:900px;margin:0 auto">
+    <div data-reveal="0" style="text-align:center;max-width:680px;margin:0 auto 34px">
+      <div data-i18n="vd_k" style="font-size:13px;letter-spacing:0.24em;text-transform:uppercase;color:#E9C37B;font-weight:600;margin-bottom:16px">Video</div>
+      <h2 data-i18n="vd_t" style="font-family:'Bricolage Grotesque',sans-serif;font-weight:800;font-size:clamp(28px,4vw,42px);line-height:1.12;letter-spacing:-0.015em;margin:0 0 14px">Od paketa do prvega SMS-a</h2>
+      <p data-i18n="vd_s" style="font-size:17px;line-height:1.6;color:#9FA89B;margin:0">V manj kot minuti: razpakiraš, pritrdiš, nastaviš — in krmilnica ti že pošlje SMS.</p>
+    </div>
+    <div data-reveal="80" style="position:relative;border-radius:18px;overflow:hidden;border:1px solid rgba(233,195,123,0.18);box-shadow:0 24px 70px rgba(0,0,0,0.55);background:#000;aspect-ratio:16/9">
+      <video id="hfVideo" controls playsinline preload="metadata" poster="vid/HuntersFeeder.jpg" style="display:block;width:100%;height:100%;object-fit:cover">
+        <source src="vid/HuntersFeeder-720.mp4" type="video/mp4" media="(max-width: 760px)">
+        <source src="vid/HuntersFeeder.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
 <section id="prednosti" data-screen-label="Prednosti" style="padding:104px 24px;background:#10160F;scroll-margin-top:70px">
   <div style="max-width:1140px;margin:0 auto">
     <div data-reveal="0" style="text-align:center;max-width:640px;margin:0 auto 56px">
@@ -507,6 +523,7 @@ section[id]{scroll-margin-top:88px !important}
   };
   var TR = {
     en: {
+      vd_k:"Video", vd_t:"From the box to the first SMS", vd_s:"In under a minute: unpack, mount, set it up — and the feeder is already texting you.",
       nav_f:"Features", nav_h:"How it works", nav_p:"Price", nav_q:"FAQ", nav_c:"Contact", nav_cta:"Reserve",
       h_kick:"HuntersFeeder — the smart game feeder", h_t1:"A feeder that runs itself.", h_t2:"You just hunt.",
       h_sub:"Scheduled feeding and SMS control from anywhere. No internet, no apps, no subscription — HuntersFeeder texts you when food or battery runs low.",
@@ -553,6 +570,7 @@ section[id]{scroll-margin-top:88px !important}
       fl_app:"App", fl_gal:"Gallery", nav_g:"Gallery", ftr_g:"Development gallery"
     },
     de: {
+      vd_k:"Video", vd_t:"Vom Paket zur ersten SMS", vd_s:"In weniger als einer Minute: auspacken, montieren, einstellen — und der Futterautomat schickt dir schon eine SMS.",
       nav_f:"Vorteile", nav_h:"Funktionsweise", nav_p:"Preis", nav_q:"Fragen", nav_c:"Kontakt", nav_cta:"Reservieren",
       h_kick:"HuntersFeeder — der smarte Wildfütterungsautomat", h_t1:"Ein Futterautomat, der sich selbst versorgt.", h_t2:"Sie jagen einfach.",
       h_sub:"Fütterung nach Zeitplan und SMS-Steuerung von überall. Kein Internet, keine App, kein Abo — HuntersFeeder meldet sich, wenn Futter oder Akku zur Neige gehen.",
@@ -599,6 +617,7 @@ section[id]{scroll-margin-top:88px !important}
       fl_app:"App", fl_gal:"Galerie", nav_g:"Galerie", ftr_g:"Entwicklungsgalerie"
     },
     it: {
+      vd_k:"Video", vd_t:"Dalla scatola al primo SMS", vd_s:"In meno di un minuto: apri, monti, imposti — e il distributore ti manda già un SMS.",
       nav_f:"Vantaggi", nav_h:"Come funziona", nav_p:"Prezzo", nav_q:"Domande", nav_c:"Contatto", nav_cta:"Prenota",
       h_kick:"HuntersFeeder — la mangiatoia intelligente per la selvaggina", h_t1:"La mangiatoia che si gestisce da sola.", h_t2:"Tu pensa solo a cacciare.",
       h_sub:"Alimentazione programmata e controllo via SMS ovunque tu sia. Niente internet, niente app, niente abbonamento — HuntersFeeder ti avvisa quando mangime o batteria si esauriscono.",
@@ -645,6 +664,7 @@ section[id]{scroll-margin-top:88px !important}
       fl_app:"App", fl_gal:"Galleria", nav_g:"Galleria", ftr_g:"Galleria dello sviluppo"
     },
     hr: {
+      vd_k:"Video", vd_t:"Od paketa do prvog SMS-a", vd_s:"Za manje od minute: raspakiraš, pričvrstiš, podesiš — i hranilica ti već šalje SMS.",
       nav_f:"Prednosti", nav_h:"Kako radi", nav_p:"Cijena", nav_q:"Pitanja", nav_c:"Kontakt", nav_cta:"Rezerviraj",
       h_kick:"HuntersFeeder — pametna hranilica za divljač", h_t1:"Hranilica koja se brine sama za sebe.", h_t2:"Ti samo lovi.",
       h_sub:"Automatsko hranjenje po rasporedu i SMS upravljanje s bilo kojeg mjesta. Bez interneta, bez aplikacija, bez pretplate — HuntersFeeder ti javi kad ponestane hrane ili baterije.",

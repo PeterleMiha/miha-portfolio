@@ -30,7 +30,8 @@ const CONFIG = {
       sub: "virtualni pomočnik HuntersFeeder",
       note: "Pogovori se shranjujejo za izboljšanje odgovorov.",
       placeholder: "Vprašaj me karkoli o napravi...",
-      greeting: "Zdravo, sem virtualni pomočnik Bambi! Kaj te zanima?",
+      greeting: "Zdravo, sem virtualni pomočnik Bambi! 🦌 Kaj te zanima?",
+      hint: "Vprašaj me karkoli 🌲",
       send: "Pošlji",
       typing: "Razmišljam...",
       notConnected: "Klepetalnik še ni povezan. Prosim, kontaktirajte mihapeterlea@gmail.com.",
@@ -42,7 +43,8 @@ const CONFIG = {
       sub: "HuntersFeeder virtual assistant",
       note: "Chats are saved to improve the answers.",
       placeholder: "Ask me anything about the device...",
-      greeting: "Hi, I'm Bambi, your virtual assistant! What would you like to know?",
+      greeting: "Hi, I'm Bambi, your virtual assistant! 🦌 What would you like to know?",
+      hint: "Ask me anything 🌲",
       send: "Send",
       typing: "Thinking...",
       notConnected: "The chatbot isn't connected yet. Please contact mihapeterlea@gmail.com.",
@@ -54,7 +56,8 @@ const CONFIG = {
       sub: "virtualni pomoćnik HuntersFeeder",
       note: "Razgovori se spremaju radi poboljšanja odgovora.",
       placeholder: "Pitajte me bilo što o uređaju...",
-      greeting: "Bok, ja sam virtualni pomoćnik Bambi! Što te zanima?",
+      greeting: "Bok, ja sam virtualni pomoćnik Bambi! 🦌 Što te zanima?",
+      hint: "Pitaj me bilo što 🌲",
       send: "Pošalji",
       typing: "Razmišljam...",
       notConnected: "Chatbot još nije povezan. Kontaktirajte mihapeterlea@gmail.com.",
@@ -66,7 +69,8 @@ const CONFIG = {
       sub: "assistente virtuale HuntersFeeder",
       note: "Le conversazioni vengono salvate per migliorare le risposte.",
       placeholder: "Chiedimi qualsiasi cosa sul dispositivo...",
-      greeting: "Ciao, sono Bambi, il tuo assistente virtuale! Cosa ti interessa?",
+      greeting: "Ciao, sono Bambi, il tuo assistente virtuale! 🦌 Cosa ti interessa?",
+      hint: "Chiedimi qualsiasi cosa 🌲",
       send: "Invia",
       typing: "Sto pensando...",
       notConnected: "Il chatbot non è ancora collegato. Contatta mihapeterlea@gmail.com.",
@@ -78,7 +82,8 @@ const CONFIG = {
       sub: "virtueller Assistent von HuntersFeeder",
       note: "Gespräche werden gespeichert, um die Antworten zu verbessern.",
       placeholder: "Frag mich alles über das Gerät...",
-      greeting: "Hallo, ich bin Bambi, dein virtueller Assistent! Was möchtest du wissen?",
+      greeting: "Hallo, ich bin Bambi, dein virtueller Assistent! 🦌 Was möchtest du wissen?",
+      hint: "Frag mich einfach 🌲",
       send: "Senden",
       typing: "Ich denke nach...",
       notConnected: "Der Chatbot ist noch nicht verbunden. Bitte kontaktiere mihapeterlea@gmail.com.",
@@ -308,6 +313,130 @@ const CONFIG = {
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'hidden') flushLog(); });
   window.addEventListener('pagehide', flushLog);
 
+
+  /* ---------- Bambi's roe buck ------------------------------------------------
+     A small srnjak lives just past the RIGHT EDGE of the screen, under the chat
+     button, so he never walks over the page's text. Now and then he peeks out
+     from behind the edge, looks around and either slips back, or steps into the
+     corner under the button for a moment (grazes, looks up at the button) and
+     walks out again. Pointing at the chat button calls him out; clicking him
+     opens the chat. Once per visit Bambi says "ask me" beside the button.
+     Decorative only (aria-hidden). With prefers-reduced-motion he just peeks. */
+  const DEER_SVG = `
+<svg class="hfDeerSvg" viewBox="0 -10 84 70" aria-hidden="true" focusable="false">
+  <ellipse class="hfDeerShadow" cx="40" cy="57.5" rx="24" ry="2.6"/>
+  <g class="hfLeg hfLegFarBack"><path d="M25 34 L28 45 L25.5 56" class="hfLegFar"/></g>
+  <g class="hfLeg hfLegFarFront"><path d="M50 35 L50.5 46 L50 56" class="hfLegFar"/></g>
+  <path class="hfBody" d="M17 30 C17 22 25 18.5 36 18.5 C46 18.5 53 19.5 56.5 23.5 C59.5 27.5 58 34.5 52 36.6 C44 39 30 39.2 23.5 37.8 C19.5 36.8 17 34 17 30 Z"/>
+  <path class="hfBelly" d="M24 36.5 C32 38.6 45 38.4 52 36.4 C49 34.6 41 34.3 33 34.6 C29 34.8 26 35.3 24 36.5 Z"/>
+  <ellipse class="hfRump" cx="18.6" cy="28.5" rx="3.6" ry="5.2"/>
+  <g class="hfLeg hfLegBack"><path d="M22 33 L25.5 45 L22.5 56" class="hfLegNear"/></g>
+  <g class="hfLeg hfLegFront"><path d="M53 35 L53.5 46 L53 56" class="hfLegNear"/></g>
+  <g class="hfHead">
+    <path class="hfNeck" d="M49 26 C52 19 55.5 13.5 60 9.5 L66.5 12.5 C62.5 17.5 59.5 23.5 57.5 30 Z"/>
+    <g class="hfAntlers">
+      <path d="M62.6 5.5 C62.9 1.5 62.3 -2.5 63.2 -7"/><path d="M62.8 -0.8 L66.4 -2.8"/><path d="M63 -4.6 L60.2 -6.6"/>
+      <path d="M60.6 5.8 C60 2 59.2 -1.8 59.6 -5.6"/><path d="M59.6 -1.6 L57 -2.8"/>
+    </g>
+    <g class="hfEar"><ellipse cx="59.6" cy="5.4" rx="2.4" ry="5" transform="rotate(-38 59.6 5.4)"/></g>
+    <path class="hfFace" d="M58 8.5 C61.5 5.2 67.5 5.6 70.8 8.8 L76.2 13.6 C77.4 15.4 75.6 17.2 73.4 16.4 L66.4 15.6 C62 15.2 58.2 12.6 58 8.5 Z"/>
+    <circle class="hfNose" cx="75.4" cy="14.8" r="1.6"/>
+    <circle class="hfEye" cx="65.6" cy="10" r="1.1"/>
+  </g>
+</svg>`;
+
+  function initDeer(toggle) {
+    const stage = document.createElement('div');
+    stage.id = 'hfDeerStage';
+    stage.setAttribute('aria-hidden', 'true');
+    stage.innerHTML = '<div id="hfDeer"><div class="hfDeerFlip">' + DEER_SVG + '</div></div>';
+    document.body.appendChild(stage);
+    const say = document.createElement('div');
+    say.id = 'hfDeerSay';
+    say.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(say);
+    const el = document.getElementById('hfDeer');
+    const flip = el.querySelector('.hfDeerFlip');
+
+    const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // x = left edge of the deer inside the stage (the stage hugs the right edge
+    // of the screen and clips him, so x > stage width means "behind the edge").
+    let x = 0, hidden = true, wake = null;
+    const W = () => stage.clientWidth, D = () => el.offsetWidth;
+    const OUT = () => W() + 6;            // fully behind the edge
+    const PEEK = () => W() - 34;          // only head and neck show
+    function place() { el.style.transform = 'translateX(' + x.toFixed(1) + 'px)'; }
+    function face(d) { flip.style.transform = d > 0 ? 'none' : 'scaleX(-1)'; }
+    function pose(c) {
+      el.classList.toggle('walk', c === 'walk');
+      el.classList.toggle('graze', c === 'graze');
+      el.classList.toggle('alert', c === 'look');
+    }
+    function rnd(a, b) { return a + Math.random() * (b - a); }
+    function wait(ms) {
+      return new Promise((res) => { const t = setTimeout(res, ms); wake = () => { clearTimeout(t); wake = null; res(); }; });
+    }
+    function walk(to, speed) {
+      return new Promise((res) => {
+        face(to > x ? 1 : -1); pose('walk');
+        let last = 0;
+        function step(t) {
+          const dt = last ? Math.min(0.05, (t - last) / 1000) : 0; last = t;
+          const d = to - x, s = speed * dt;
+          if (Math.abs(d) <= s) { x = to; place(); pose('idle'); res(); return; }
+          x += Math.sign(d) * s; place();
+          requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
+    }
+    let said = false;
+    try { said = sessionStorage.getItem('hf_deer_said') === '1'; } catch (e) {}
+    function talk() {
+      if (said || document.body.classList.contains('hf-chat-open')) return;
+      said = true;
+      try { sessionStorage.setItem('hf_deer_said', '1'); } catch (e) {}
+      say.textContent = chatText[currentLang()].hint;
+      say.classList.add('on');
+      setTimeout(() => say.classList.remove('on'), 5200);
+    }
+
+    async function life() {
+      x = OUT(); place(); face(-1);
+      await wait(rnd(2500, 4500));
+      for (;;) {
+        // peek out from behind the edge
+        hidden = false;
+        await walk(PEEK(), 20); face(-1); pose('look');
+        await wait(rnd(1600, 2800));
+        if (Math.random() < 0.4) {
+          face(1); await walk(OUT(), 26);               // changed his mind
+        } else {
+          await walk(rnd(4, Math.max(4, W() - D() - 8)), 18);  // into the corner
+          face(-1); pose('graze'); await wait(rnd(2600, 4600));
+          face(1); pose('look'); talk(); await wait(rnd(1500, 2400));
+          if (Math.random() < 0.5) { pose('graze'); await wait(rnd(1800, 3200)); }
+          face(1); await walk(OUT(), 24);               // back behind the edge
+        }
+        pose('idle'); hidden = true;
+        await wait(rnd(7000, 16000));
+      }
+    }
+
+    if (still) { x = PEEK(); place(); face(-1); pose('look'); }
+    else life();
+
+    // pointing at the chat button calls him out, or makes him hop if he is out
+    toggle.addEventListener('mouseenter', () => {
+      if (still) return;
+      if (hidden && wake) { wake(); return; }
+      el.classList.remove('hop'); void el.offsetWidth; el.classList.add('hop');
+    });
+    el.addEventListener('animationend', (e) => { if (e.animationName === 'hfHop') el.classList.remove('hop'); });
+    el.addEventListener('click', () => toggle.click());
+    document.addEventListener('hf-chat-toggle', (e) => { if (e.detail) say.classList.remove('on'); });
+  }
+
   /* ---------- Wire everything up ---------- */
   function initWidget() {
     buildWidget();
@@ -318,6 +447,7 @@ const CONFIG = {
     const closeBtn = document.getElementById('hfChatClose');
     const form = document.getElementById('hfChatForm');
     const input = document.getElementById('hfChatInput');
+    try { initDeer(toggle); } catch (e) { /* the deer is decoration only */ }
 
     const greeting = chatText[currentLang()].greeting;
     const greetBubble = addMessage(greeting, 'bot');

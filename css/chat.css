@@ -105,3 +105,74 @@
 .hfAct button.hfActMain:hover:not(:disabled){background:#F5D89E}
 .hfAct button:disabled{opacity:.45;cursor:default}
 .hfAct button.hfActChosen{opacity:1;box-shadow:0 0 0 2px #E9C37B}
+
+/* ---- Bambi's roe buck: lives behind the right edge of the screen ---------
+   #hfDeerStage hugs the right edge under the chat button and clips him, so
+   only the part that has come out from behind the edge is visible. chat.js
+   moves #hfDeer with translateX; everything else is CSS.                   */
+#hfChatToggle { position: relative; z-index: 2; }
+#hfChatWindow { z-index: 3; }
+#hfDeerStage { position: fixed; right: 0; bottom: 14px; width: 132px; height: 74px; overflow: hidden;
+  pointer-events: none; z-index: 59; }
+#hfDeer { position: absolute; left: 0; bottom: 2px; width: 72px; height: 60px; will-change: transform; pointer-events: none; }
+@media (hover: hover) and (pointer: fine) { #hfDeer { pointer-events: auto; cursor: pointer; } }
+.hfDeerFlip { width: 100%; height: 100%; }
+.hfDeerSvg { width: 100%; height: 100%; overflow: visible; display: block;
+  filter: drop-shadow(0 0 1px rgba(255, 236, 200, .45)) drop-shadow(0 3px 4px rgba(0, 0, 0, .55)); }
+.hfDeerShadow { fill: rgba(0, 0, 0, .38); }
+.hfBody, .hfNeck { fill: #A8703F; }
+.hfBelly { fill: #D7A66A; opacity: .75; }
+.hfRump { fill: #F2E8D6; }
+.hfFace { fill: #9A6236; }
+.hfEar ellipse { fill: #85512D; }
+.hfNose { fill: #24180F; }
+.hfEye { fill: #140E08; }
+.hfAntlers path { fill: none; stroke: #E8D5AA; stroke-width: 1.7; stroke-linecap: round; }
+.hfLegNear, .hfLegFar { fill: none; stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
+.hfLegNear { stroke: #7B4B27; }
+.hfLegFar { stroke: #5A381D; }
+.hfLeg, .hfEar { transform-box: fill-box; }
+.hfLeg { transform-origin: 50% 0; }
+.hfEar { transform-origin: 70% 95%; animation: hfEarFlick 5.5s ease-in-out infinite; }
+.hfHead { transform-box: view-box; transform-origin: 53px 29px; transition: transform .7s cubic-bezier(.4,.1,.3,1); }
+
+/* walking: diagonal pairs move together, like a real deer */
+#hfDeer.walk .hfLegBack, #hfDeer.walk .hfLegFarFront { animation: hfLeg .64s linear infinite; }
+#hfDeer.walk .hfLegFront, #hfDeer.walk .hfLegFarBack { animation: hfLeg .64s linear infinite; animation-delay: -.32s; }
+#hfDeer.walk .hfDeerSvg { animation: hfBob .32s ease-in-out infinite alternate; }
+@keyframes hfLeg { 0%, 100% { transform: rotate(17deg); } 50% { transform: rotate(-17deg); } }
+@keyframes hfBob { from { transform: translateY(0); } to { transform: translateY(-1.2px); } }
+
+/* grazing: head down, chewing */
+#hfDeer.graze .hfHead { transform: rotate(84deg); animation: hfChew 1.3s ease-in-out .7s infinite; }
+@keyframes hfChew { 0%, 100% { transform: rotate(84deg); } 50% { transform: rotate(78deg); } }
+
+/* looking: head up, quick ear flicks */
+#hfDeer.alert .hfHead { transform: rotate(-9deg); }
+#hfDeer.alert .hfEar { animation-duration: 1.1s; }
+@keyframes hfEarFlick { 0%, 86%, 100% { transform: rotate(0); } 90% { transform: rotate(-22deg); } 94% { transform: rotate(6deg); } }
+
+/* hop when the visitor points at the chat button */
+#hfDeer.hop .hfDeerSvg { animation: hfHop .6s cubic-bezier(.3,.6,.4,1); }
+#hfDeer.hop .hfLegBack, #hfDeer.hop .hfLegFarBack { transform: rotate(-30deg); }
+#hfDeer.hop .hfLegFront, #hfDeer.hop .hfLegFarFront { transform: rotate(28deg); }
+@keyframes hfHop { 0% { transform: translateY(0); } 40% { transform: translateY(-12px) rotate(-6deg); } 75% { transform: translateY(-2px) rotate(2deg); } 100% { transform: translateY(0); } }
+
+/* "ask me" bubble beside the chat button, once per visit */
+#hfDeerSay { position: fixed; right: 92px; bottom: 106px; z-index: 61; white-space: nowrap; pointer-events: none;
+  background: #F4EAD4; color: #1D1408; font: 600 13.5px/1.2 'Instrument Sans', system-ui, sans-serif;
+  padding: 8px 12px; border-radius: 12px; box-shadow: 0 6px 18px rgba(0, 0, 0, .45);
+  opacity: 0; transform: translateX(6px); transition: opacity .35s ease, transform .35s ease; }
+#hfDeerSay::after { content: ""; position: absolute; right: -5px; top: 50%; width: 10px; height: 10px; background: inherit;
+  transform: translateY(-50%) rotate(45deg); border-radius: 2px; }
+#hfDeerSay.on { opacity: 1; transform: none; }
+body.hf-chat-open #hfDeerSay { display: none; }
+
+@media (max-width: 520px) {
+  #hfDeerStage { width: 112px; height: 64px; bottom: 12px; }
+  #hfDeer { width: 60px; height: 50px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #hfDeer, #hfDeer *, #hfDeerSay { animation: none !important; transition: none !important; }
+}
+@media print { #hfDeerStage, #hfDeerSay { display: none; } }

@@ -247,6 +247,10 @@ The feeder went through several stages:
 
 - Right now a limited test series is available; regular sales are planned for later.
   For prices see the "Cena / Price" section of the page.
+- Coming next: a feeder with a built-in camera, planned for 2027. Its price and
+  technical details are not known yet. On the page it is the greyed third card in
+  the "Cena / Price" section; "Obvesti me o kameri" (Tell me about the camera) fills
+  the contact form, so the visitor is told when it is available.
 - To reserve a test unit or ask anything: the contact form on the page, email
   mihapeterlea@gmail.com, or phone +386 41 435 803.
 - The user manual: menu (top right) -> "Navodila", or "Priročnik za uporabo" in the

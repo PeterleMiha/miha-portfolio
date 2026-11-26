@@ -315,11 +315,13 @@ const CONFIG = {
 
 
   /* ---------- Bambi's roe buck ------------------------------------------------
-     A small srnjak lives next to the chat button. He wanders on his own little
-     path: walks, grazes, flicks his ears, sometimes slips behind the button and
-     peeks out again. Hovering the button makes him hop; clicking him opens the
-     chat. Once per session he shows a short "ask me" bubble. Decorative only
-     (aria-hidden); with prefers-reduced-motion he simply stands and grazes. */
+     A small srnjak lives just past the RIGHT EDGE of the screen, under the chat
+     button, so he never walks over the page's text. Now and then he peeks out
+     from behind the edge, looks around and either slips back, or steps into the
+     corner under the button for a moment (grazes, looks up at the button) and
+     walks out again. Pointing at the chat button calls him out; clicking him
+     opens the chat. Once per visit Bambi says "ask me" beside the button.
+     Decorative only (aria-hidden). With prefers-reduced-motion he just peeks. */
   const DEER_SVG = `
 <svg class="hfDeerSvg" viewBox="0 -10 84 70" aria-hidden="true" focusable="false">
   <ellipse class="hfDeerShadow" cx="40" cy="57.5" rx="24" ry="2.6"/>
@@ -344,82 +346,95 @@ const CONFIG = {
 </svg>`;
 
   function initDeer(toggle) {
-    const widget = document.getElementById('hfChatWidget');
-    const lane = document.createElement('div');
-    lane.id = 'hfDeerLane';
-    lane.setAttribute('aria-hidden', 'true');
-    lane.innerHTML = '<svg class="hfSpruce" viewBox="0 0 30 46"><path d="M15 1 L24 14 L19.5 14 L27 25 L21 25 L29 37 L1 37 L9 25 L3 25 L10.5 14 L6 14 Z"/><rect x="13" y="37" width="4" height="7" rx="1"/></svg>' +
-      '<div id="hfDeer"><div class="hfDeerFlip">' + DEER_SVG + '</div><div class="hfDeerSay"></div></div>';
-    widget.insertBefore(lane, widget.firstChild);
-    function setRange() { lane.style.setProperty('--hfRange', (-minX()) + 'px'); }
+    const stage = document.createElement('div');
+    stage.id = 'hfDeerStage';
+    stage.setAttribute('aria-hidden', 'true');
+    stage.innerHTML = '<div id="hfDeer"><div class="hfDeerFlip">' + DEER_SVG + '</div></div>';
+    document.body.appendChild(stage);
+    const say = document.createElement('div');
+    say.id = 'hfDeerSay';
+    say.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(say);
     const el = document.getElementById('hfDeer');
     const flip = el.querySelector('.hfDeerFlip');
-    const say = el.querySelector('.hfDeerSay');
 
     const still = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    // x = how far the deer stands from his home spot (0 = right next to the button).
-    // Negative = further left, positive = behind the button.
-    let x = -46, dir = 1, target = x, speed = 0, state = 'idle', until = 0, last = 0, rafId = 0;
-    function minX() { return window.innerWidth <= 520 ? -44 : -Math.max(40, Math.min(120, window.innerWidth - 300)); }
-    function setState(s) {
-      state = s;
-      el.classList.toggle('walk', s === 'walk' || s === 'hide');
-      el.classList.toggle('graze', s === 'graze');
-      el.classList.toggle('alert', s === 'look');
-      el.classList.toggle('behind', x > 30);
+    // x = left edge of the deer inside the stage (the stage hugs the right edge
+    // of the screen and clips him, so x > stage width means "behind the edge").
+    let x = 0, hidden = true, wake = null;
+    const W = () => stage.clientWidth, D = () => el.offsetWidth;
+    const OUT = () => W() + 6;            // fully behind the edge
+    const PEEK = () => W() - 34;          // only head and neck show
+    function place() { el.style.transform = 'translateX(' + x.toFixed(1) + 'px)'; }
+    function face(d) { flip.style.transform = d > 0 ? 'none' : 'scaleX(-1)'; }
+    function pose(c) {
+      el.classList.toggle('walk', c === 'walk');
+      el.classList.toggle('graze', c === 'graze');
+      el.classList.toggle('alert', c === 'look');
     }
-    function face(d) { dir = d; flip.style.transform = d > 0 ? 'none' : 'scaleX(-1)'; }
-    function place() { el.style.transform = 'translateX(' + x.toFixed(1) + 'px)'; el.classList.toggle('behind', x > 30); }
     function rnd(a, b) { return a + Math.random() * (b - a); }
-    function walkTo(t, sp) { target = t; speed = sp || rnd(18, 26); face(t > x ? 1 : -1); setState('walk'); }
-    function next() {
-      const now = performance.now(), r = Math.random(), lo = minX();
-      if (state === 'hide') { until = now + rnd(1200, 2400); setState('hidden'); return; }
-      if (state === 'hidden') { walkTo(rnd(-26, -8), 16); return; }
-      if (r < 0.34) { walkTo(rnd(lo, -8)); }
-      else if (r < 0.62) { setState('graze'); until = now + rnd(2600, 5200); }
-      else if (r < 0.80) { setState('look'); until = now + rnd(1400, 2600); }
-      else { target = 74; speed = 22; face(1); setState('hide'); }
+    function wait(ms) {
+      return new Promise((res) => { const t = setTimeout(res, ms); wake = () => { clearTimeout(t); wake = null; res(); }; });
     }
-    function tick(t) {
-      const dt = last ? Math.min(0.05, (t - last) / 1000) : 0; last = t;
-      if (state === 'walk' || state === 'hide') {
-        const d = target - x, step = speed * dt;
-        if (Math.abs(d) <= step) { x = target; place(); if (state === 'hide') next(); else { setState('idle'); until = t + rnd(400, 1100); } }
-        else { x += Math.sign(d) * step; place(); }
-      } else if (t >= until) next();
-      rafId = requestAnimationFrame(tick);
+    function walk(to, speed) {
+      return new Promise((res) => {
+        face(to > x ? 1 : -1); pose('walk');
+        let last = 0;
+        function step(t) {
+          const dt = last ? Math.min(0.05, (t - last) / 1000) : 0; last = t;
+          const d = to - x, s = speed * dt;
+          if (Math.abs(d) <= s) { x = to; place(); pose('idle'); res(); return; }
+          x += Math.sign(d) * s; place();
+          requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      });
     }
-    function start() { if (!rafId && !still) { last = 0; rafId = requestAnimationFrame(tick); } }
-    function stop() { cancelAnimationFrame(rafId); rafId = 0; }
+    let said = false;
+    try { said = sessionStorage.getItem('hf_deer_said') === '1'; } catch (e) {}
+    function talk() {
+      if (said || document.body.classList.contains('hf-chat-open')) return;
+      said = true;
+      try { sessionStorage.setItem('hf_deer_said', '1'); } catch (e) {}
+      say.textContent = chatText[currentLang()].hint;
+      say.classList.add('on');
+      setTimeout(() => say.classList.remove('on'), 5200);
+    }
 
-    setRange(); place(); face(1);
-    if (still) { setState('graze'); }
-    else {
-      start();
-      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    async function life() {
+      x = OUT(); place(); face(-1);
+      await wait(rnd(2500, 4500));
+      for (;;) {
+        // peek out from behind the edge
+        hidden = false;
+        await walk(PEEK(), 20); face(-1); pose('look');
+        await wait(rnd(1600, 2800));
+        if (Math.random() < 0.4) {
+          face(1); await walk(OUT(), 26);               // changed his mind
+        } else {
+          await walk(rnd(4, Math.max(4, W() - D() - 8)), 18);  // into the corner
+          face(-1); pose('graze'); await wait(rnd(2600, 4600));
+          face(1); pose('look'); talk(); await wait(rnd(1500, 2400));
+          if (Math.random() < 0.5) { pose('graze'); await wait(rnd(1800, 3200)); }
+          face(1); await walk(OUT(), 24);               // back behind the edge
+        }
+        pose('idle'); hidden = true;
+        await wait(rnd(7000, 16000));
+      }
     }
-    // hover on the button: he looks over and hops
+
+    if (still) { x = PEEK(); place(); face(-1); pose('look'); }
+    else life();
+
+    // pointing at the chat button calls him out, or makes him hop if he is out
     toggle.addEventListener('mouseenter', () => {
       if (still) return;
-      if (x <= 18) face(1);
+      if (hidden && wake) { wake(); return; }
       el.classList.remove('hop'); void el.offsetWidth; el.classList.add('hop');
     });
     el.addEventListener('animationend', (e) => { if (e.animationName === 'hfHop') el.classList.remove('hop'); });
     el.addEventListener('click', () => toggle.click());
-    window.addEventListener('resize', () => { setRange(); if (x < minX()) { x = minX(); target = Math.max(target, x); place(); } });
-
-    // one short "ask me" bubble per visit, after the visitor has had a look around
-    let shown = false;
-    try { shown = sessionStorage.getItem('hf_deer_said') === '1'; } catch (e) {}
-    if (!shown) setTimeout(() => {
-      if (document.body.classList.contains('hf-chat-open')) return;
-      say.textContent = chatText[currentLang()].hint;
-      el.classList.add('saying');
-      try { sessionStorage.setItem('hf_deer_said', '1'); } catch (e) {}
-      setTimeout(() => el.classList.remove('saying'), 5200);
-    }, 9000);
-    document.addEventListener('hf-chat-toggle', (e) => { if (e.detail) el.classList.remove('saying'); });
+    document.addEventListener('hf-chat-toggle', (e) => { if (e.detail) say.classList.remove('on'); });
   }
 
   /* ---------- Wire everything up ---------- */

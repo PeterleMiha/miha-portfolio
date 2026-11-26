@@ -1,1 +1,1 @@
-9a05e3f 2026-10-04 Fresh SMS time may pull a fast clock back; NTP over data switched off
+af644c3 2026-11-26 BazaZnanja-bot.md: knowledge base for the website AI assistant (owner)

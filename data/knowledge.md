@@ -60,7 +60,7 @@ assembles and tests every unit personally.
 
 - Automatic feeding once a day, either at a fixed time or at dusk. Dusk is calculated
   from the date and the feeder's position, and you can shift it earlier or later
-  (up to 6 hours either way, in the app). It follows the seasons on its own.
+  (in the app up to 4 hours either way). It follows the seasons on its own.
 - Feed now, on demand: from the app or by SMS.
 - Adjustable amount: you set how long the motor runs per feeding, and the motor speed.
 - Feed level sensor: an infrared beam at the bottom of the hopper tells "enough food"
@@ -276,8 +276,15 @@ The menu (burger, top right) has these items. Names in Slovenian, then English:
 - "Aplikacija" / App: separate page with the real feeder app running in the browser with
   demo data, so you can try every screen before buying (address: .../app/index.html).
   There is a "Celozaslonsko" (full screen) link at the top.
-- "Navodila" / Manual: the user manual ("Priročnik za uporabo"), step by step with
-  pictures (address: .../manual.html). Also linked in the footer.
+- "Navodila" / Manual: the user manual, in Slovenian, with screenshots of the real app
+  (address: .../manual.html). Six chapters chosen at the top, each with its own link:
+  Prvi zagon (first setup, ~15 min) manual.html#prvi-zagon; Omrežje in povezljivost
+  (WiFi to the feeder, SIM, how to change the mobile network) manual.html#omrezje,
+  changing the network directly: manual.html#omrezje-menjava; Osnovne nastavitve
+  (schedule, amount, WiFi password, persons, location) manual.html#nastavitve;
+  Upravljanje s SMS manual.html#sms; Vzdrževanje (refilling, battery, jammed motor,
+  firmware update) manual.html#vzdrzevanje; Težave in rešitve manual.html#tezave.
+  Also linked in the footer.
 
 The contact form (menu -> Kontakt, or the "Rezerviraj" button) has: Ime in priimek
 (first and last name, required), E-pošta (email, required), Telefon (phone, recommended),

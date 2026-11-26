@@ -151,7 +151,7 @@ Med zavihki lahko tudi podrsaš.
 ### 5.2 🕒 Krmljenje
 - **Samodejno krmljenje** vklop/izklop.
 - **Kdaj:** **ob fiksnem času** (tvoj lokalni čas, poletni in zimski čas se upoštevata sama) ali
-  **zamik od mraka** (od 6 ur pred do 6 ur po mraku, npr. 30 min po mraku).
+  **zamik od mraka** (v aplikaciji od 4 ure pred do 4 ure po mraku, npr. 30 min po mraku).
 - **Koliko:** čas delovanja motorja v sekundah (privzeto 5 s) in **hitrost motorja** (0–100 %) z gumbom
   »Testiraj 2,5 s«.
 - **Čas naprave** in njegov vir, stikalo **Samodejna kalibracija časa** (glej 16).
